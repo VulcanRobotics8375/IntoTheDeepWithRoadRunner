@@ -148,6 +148,7 @@ public class Lift2 extends Subsystem{
                     return true; // Action is complete
                 } else {
                     telemetryPacket.put("Lift Status", "Moving");
+                    targetPosition = 2000;
                     update(); // Use PID to move the lift
                     return false; // Action is still in progress
                 }
@@ -168,6 +169,7 @@ public class Lift2 extends Subsystem{
                     return true; // Action is complete
                 } else {
                     telemetryPacket.put("Lift Status", "Moving");
+                    targetPosition = 0;
                     update(); // Use PID to move the lift
                     return false; // Action is still in progress
                 }

@@ -9,32 +9,6 @@ import org.firstinspires.ftc.teamcode.robotcorelib.util.RobotRunMode;
 import org.firstinspires.ftc.teamcode.robotcorelib.util.Switch;
 
 
-//lift positions:   1. all the way down (intake)
-//                  2. speciman deposit
-//                  3. high bucket
-//                  4. low bucket
-//                  + manual control
-
-//extendo positions: 1. all the way out
-//                   2. all the way in
-//                   + manual control
-//
-//arm positions: 1. forward (intake)
-//               2. middle (transfer)
-//               3. back (deposit)
-//
-//claw positions: 1. open
-//                2. close
-//
-//claw pitch: TBD
-//
-//Synchronized functions:  1. extend linkage -> arm and claw pitch in intake position
-//                         2. drop arm -> pick up sample/speciman -> arm back up
-//                         3. arm moves to middle position -> claw pitch straight up -> retract extendo
-//                         4. arm to back(deposit) position -> lift up to sample deposit
-//
-//
-//
 //
 @TeleOp(name = "MainOpmode")
 public class MainOpmode extends OpModePipeline {

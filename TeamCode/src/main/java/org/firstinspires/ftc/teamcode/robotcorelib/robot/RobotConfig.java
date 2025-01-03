@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.robotcorelib.robot;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.robotcorelib.drive.localization.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.robotcorelib.util.Subsystem;
 
 import java.util.ArrayList;
@@ -51,7 +50,6 @@ public abstract class RobotConfig {
 
     public HardwareMap hardwareMap;
     //localization
-    public StandardTrackingWheelLocalizer localizer;
 
     //Subsystem objects go here
     //IMPORTANT:: Don't add more than one class that implements DrivetrainInterface, things will break

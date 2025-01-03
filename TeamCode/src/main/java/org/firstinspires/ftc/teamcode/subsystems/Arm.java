@@ -121,6 +121,20 @@ public class Arm extends Subsystem implements Action {
             }
         };
     }
+    //for autonomous
+    public Action sampleIntakeAuto() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                if (armServoLeft.getPosition() <= LEFT_FRONT_POSITION) {
+                    return true; // Action is complete
+                } else {
+                    front();
+                    return false; // Action is still in progress
+                }
+            }
+        };
+    }
 
 
 

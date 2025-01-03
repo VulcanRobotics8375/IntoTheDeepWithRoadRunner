@@ -96,4 +96,20 @@ public class HorizontalExtendo extends Subsystem {
 
         };
     }
+
+    public Action sampleIntakeAuto() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                if (leftServoPos <= fullExtendLeft) {
+                    return true; // Action is complete
+                } else {
+                    goToFront();
+                    return false; // Action is still in progress
+                }
+            }
+
+
+        };
+    }
 }

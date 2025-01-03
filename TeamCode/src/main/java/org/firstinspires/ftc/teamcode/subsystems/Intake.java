@@ -41,6 +41,7 @@ public class Intake extends Subsystem {
         claw.setPosition(CLAW_CLOSED_POSITION);
         clawRoll.setPosition(CLAW_NORMAL_POS);
         clawPitch.setPosition(PITCH_STRAIGHT);
+        clawPrevPos = false;
     }
 
     public void sampleIntake(double leftTrigger, double rightTrigger, boolean leftBumper, boolean rightBumper) {
@@ -109,6 +110,10 @@ public class Intake extends Subsystem {
 
     }
 
+    public void setPitch(double x){
+        clawPitch.setPosition(x);
+    }
+
 
     //for autonomous
     public Action sampleDepoAuto() {
@@ -126,19 +131,54 @@ public class Intake extends Subsystem {
         };
     }
 
-    public Action autoToggleClaw() {
+    double autoSample2Spin = 0.4;
+    double autoSample3Spin = 0.5;
+    double autoSample4Spin = 0.6;
+
+    int sampleCount = 2;
+
+    public Action sampleIntakeAuto() {
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                if (clawPitch.getPosition() == CLAW_OPEN_POSITION) {
+                if (clawPitch.getPosition() == PITCH_SAMPLE) {
+                    sampleCount ++;
                     return true; // Action is complete
-                } else {
-                    clawRoll.setPosition(CLAW_OPEN_POSITION);
+                }
+                else {
+                    if(sampleCount == 2){
+                        clawRoll.setPosition(autoSample2Spin);
+                    } else if (sampleCount == 3) {
+                        clawRoll.setPosition(autoSample3Spin);
+                    } else if (sampleCount == 4) {
+                        clawRoll.setPosition(autoSample4Spin);
+                    }
+                    clawPitch.setPosition(PITCH_SAMPLE);
                     return false; // Action is still in progress
                 }
             }
         };
     }
+
+    public Action autoToggleClaw() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                if (clawOpen) {
+                    // If the claw is already open, close it
+                    claw.setPosition(CLAW_CLOSED_POSITION);
+                    clawOpen = false; // Update the state
+                } else {
+                    // If the claw is closed, open it
+                    claw.setPosition(CLAW_OPEN_POSITION);
+                    clawOpen = true; // Update the state
+                }
+                // The action is complete after toggling
+                return true;
+            }
+        };
+    }
+
 
 
 }
