@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.robot.MainConfig;
 import org.firstinspires.ftc.teamcode.robotcorelib.opmode.OpModePipeline;
-import org.firstinspires.ftc.teamcode.robotcorelib.robot.Robot;
 import org.firstinspires.ftc.teamcode.robotcorelib.util.RobotRunMode;
 
 
@@ -37,7 +36,7 @@ public class LiftTest extends OpModePipeline{
         gp1aClick = gamepad1.a && gp1aPrev;
         gp1aPrev = gamepad1.a;
         subsystems.lift2.update();
-        subsystems.lift2.run(manualLift); // Update lift with gamepad inputs
+        subsystems.lift2.manualControl(manualLift); // Update lift with gamepad inputs
 
         telemetry.addData("Joystick Input", manualLift);
 

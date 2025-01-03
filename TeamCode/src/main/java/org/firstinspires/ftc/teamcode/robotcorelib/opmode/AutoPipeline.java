@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.robotcorelib.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.robotcorelib.robot.Robot;
 import org.firstinspires.ftc.teamcode.robotcorelib.robot.RobotConfig;
 import org.firstinspires.ftc.teamcode.robotcorelib.util.AutoTask;
 import org.firstinspires.ftc.teamcode.robotcorelib.util.RobotRunMode;

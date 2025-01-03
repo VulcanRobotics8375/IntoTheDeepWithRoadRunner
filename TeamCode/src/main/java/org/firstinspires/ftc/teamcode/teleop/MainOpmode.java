@@ -93,7 +93,7 @@ public class MainOpmode extends OpModePipeline {
                 gamepad1.right_stick_x   // Rotation
         );
         subsystems.lift2.update();
-        subsystems.lift2.run(-gamepad2.left_stick_y); //initialize gamepad2 left joystick as manual input for lift
+        subsystems.lift2.manualControl(-gamepad2.left_stick_y); //initialize gamepad2 left joystick as manual input for lift
         subsystems.horizontalExtendo.run(-gamepad2.right_stick_y); //initialize gamepad2 right joystick as manual input for horizextendo
 
         aClick = gamepad2.a && !aPrev;
@@ -122,7 +122,7 @@ public class MainOpmode extends OpModePipeline {
         switch (robotState) {
 
             case SPECIMANINTAKE: //what do do when we are intaking a speciman
-                subsystems.specimenIntake(claw); //run code that intakes specimen, see MainConfig to view all methods
+                subsystems.specimenIntake(claw); //manualControl code that intakes specimen, see MainConfig to view all methods
                 telemetry.addData("state", "SPECIMAN INTAKE");
 
                 if(aClick){
@@ -140,7 +140,7 @@ public class MainOpmode extends OpModePipeline {
                 break;
 
             case SAMPLEINTAKE: //what to do when we are intaking a sample
-                subsystems.sampleIntake(clawRollIncCCW, clawRollIncCW,  claw90degTurn, claw); //run code for intaking samples
+                subsystems.sampleIntake(clawRollIncCCW, clawRollIncCW,  claw90degTurn, claw); //manualControl code for intaking samples
                 telemetry.addData("state", "SAMPLE INTAKE");
 
                 if(aClick){

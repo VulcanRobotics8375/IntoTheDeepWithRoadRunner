@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.robot.MainConfig;
 import org.firstinspires.ftc.teamcode.robotcorelib.opmode.OpModePipeline;
-import org.firstinspires.ftc.teamcode.robotcorelib.robot.Robot;
 import org.firstinspires.ftc.teamcode.robotcorelib.util.RobotRunMode;
 @TeleOp (name = "IntakeTest")
 public class sampleIntakeTest extends OpModePipeline {
@@ -37,7 +36,7 @@ public class sampleIntakeTest extends OpModePipeline {
         claw90degTurn = gamepad1.left_bumper && !claw90degTurnPrev;
         claw90degTurnPrev = gamepad1.left_bumper;
 
-        subsystems.sampleIntake(clawRollIncCCW, clawRollIncCW,  claw90degTurn, clawOpen); //run code for intaking samples
+        subsystems.sampleIntake(clawRollIncCCW, clawRollIncCW,  claw90degTurn, clawOpen); //manualControl code for intaking samples
 
 
         clawOpen = gamepad1.right_bumper && !prevClickrB;

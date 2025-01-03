@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
@@ -8,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.robotcorelib.math.control.PID;
 import org.firstinspires.ftc.teamcode.robotcorelib.util.Subsystem;
 
-public class Lift2 extends Subsystem {
+public class Lift2 extends Subsystem{
     private DcMotorEx liftMotorLeft;
     private DcMotorEx liftMotorRight;
 
@@ -75,8 +79,7 @@ public class Lift2 extends Subsystem {
     }
 
 
-
-    public void run(double manualInput) {
+    public void manualControl(double manualInput) {
         if (Math.abs(manualInput) > 0.1) {
             // Manual control
             liftHolding = false;
@@ -133,8 +136,44 @@ public class Lift2 extends Subsystem {
         targetPosition = Range.clip(targetPosition, LIFT_BOTTOM_POSITION, LIFT_TOP_POSITION);
     }
 
+    //for auto
+    public Action sampleDepoAuto() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                // Check if the lift is at the target position
+                if (Math.abs(liftMotorLeft.getCurrentPosition() - 2000) <= 10) {
+                    telemetryPacket.put("Lift Status", "At Target");
+                    applyPIDControl();
+                    return true; // Action is complete
+                } else {
+                    telemetryPacket.put("Lift Status", "Moving");
+                    update(); // Use PID to move the lift
+                    return false; // Action is still in progress
+                }
+            }
 
 
+        };
+    }
+//for auto
+    public Action sampleIntakeAuto() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                // Check if the lift is at the target position
+                if (Math.abs(liftMotorLeft.getCurrentPosition()) <= 3) {
+                    telemetryPacket.put("Lift Status", "At Target");
+                    applyPIDControl();
+                    return true; // Action is complete
+                } else {
+                    telemetryPacket.put("Lift Status", "Moving");
+                    update(); // Use PID to move the lift
+                    return false; // Action is still in progress
+                }
+            }
 
 
+        };
+    }
 }

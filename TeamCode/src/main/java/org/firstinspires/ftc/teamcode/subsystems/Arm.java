@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.robotcorelib.util.Subsystem;
 
-public class Arm extends Subsystem {
+public class Arm extends Subsystem implements Action {
 
     private Servo armServoLeft;
     private Servo armServoRight;
@@ -89,10 +93,35 @@ public class Arm extends Subsystem {
         }
     }
 
+
+    //for autonomous
+    @Override
+    public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+        return false;
+    }
+
     enum ArmPos {
         SAMPLE,
         FRONT_DEP,
         BACK_DEP,
         TRANSFER
     }
+
+    //for autonomous
+    public Action sampleDepoAuto() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                if (armServoLeft.getPosition() >= 0.7467) {
+                    return true; // Action is complete
+                } else {
+                    back();
+                    return false; // Action is still in progress
+                }
+            }
+        };
+    }
+
+
+
 }

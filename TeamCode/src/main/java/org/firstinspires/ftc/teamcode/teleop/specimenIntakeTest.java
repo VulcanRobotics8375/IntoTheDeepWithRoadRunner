@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.robot.MainConfig;
 import org.firstinspires.ftc.teamcode.robotcorelib.opmode.OpModePipeline;
-import org.firstinspires.ftc.teamcode.robotcorelib.robot.Robot;
 import org.firstinspires.ftc.teamcode.robotcorelib.util.RobotRunMode;
 @TeleOp (name = "specimenIntakeTest")
 public class specimenIntakeTest extends OpModePipeline {
@@ -26,7 +25,7 @@ public class specimenIntakeTest extends OpModePipeline {
     public void loop() {
         Robot.update();
 
-        subsystems.specimenIntake(clawOpen); //run code for intaking samples
+        subsystems.specimenIntake(clawOpen); //manualControl code for intaking samples
 
 
         clawOpen = gamepad1.right_bumper && !prevClickrB;

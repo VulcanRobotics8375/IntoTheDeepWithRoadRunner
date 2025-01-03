@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.robotcorelib.robot;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.robotcorelib.drive.DrivetrainImpl;
-import org.firstinspires.ftc.teamcode.robotcorelib.drive.localization.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.robotcorelib.opmode.AutoPipeline;
 import org.firstinspires.ftc.teamcode.robotcorelib.opmode.OpModePipeline;
 import org.firstinspires.ftc.teamcode.robotcorelib.util.ErrorHandler;
@@ -20,11 +18,6 @@ public class Robot {
     private static HardwareMap hardwareMap;
     private static Telemetry telemetry;
     private static ErrorHandler errorHandler;
-
-    private static StandardTrackingWheelLocalizer localizer;
-
-    private static Pose2d robotPose = new Pose2d();
-    private static Pose2d robotVelocity = new Pose2d();
 
     private static boolean running;
 
@@ -42,8 +35,6 @@ public class Robot {
         telemetry = opMode.telemetry;
         config = opMode.subsystems;
         config.init();
-        config.localizer = new StandardTrackingWheelLocalizer(opMode.hardwareMap);
-        localizer = config.localizer;
 
         errorHandler = new ErrorHandler(telemetry);
         hubs = opMode.hardwareMap.getAll(LynxModule.class);
@@ -80,9 +71,7 @@ public class Robot {
         hardwareMap = opMode.hardwareMap;
         telemetry = opMode.telemetry;
         config = opMode.subsystems;
-        config.init();
-        config.localizer = new StandardTrackingWheelLocalizer(opMode.hardwareMap);
-        localizer = config.localizer;
+
 
         errorHandler = new ErrorHandler(telemetry);
         hubs = opMode.hardwareMap.getAll(LynxModule.class);
@@ -106,23 +95,6 @@ public class Robot {
 
     }
 
-    public static Pose2d getRobotPose() {
-        return robotPose;
-    }
-
-    public static void setRobotPose(Pose2d robotPose) {
-        Robot.localizer.setPose(robotPose);
-        Robot.robotPose = robotPose;
-    }
-
-    public static Pose2d getRobotVelocity() {
-        return robotVelocity;
-    }
-
-    private static void setRobotVelocity(Pose2d robotVelocity) {
-        Robot.robotVelocity = robotVelocity;
-    }
-
     public static RobotConfig getConfiguration() {
         return config;
     }
@@ -139,11 +111,6 @@ public class Robot {
         return bulkCachingMode;
     }
 
-    public static void updateGlobalPosition() {
-        localizer.update();
-        robotPose = localizer.getPose();
-        robotVelocity = localizer.getVelocity();
-    }
 
     public static void clearBulkCache() {
         if(bulkCachingMode == LynxModule.BulkCachingMode.MANUAL) {
@@ -159,7 +126,6 @@ public class Robot {
 
     public static void update() {
         clearBulkCache();
-        updateGlobalPosition();
 //        errorHandler.update(false);
 //        telemetry.update();
     }

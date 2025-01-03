@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.robotcorelib.util.Subsystem;
@@ -104,5 +108,37 @@ public class Intake extends Subsystem {
         toggleClaw(claw);
 
     }
+
+
+    //for autonomous
+    public Action sampleDepoAuto() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                if (clawPitch.getPosition() == PITCH_STRAIGHT && clawRoll.getPosition() == ROLL_SPEC_DEPO) {
+                    return true; // Action is complete
+                } else {
+                    clawRoll.setPosition(ROLL_SPEC_DEPO);
+                    clawPitch.setPosition(PITCH_STRAIGHT);
+                    return false; // Action is still in progress
+                }
+            }
+        };
+    }
+
+    public Action autoToggleClaw() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                if (clawPitch.getPosition() == CLAW_OPEN_POSITION) {
+                    return true; // Action is complete
+                } else {
+                    clawRoll.setPosition(CLAW_OPEN_POSITION);
+                    return false; // Action is still in progress
+                }
+            }
+        };
+    }
+
 
 }
