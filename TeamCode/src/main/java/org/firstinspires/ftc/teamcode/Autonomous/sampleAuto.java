@@ -20,8 +20,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
-import org.firstinspires.ftc.teamcode.robot.AutoConfig;
 import org.firstinspires.ftc.teamcode.robotcorelib.opmode.AutoPipeline;
+import org.firstinspires.ftc.teamcode.robotcorelib.robot.AutoConfig;
 import org.firstinspires.ftc.teamcode.robotcorelib.util.RobotRunMode;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.HorizontalExtendo;
@@ -50,25 +50,25 @@ public class sampleAuto extends AutoPipeline {
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         TrajectoryActionBuilder sample1DepoPos = drive.actionBuilder(initialPose)
-                .splineToConstantHeading(new Vector2d(-37.0, -64.5),0)
-                .waitSeconds(2);
+                .splineToConstantHeading(new Vector2d(-37.0, -64.5),0);
+          //      .waitSeconds(2);
 
 
         TrajectoryActionBuilder IntakeSample2 = drive.actionBuilder(initialPose)
-                .lineToYSplineHeading(33, Math.toRadians(0))
+               // .lineToYSplineHeading(33, Math.toRadians(0))
                 .waitSeconds(2);
 
         TrajectoryActionBuilder sample2DepoPos = drive.actionBuilder(initialPose)
-                .lineToYSplineHeading(33, Math.toRadians(0))
+              //  .lineToYSplineHeading(33, Math.toRadians(0))
                 .waitSeconds(2);
 
 
         TrajectoryActionBuilder IntakeSample3 = drive.actionBuilder(initialPose)
-                .lineToYSplineHeading(33, Math.toRadians(0))
+              //  .lineToYSplineHeading(33, Math.toRadians(0))
                 .waitSeconds(2);
 
         TrajectoryActionBuilder IntakeSample4 = drive.actionBuilder(initialPose)
-                .lineToYSplineHeading(33, Math.toRadians(0))
+            //    .lineToYSplineHeading(33, Math.toRadians(0))
                 .waitSeconds(2);
 
 
@@ -85,41 +85,41 @@ public class sampleAuto extends AutoPipeline {
 
                         //deposit preload sample
                     new ParallelAction(
-                            lift2.sampleDepoAuto(),
-                            horizontalExtendo.sampleDepoAuto(),
-                            arm.sampleDepoAuto(),
-                            intake.sampleDepoAuto(),
+//                            subsystems.lift2.sampleDepoAuto(),
+//                            subsystems.horizontalExtendo.sampleDepoAuto(),
+//                            subsystems.arm.sampleDepoAuto(),
+//                            subsystems.intake.sampleDepoAuto(),
                             sample1DepoPos.build() //path
-                    ),
-                    intake.autoToggleClaw()
+                    )//,
+                        //subsystems.intake.autoToggleClaw()
 
 //                    //intake second sample
 //                    new ParallelAction(
 //                            IntakeSample2.build(), //path
-//                            lift2.sampleIntakeAuto(),
-//                            horizontalExtendo.sampleIntakeAuto(),
-//                            arm.sampleIntakeAuto(),
-//                            intake.sampleIntakeAuto()
+//                            subsystems.lift2.sampleIntakeAuto(),
+//                            subsystems.horizontalExtendo.sampleIntakeAuto(),
+//                            subsystems.arm.sampleIntakeAuto(),
+//                            subsystems.intake.sampleIntakeAuto()
 //                    ),
 //                        intake.autoToggleClaw(),
 //
 //                        //deposit second sample
 //                        new ParallelAction(
-//                                lift2.sampleDepoAuto(),
-//                                horizontalExtendo.sampleDepoAuto(),
-//                                arm.sampleDepoAuto(),
-//                                intake.sampleDepoAuto(),
+//                                subsystems.lift2.sampleDepoAuto(),
+//                                subsystems.horizontalExtendo.sampleDepoAuto(),
+//                                subsystems.arm.sampleDepoAuto(),
+//                                subsystems.intake.sampleDepoAuto(),
 //                                sample2DepoPos.build() //path
 //                        ),
 //                        intake.autoToggleClaw(),
 //
 //                        //intake third sample
 //                        new ParallelAction(
-//                                IntakeSample3.build(), //path
-//                                lift2.sampleIntakeAuto(),
-//                                horizontalExtendo.sampleIntakeAuto(),
-//                                arm.sampleIntakeAuto(),
-//                                intake.sampleIntakeAuto()
+//                                subsystems.IntakeSample3.build(), //path
+//                                subsystems.lift2.sampleIntakeAuto(),
+//                                subsystems.horizontalExtendo.sampleIntakeAuto(),
+//                                subsystems.arm.sampleIntakeAuto(),
+//                                subsystems.intake.sampleIntakeAuto()
 //                        )
 //
 //
