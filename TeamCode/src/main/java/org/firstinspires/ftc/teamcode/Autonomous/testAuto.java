@@ -36,7 +36,7 @@ public class testAuto extends LinearOpMode {
         private int liftPosition;
         private int lastError = 0;
         private double lastTime;
-        private double kP = .007;
+        private double kP = .01;
         private double kD = .0003;
 
         public Lift(HardwareMap hardwareMap) {
