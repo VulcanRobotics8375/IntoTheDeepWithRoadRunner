@@ -108,6 +108,7 @@ public class Intake extends Subsystem {
             toggleClaw(true);
             clawPrevPos = true;
         }
+        toggleClaw(claw);
     }
 
     public void setPitch(double x){
