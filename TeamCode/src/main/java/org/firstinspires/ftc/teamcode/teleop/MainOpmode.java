@@ -132,15 +132,15 @@ public class MainOpmode extends OpModePipeline {
                 break;
 
             case DEPOSITFRONT:
+                // default is sample deposit front
+                subsystems.depositFront(highBucket, claw);
+                telemetry.addData("DEPOSIT", "FRONT SAMPLE ");
+
                 if(gp1aClick) { //specimen deposit front
                     subsystems.depositFront(highBar, claw);
                     telemetry.addData("Deposit", "FRONT SPECIMEN");
-
-                } else if(gp1bClick){ //sample deposit front
-                    subsystems.depositFront(highBucket, claw);
-                    telemetry.addData("DEPOSIT", "FRONT SAMPLE ");
-
                 }
+
                 telemetry.addData("state", "DEPOSITFRONT");
 
 

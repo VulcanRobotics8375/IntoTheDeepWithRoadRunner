@@ -17,8 +17,8 @@ public class Arm extends Subsystem {
     private ArmPos armPos = ArmPos.TRANSFER;
 
 
-    private final double LEFT_FRONT_POSITION = 0.2683;
-    private final double RIGHT_FRONT_POSITION = 0.765;
+    private final double LEFT_FRONT_POSITION = 0.2578;
+    private final double RIGHT_FRONT_POSITION = 0.775;
 
     private final double LEFT_BACK_DEPOSIT_POSITION = 0.7467;
     private final double RIGHT_BACK_DEPOSIT_POSITION = 0.2833;
