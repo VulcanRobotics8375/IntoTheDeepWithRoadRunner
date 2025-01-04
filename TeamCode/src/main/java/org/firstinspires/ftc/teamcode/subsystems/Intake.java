@@ -101,13 +101,13 @@ public class Intake extends Subsystem {
         return Math.max(min, Math.min(max, value));
     }
 
-    public void deposit(boolean claw)
-    {
-
+    public void deposit(boolean claw) {
         clawRoll.setPosition(ROLL_SPEC_DEPO);
         clawPitch.setPosition(PITCH_STRAIGHT);
-        toggleClaw(claw);
-
+        if(!clawPrevPos) {
+            toggleClaw(true);
+            clawPrevPos = true;
+        }
     }
 
     public void setPitch(double x){
@@ -130,5 +130,4 @@ public class Intake extends Subsystem {
             }
         };
     }
-
 }
