@@ -18,12 +18,12 @@ public class MeepMeepTesting {
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-35, -63, Math.toRadians(45)))
 
                 //preload sample deposit
-                        .strafeTo(new Vector2d(-54, -54))
+                        .strafeTo(new Vector2d(-53, -56.5))
 
                 .waitSeconds(1)
 
                 //sample 2 intake
-                        .strafeTo(new Vector2d(-60, -46.7))
+                        .strafeTo(new Vector2d(-58, -46.7))
                         .turnTo(Math.toRadians(65))
                         .turnTo(Math.toRadians(45))
                 .splineToConstantHeading(new Vector2d(-54, -54), Math.toRadians(45))
