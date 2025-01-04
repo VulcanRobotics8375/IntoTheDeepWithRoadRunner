@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.robotcorelib.util.Subsystem;
 
-public class Arm extends Subsystem implements Action {
+public class Arm extends Subsystem {
 
     private Servo armServoLeft;
     private Servo armServoRight;
@@ -93,49 +93,11 @@ public class Arm extends Subsystem implements Action {
         }
     }
 
-
-    //for autonomous
-    @Override
-    public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        return false;
-    }
-
     enum ArmPos {
         SAMPLE,
         FRONT_DEP,
         BACK_DEP,
         TRANSFER
     }
-
-    //for autonomous
-    public Action sampleDepoAuto() {
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                if (armServoLeft.getPosition() >= 0.7467) {
-                    return true; // Action is complete
-                } else {
-                    back();
-                    return false; // Action is still in progress
-                }
-            }
-        };
-    }
-    //for autonomous
-    public Action sampleIntakeAuto() {
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                if (armServoLeft.getPosition() <= LEFT_FRONT_POSITION) {
-                    return true; // Action is complete
-                } else {
-                    front();
-                    return false; // Action is still in progress
-                }
-            }
-        };
-    }
-
-
 
 }

@@ -15,12 +15,33 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 11.3)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-37, -64.5, 0))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-37, -63, Math.toRadians(45)))
 
-                        .lineToX(-54)
-                        .turn(Math.toRadians(90))
-                 .splineToConstantHeading(new Vector2d(-53.4,-51.2),Math.toRadians(90) )
-                 .splineToConstantHeading(new Vector2d(-55.6,-53), Math.toRadians(45))
+                //preload sample deposit
+                        .strafeTo(new Vector2d(-54, -54))
+
+                .waitSeconds(1)
+
+                //sample 2 intake
+                        .strafeTo(new Vector2d(-60, -46.7))
+                        .turnTo(Math.toRadians(65))
+                        .turnTo(Math.toRadians(45))
+                .splineToConstantHeading(new Vector2d(-54, -54), Math.toRadians(45))
+
+                .turnTo(Math.toRadians(92))
+                .splineToConstantHeading(new Vector2d(-60, -46.7), Math.toRadians(92))
+
+                .turnTo(Math.toRadians(45))
+                .splineToConstantHeading(new Vector2d(-54, -54), Math.toRadians(45))
+
+                .turnTo(Math.toRadians(110))
+                .splineToConstantHeading(new Vector2d(-60, -46.7), Math.toRadians(110))
+
+                .turnTo(Math.toRadians(45))
+                .splineToConstantHeading(new Vector2d(-54, -54), Math.toRadians(45))
+
+                .turnTo(0)
+                .splineToConstantHeading(new Vector2d(-29, -8.7), Math.toRadians(0))
 
                 .build());
 

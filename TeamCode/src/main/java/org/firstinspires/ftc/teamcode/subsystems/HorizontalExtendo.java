@@ -77,39 +77,4 @@ public class HorizontalExtendo extends Subsystem {
     public String getCurrentLinkagePos(){
         return "left servo pos: " + leftServoPos + "\nright servo pos: " + rightServoPos;
     }
-
-
-
-    //for autonomous
-    public Action sampleDepoAuto() {
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                if (leftServoPos >= fullRetractLeft) {
-                    return true; // Action is complete
-                } else {
-                    goToBack();
-                    return false; // Action is still in progress
-                }
-            }
-
-
-        };
-    }
-
-    public Action sampleIntakeAuto() {
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                if (leftServoPos <= fullExtendLeft) {
-                    return true; // Action is complete
-                } else {
-                    goToFront();
-                    return false; // Action is still in progress
-                }
-            }
-
-
-        };
-    }
 }
