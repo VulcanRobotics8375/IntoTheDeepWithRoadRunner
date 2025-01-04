@@ -307,7 +307,7 @@ public class testAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
         //set starting position
-        Pose2d initialPose =new Pose2d(-37, -63, Math.toRadians(45));
+        Pose2d initialPose =new Pose2d(-35, -63, Math.toRadians(45));
 
         //initialize subsystems
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
@@ -322,29 +322,30 @@ public class testAuto extends LinearOpMode {
 
                 //preload sample deposit
                 .stopAndAdd(lift.goTo(3000))
-                .strafeTo(new Vector2d(-54, -54))
+                .strafeTo(new Vector2d(-53, -56.5))
+                .waitSeconds(1)
                 .stopAndAdd(arm.armBackDeposit())
                 .stopAndAdd(pas.deposit())
-                .waitSeconds(1)
+                .waitSeconds(0.5)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.5)
                 .stopAndAdd(horizontalExtendo.goToBack())
-                .stopAndAdd(arm.armTransfer()) .build();
-
-/*
-                //intake sample 2
-                .stopAndAdd(lift.goTo(0))
-                .strafeTo(new Vector2d(-60, -46.7))
-                .turnTo(Math.toRadians(65))
-                .waitSeconds(0.5)
-                .stopAndAdd(horizontalExtendo.goToFront())
-                .stopAndAdd(arm.armIntake())
-                .stopAndAdd(pas.intake())
-                .waitSeconds(0.7)
-                .stopAndAdd(claw.closeClaw())
-                .waitSeconds(0.2)
                 .stopAndAdd(arm.armTransfer())
 
+
+                //intake sample 2
+                .stopAndAdd(lift.goTo(0))
+                .strafeTo(new Vector2d(-58, -46.7))
+                .turnTo(Math.toRadians(65))
+                .stopAndAdd(arm.armIntake())
+                .waitSeconds(0.5)
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .stopAndAdd(pas.intake())
+                .waitSeconds(1)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(1)
+                .stopAndAdd(arm.armTransfer()) .build();
+/*
 
                 //deposit sample 2
                 .stopAndAdd(lift.goTo(3000))
