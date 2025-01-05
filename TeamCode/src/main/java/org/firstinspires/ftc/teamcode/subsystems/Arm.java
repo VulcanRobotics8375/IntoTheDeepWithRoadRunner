@@ -34,9 +34,13 @@ public class Arm extends Subsystem {
         transfer(); // Start in middle position
     }
 
+    public void frontSpec(){
+        armPos = ArmPos.FRONT_SPEC;
+        setPos();
+    }
 
-    public void front(){
-        armPos = ArmPos.FRONT_DEP;
+    public void frontSam() {
+        armPos = ArmPos.FRONT_SAM;
         setPos();
     }
 
@@ -66,11 +70,14 @@ public class Arm extends Subsystem {
                 armServoRight.setPosition(RIGHT_TRANSFER_POSITION);
                 break;
 
-            case FRONT_DEP:
+            case FRONT_SPEC:
                 //set servos to 0 degrees
                 armServoLeft.setPosition(LEFT_FRONT_POSITION);
                 armServoRight.setPosition(RIGHT_FRONT_POSITION);
                 break;
+            case FRONT_SAM:
+                armServoLeft.setPosition(LEFT_FRONT_POSITION + 0.01);
+                armServoRight.setPosition(RIGHT_FRONT_POSITION - 0.01);
             case BACK_DEP:
                 //set servos to  back
                 armServoLeft.setPosition(LEFT_BACK_DEPOSIT_POSITION);
@@ -94,10 +101,10 @@ public class Arm extends Subsystem {
     }
 
     enum ArmPos {
-        SAMPLE,
-        FRONT_DEP,
+        FRONT_SPEC,
         BACK_DEP,
-        TRANSFER
+        TRANSFER,
+        FRONT_SAM
     }
 
 }

@@ -137,7 +137,7 @@ public class MainOpmode extends OpModePipeline {
                 }
                 break;
 
-            case SAMPLEINTAKE: //what to do when we are intaking a sample
+            case SAMPLEINTAKE: 
                 subsystems.sampleIntake(clawRollIncCCW, clawRollIncCW,  claw90degTurn, claw); //manualControl code for intaking samples
                 telemetry.addData("state", "SAMPLE INTAKE");
 
