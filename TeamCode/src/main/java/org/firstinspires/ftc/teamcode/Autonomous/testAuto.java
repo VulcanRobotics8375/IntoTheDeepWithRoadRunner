@@ -98,11 +98,11 @@ public class testAuto extends LinearOpMode {
     public class HorizontalExtendo {
         private Servo linkServoLeft;
         private Servo linkServoRight;
-        private final double fullRetractLeft = 0.7;
+        private final double fullRetractLeft = 0.69;
         private final double fullExtendLeft = 0.044864;
         private final double midLeft = 0.327568;
 
-        private final double fullRetractRight = 0.36;
+        private final double fullRetractRight = 0.37;
         private final double fullExtendRight = 0.95513608;
         private final double midRight = 0.9756804;
 
@@ -260,9 +260,11 @@ public class testAuto extends LinearOpMode {
         }
 
         public class Intake implements Action {
+
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 clawPitch.setPosition(PITCH_SAMPLE);
+
                 clawSpin.setPosition(CLAW_NORMAL_POS);
                 return false;
             }
@@ -322,14 +324,14 @@ public class testAuto extends LinearOpMode {
 
                 //preload sample deposit
                 .stopAndAdd(lift.goTo(3000))
-                .strafeTo(new Vector2d(-53, -56.5))
-                .waitSeconds(1)
+                .strafeTo(new Vector2d(-53, -57))
+                .waitSeconds(0.7)
                 .stopAndAdd(arm.armBackDeposit())
                 .stopAndAdd(pas.deposit())
                 .waitSeconds(0.5)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.5)
-                .stopAndAdd(horizontalExtendo.goToBack())
+                .stopAndAdd(pas.intake())
                 .stopAndAdd(arm.armTransfer())
 
 
@@ -337,27 +339,27 @@ public class testAuto extends LinearOpMode {
                 .stopAndAdd(lift.goTo(0))
                 .strafeTo(new Vector2d(-58, -46.7))
                 .turnTo(Math.toRadians(65))
-                .stopAndAdd(arm.armIntake())
                 .waitSeconds(0.5)
                 .stopAndAdd(horizontalExtendo.goToFront())
                 .stopAndAdd(pas.intake())
-                .waitSeconds(1)
+                .waitSeconds(0.7)
                 .stopAndAdd(claw.closeClaw())
-                .waitSeconds(1)
-                .stopAndAdd(arm.armTransfer()) .build();
-/*
+                .waitSeconds(1.2)
+                .stopAndAdd(arm.armTransfer())
+
 
                 //deposit sample 2
                 .stopAndAdd(lift.goTo(3000))
                 .stopAndAdd(horizontalExtendo.goToBack())
                 .turnTo(Math.toRadians(45))
-                .splineToConstantHeading(new Vector2d(-54, -54), Math.toRadians(45))
+                .splineToConstantHeading(new Vector2d(-53, -57), Math.toRadians(45))
                 .stopAndAdd(arm.armBackDeposit())
                 .stopAndAdd(pas.deposit())
                 .waitSeconds(2)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.2)
                 .stopAndAdd(arm.armTransfer())
+                .stopAndAdd(pas.intake())
 
 
 
@@ -367,13 +369,12 @@ public class testAuto extends LinearOpMode {
                 .stopAndAdd(horizontalExtendo.goToFront())
                 .splineToConstantHeading(new Vector2d(-60, -46.7), Math.toRadians(92))
                 .stopAndAdd(arm.armIntake())
-                .stopAndAdd(pas.intake())
                 .waitSeconds(2)
                 .stopAndAdd(claw.closeClaw())
                 .waitSeconds(0.2)
                 .stopAndAdd(arm.armTransfer())
-
-
+                .build();
+/*
 
                 //deposit sample 3
 

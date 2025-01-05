@@ -28,10 +28,6 @@ public class Intake extends Subsystem {
     private static final double PITCH_SPECIMAN = 0.5;
     private static final double PITCH_SAMPLE = 0.687;
 
-
-    private boolean clawPrevPos = false; //true open, false close
-    ;
-
     @Override
     public void init() {
         claw = hardwareMap.get(Servo.class, "clawServo");
@@ -41,7 +37,6 @@ public class Intake extends Subsystem {
         claw.setPosition(CLAW_CLOSED_POSITION);
         clawRoll.setPosition(CLAW_NORMAL_POS);
         clawPitch.setPosition(PITCH_STRAIGHT);
-        clawPrevPos = false;
     }
 
     public void sampleIntake(double leftTrigger, double rightTrigger, boolean leftBumper, boolean rightBumper) {
@@ -59,20 +54,22 @@ public class Intake extends Subsystem {
             clawRoll.setPosition(CLAW_NORMAL_POS);
         }
         // Claw Open/Close Logic
-       toggleClaw(rightBumper);
-
+        if(rightBumper){
+       toggleClaw();
+}
         // Set Claw Pitch for Sample Intake
         clawPitch.setPosition(PITCH_SAMPLE);
     }
 
 
     public void specimenIntake(boolean claw){
-        
+
         clawRoll.setPosition(CLAW_NORMAL_POS);
         clawPitch.setPosition(PITCH_SPECIMAN);
 
-        toggleClaw(claw);
-    }
+        if(claw) {
+            toggleClaw();
+        }    }
 
     public void transferPos(){
         claw.setPosition(CLAW_CLOSED_POSITION);
@@ -80,13 +77,10 @@ public class Intake extends Subsystem {
         clawPitch.setPosition(PITCH_STRAIGHT);
     }
 
-    public void toggleClaw(boolean rightBumperPressed) {
-        if (rightBumperPressed) {
-            clawPrevPos = clawOpen;
+    public void toggleClaw() {
             clawOpen = !clawOpen; // Toggle the state
             double targetPosition = clawOpen ? CLAW_OPEN_POSITION : CLAW_CLOSED_POSITION;
             claw.setPosition(targetPosition);
-        }
     }
 
     private double clamp(double value, double min, double max) {
@@ -96,8 +90,9 @@ public class Intake extends Subsystem {
     public void deposit(boolean claw) {
         clawRoll.setPosition(ROLL_SPEC_DEPO);
         clawPitch.setPosition(PITCH_STRAIGHT);
-        toggleClaw(claw);
-    }
+        if(claw) {
+            toggleClaw();
+        }     }
 
     public void setPitch(double x){
         clawPitch.setPosition(x);

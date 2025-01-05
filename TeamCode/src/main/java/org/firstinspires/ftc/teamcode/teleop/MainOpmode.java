@@ -9,7 +9,31 @@ import org.firstinspires.ftc.teamcode.robotcorelib.util.RobotRunMode;
 import org.firstinspires.ftc.teamcode.robotcorelib.util.Switch;
 
 
-//
+/*
+
+map of button presses
+
+gamepad1 left joystick -> drivetrain translation
+gamepad1 right joystick -> drivetrain rotation
+
+gamepad1 right bumper -> claw
+gamepad1 left bumper -> claw Spin to 90 degrees
+gamepad1 left trigger -> spin claw clockwise
+gamepad1 right trigger -> spin claw counterclockwise
+
+gamepad2 a button -> sample intake position
+gamepad2 x button -> specimen intake position
+gamepad2 y button -> deposit back
+                                  if gamepad1 x-> sample depo pos
+                                  if gamepad1  circle -> spec depo pos
+gamepad2 b button -> deposit front
+                                  if gamepad1 x-> sample depo pos
+                                  if gamepad1  circle -> spec depo pos
+
+ */
+
+
+
 @TeleOp(name = "MainOpmode")
 public class MainOpmode extends OpModePipeline {
     MainConfig subsystems = new MainConfig();
@@ -202,7 +226,7 @@ public class MainOpmode extends OpModePipeline {
                     robotState = RobotState.SPECIMANINTAKE;
                 }
                 else if(yClick){
-                    robotState = RobotState.DEPOSITFRONT;
+                    robotState = RobotState.DEPOSITBACK;
                 }
                 break;
         }
