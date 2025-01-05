@@ -30,6 +30,8 @@ public class sampleIntakeTest extends OpModePipeline {
     @Override
     public void loop() {
         Robot.update();
+        subsystems.lift2.update();
+
 
         clawRollIncCCW = gamepad1.left_trigger; //same
         clawRollIncCW = gamepad1.right_trigger; //same

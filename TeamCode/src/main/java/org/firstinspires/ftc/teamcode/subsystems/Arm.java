@@ -76,8 +76,8 @@ public class Arm extends Subsystem {
                 armServoRight.setPosition(RIGHT_FRONT_POSITION);
                 break;
             case FRONT_SAM:
-                armServoLeft.setPosition(LEFT_FRONT_POSITION + 0.02);
-                armServoRight.setPosition(RIGHT_FRONT_POSITION - 0.02);
+                armServoLeft.setPosition(LEFT_FRONT_POSITION + 0.028);
+                armServoRight.setPosition(RIGHT_FRONT_POSITION - 0.028);
                 break;
             case BACK_DEP:
                 //set servos to  back

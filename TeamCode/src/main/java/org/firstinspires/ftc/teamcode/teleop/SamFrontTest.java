@@ -26,6 +26,7 @@ public class SamFrontTest extends OpModePipeline {
     @Override
     public void loop() {
         Robot.update();
+        subsystems.lift2.update();
         subsystems.depositFront(2800, clawOpen);
 
 

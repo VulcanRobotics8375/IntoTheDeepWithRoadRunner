@@ -26,6 +26,8 @@ public class SpecBackTest extends OpModePipeline {
     @Override
     public void loop() {
         Robot.update();
+        subsystems.lift2.update();
+
         subsystems.depositBack(1500, clawOpen);
 
         clawOpen = gamepad1.right_bumper && !prevClickrB;
