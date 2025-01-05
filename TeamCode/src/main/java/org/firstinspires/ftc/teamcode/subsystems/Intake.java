@@ -45,11 +45,6 @@ public class Intake extends Subsystem {
     }
 
     public void sampleIntake(double leftTrigger, double rightTrigger, boolean leftBumper, boolean rightBumper) {
-        if(!clawPrevPos){
-            toggleClaw(true);
-            clawPrevPos = true;
-        }
-
 
         // Roll Adjustment Logic
         double currentRollPosition = clawRoll.getPosition(); // Get the current roll position
@@ -72,11 +67,7 @@ public class Intake extends Subsystem {
 
 
     public void specimenIntake(boolean claw){
-
-        if(!clawPrevPos){
-            toggleClaw(true);
-            clawPrevPos = true;
-        }
+        
         clawRoll.setPosition(CLAW_NORMAL_POS);
         clawPitch.setPosition(PITCH_SPECIMAN);
 
@@ -91,6 +82,7 @@ public class Intake extends Subsystem {
 
     public void toggleClaw(boolean rightBumperPressed) {
         if (rightBumperPressed) {
+            clawPrevPos = clawOpen;
             clawOpen = !clawOpen; // Toggle the state
             double targetPosition = clawOpen ? CLAW_OPEN_POSITION : CLAW_CLOSED_POSITION;
             claw.setPosition(targetPosition);
@@ -111,20 +103,4 @@ public class Intake extends Subsystem {
         clawPitch.setPosition(x);
     }
 
-
-    //for autonomous
-    public Action sampleDepoAuto() {
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                if (clawPitch.getPosition() == PITCH_STRAIGHT && clawRoll.getPosition() == ROLL_SPEC_DEPO) {
-                    return true; // Action is complete
-                } else {
-                    clawRoll.setPosition(ROLL_SPEC_DEPO);
-                    clawPitch.setPosition(PITCH_STRAIGHT);
-                    return false; // Action is still in progress
-                }
-            }
-        };
-    }
 }

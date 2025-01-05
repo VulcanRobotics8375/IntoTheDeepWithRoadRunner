@@ -18,8 +18,8 @@ public class MainOpmode extends OpModePipeline {
     private Switch stateSwitch = new Switch();
 
     //set lift positions
-    private final int highBucket = 2800; //set location of the high bucket
-    private final int highBar = 2100; //set location as high bar
+    private final int highBucket = 3000; //set location of the high bucket
+    private final int highBar = 1900; //set location as high bar
 
     //define buttons for claw
     private boolean clawPrev = false;
@@ -132,10 +132,11 @@ public class MainOpmode extends OpModePipeline {
                 break;
 
             case DEPOSITFRONT:
-                subsystems.depositFront(highBucket, claw);
-                telemetry.addData("Deposit", "FRONT SAMPLE");
-
-                if(gp1aClick) { //specimen deposit front
+                if(gp1aClick) {
+                    subsystems.depositFront(highBucket, claw);
+                    telemetry.addData("Deposit", "FRONT SAMPLE");
+                }
+                if(gp1bClick) { //specimen deposit front
                     subsystems.depositFront(highBar, claw);
                     telemetry.addData("Deposit", "FRONT SPECIMEN");
                 }
@@ -163,9 +164,8 @@ public class MainOpmode extends OpModePipeline {
                 if(gp1aClick) { //specimen deposit back
                     subsystems.depositBack(highBucket, claw);
                     telemetry.addData("Deposit", "BACK SPECIMEN");
-
                 }
-                else if(gp1bClick){ //sample deposit back
+                if(gp1bClick){ //sample deposit back
                     subsystems.depositBack(highBar, claw);
                     telemetry.addData("Deposit", "BACK SAMPLE");
 
