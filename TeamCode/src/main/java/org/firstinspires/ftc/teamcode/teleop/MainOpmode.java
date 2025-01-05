@@ -132,6 +132,8 @@ public class MainOpmode extends OpModePipeline {
                 break;
 
             case DEPOSITFRONT:
+                subsystems.depositFront(highBucket, claw);
+                telemetry.addData("Deposit", "FRONT SAMPLE");
 
                 if(gp1aClick) { //specimen deposit front
                     subsystems.depositFront(highBar, claw);

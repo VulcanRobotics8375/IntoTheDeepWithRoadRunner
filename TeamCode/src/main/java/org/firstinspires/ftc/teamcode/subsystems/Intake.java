@@ -104,10 +104,6 @@ public class Intake extends Subsystem {
     public void deposit(boolean claw) {
         clawRoll.setPosition(ROLL_SPEC_DEPO);
         clawPitch.setPosition(PITCH_STRAIGHT);
-        if(!clawPrevPos) {
-            toggleClaw(true);
-            clawPrevPos = true;
-        }
         toggleClaw(claw);
     }
 
