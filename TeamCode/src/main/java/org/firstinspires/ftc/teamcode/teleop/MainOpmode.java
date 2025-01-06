@@ -243,6 +243,7 @@ public class MainOpmode extends OpModePipeline {
                 if(gp1hangClick){
                     robotState = RobotState.TRANSFERPOS;
                 }
+                break;
 
         }
         telemetry.addData("Claw Open", claw);
