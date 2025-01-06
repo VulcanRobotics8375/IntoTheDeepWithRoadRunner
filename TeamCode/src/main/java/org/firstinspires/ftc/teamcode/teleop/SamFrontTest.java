@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.robotcorelib.util.RobotRunMode;
 public class SamFrontTest extends OpModePipeline {
     MainConfig subsystems = new MainConfig(); // Initialize MainConfig
     boolean clawOpen = false;
-    private boolean prevClickrB;
+    private boolean prevClickrB = false;
 
 
 
@@ -22,19 +22,23 @@ public class SamFrontTest extends OpModePipeline {
         telemetry.update();
         super.init();
     }
-
     @Override
     public void loop() {
         Robot.update();
         subsystems.lift2.update();
         subsystems.depositFront(2800, clawOpen);
 
-
-        clawOpen = gamepad1.right_bumper && !prevClickrB;
-
-        // Update previous click states
+        // Toggle clawOpen on button press
+        if (gamepad1.right_bumper && !prevClickrB) {
+            clawOpen = !clawOpen;
+        }
         prevClickrB = gamepad1.right_bumper;
 
+
+        // Add telemetry for debugging
+        telemetry.addData("Claw Open", clawOpen);
+        telemetry.addData("Previous Click", prevClickrB);
         telemetry.update();
     }
+
 }

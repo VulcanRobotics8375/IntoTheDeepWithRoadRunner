@@ -230,7 +230,8 @@ public class MainOpmode extends OpModePipeline {
                 }
                 break;
         }
-        telemetry.addData("clawClick", claw);
+        telemetry.addData("Claw Open", claw);
+        telemetry.addData("Previous Click", clawPrev);
 
         telemetry.update();
     }

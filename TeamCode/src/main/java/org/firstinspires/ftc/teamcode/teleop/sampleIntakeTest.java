@@ -24,7 +24,7 @@ public class sampleIntakeTest extends OpModePipeline {
         super.init();
     }
 
-    private boolean prevClickrB;
+    private boolean prevClickrB = false;
 
 
     @Override
@@ -32,6 +32,9 @@ public class sampleIntakeTest extends OpModePipeline {
         Robot.update();
         subsystems.lift2.update();
 
+
+        clawOpen = gamepad1.right_bumper && !prevClickrB;
+        prevClickrB = gamepad1.right_bumper;
 
         clawRollIncCCW = gamepad1.left_trigger; //same
         clawRollIncCW = gamepad1.right_trigger; //same
@@ -42,10 +45,8 @@ public class sampleIntakeTest extends OpModePipeline {
         subsystems.sampleIntake(clawRollIncCCW, clawRollIncCW,  claw90degTurn, clawOpen); //manualControl code for intaking samples
 
 
-        clawOpen = gamepad1.right_bumper && !prevClickrB;
-
-        // Update previous click states
-        prevClickrB = gamepad1.right_bumper;
+        telemetry.addData("Claw Open", clawOpen);
+        telemetry.addData("Previous Click", prevClickrB);
         telemetry.update();
 
         }

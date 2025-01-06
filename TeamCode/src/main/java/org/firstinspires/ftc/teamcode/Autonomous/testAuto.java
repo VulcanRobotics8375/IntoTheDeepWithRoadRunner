@@ -323,12 +323,12 @@ public class testAuto extends LinearOpMode {
         Action action1 = drive.actionBuilder(initialPose)
 
                 //preload sample deposit
-                .stopAndAdd(lift.goTo(3000))
+                .stopAndAdd(lift.goTo(3100))
                 .strafeTo(new Vector2d(-53, -57))
                 .waitSeconds(0.7)
                 .stopAndAdd(arm.armBackDeposit())
                 .stopAndAdd(pas.deposit())
-                .waitSeconds(0.5)
+                .waitSeconds(0.3)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.5)
                 .stopAndAdd(pas.intake())
@@ -337,10 +337,11 @@ public class testAuto extends LinearOpMode {
 
                 //intake sample 2
                 .stopAndAdd(lift.goTo(0))
-                .strafeTo(new Vector2d(-58, -46.7))
-                .turnTo(Math.toRadians(65))
+                .turnTo(Math.toRadians(97))
+                .strafeTo(new Vector2d(-46, -50.7))
                 .waitSeconds(0.5)
                 .stopAndAdd(horizontalExtendo.goToFront())
+                .stopAndAdd(arm.armIntake())
                 .stopAndAdd(pas.intake())
                 .waitSeconds(0.7)
                 .stopAndAdd(claw.closeClaw())
@@ -349,10 +350,10 @@ public class testAuto extends LinearOpMode {
 
 
                 //deposit sample 2
-                .stopAndAdd(lift.goTo(3000))
                 .stopAndAdd(horizontalExtendo.goToBack())
                 .turnTo(Math.toRadians(45))
                 .splineToConstantHeading(new Vector2d(-53, -57), Math.toRadians(45))
+                .stopAndAdd(lift.goTo(3100))
                 .stopAndAdd(arm.armBackDeposit())
                 .stopAndAdd(pas.deposit())
                 .waitSeconds(2)
@@ -367,12 +368,11 @@ public class testAuto extends LinearOpMode {
                 .stopAndAdd(lift.goTo(0))
                 .turnTo(Math.toRadians(92))
                 .stopAndAdd(horizontalExtendo.goToFront())
-                .splineToConstantHeading(new Vector2d(-60, -46.7), Math.toRadians(92))
+                .splineToConstantHeading(new Vector2d(-58, -50.7), Math.toRadians(92))
                 .stopAndAdd(arm.armIntake())
-                .waitSeconds(2)
+                .waitSeconds(1)
                 .stopAndAdd(claw.closeClaw())
                 .waitSeconds(0.2)
-                .stopAndAdd(arm.armTransfer())
                 .build();
 /*
 
