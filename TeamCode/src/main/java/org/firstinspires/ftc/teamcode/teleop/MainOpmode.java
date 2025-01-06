@@ -69,6 +69,8 @@ public class MainOpmode extends OpModePipeline {
     private boolean gp1hangPrev = false;
     private boolean gp1hangClick = false;
 
+      boolean gp1bholding = false;
+    boolean gp1aholding = false;
 
 
     @Override
@@ -112,6 +114,7 @@ public class MainOpmode extends OpModePipeline {
 
         gp1hangClick = gamepad1.dpad_down && gp1hangPrev;
         gp1hangPrev = gamepad1.dpad_down;
+
 
 
         //assign buttons for claw on init
@@ -161,29 +164,40 @@ public class MainOpmode extends OpModePipeline {
                 break;
 
             case DEPOSITFRONT:
-               // if(gp1aClick) {
+               if(gp1aClick || gp1aholding){
+                    gp1aholding = true;
+                    gp1bholding = false;
+
                     subsystems.depositFront(highBucket, claw);
                     telemetry.addData("Deposit", "FRONT SAMPLE");
-               // }
-//                if(gp1bClick) { //specimen deposit front
-//                    subsystems.depositFront(highBar, claw);
-//                    telemetry.addData("Deposit", "FRONT SPECIMEN");
-//                }
-
+               }
+               if(gp1bClick || gp1bholding) { //specimen deposit front
+                    gp1bholding = true;
+                    gp1aholding = false;
+                    subsystems.depositFront(highBar, claw);
+                    telemetry.addData("Deposit", "FRONT SPECIMEN");
+                }
                 telemetry.addData("state", "DEPOSITFRONT");
-
 
                 if(aClick){
                     robotState = RobotState.SAMPLEINTAKE;
+                    gp1bholding = false;
+                    gp1aholding = false;
                 }
                 else if(bClick){
                     robotState = RobotState.TRANSFERPOS;
+                     gp1bholding = false;
+                    gp1aholding = false;
                 }
                 else if(xClick){
                     robotState = RobotState.SPECIMANINTAKE;
+                     gp1bholding = false;
+                    gp1aholding = false;
                 }
                 else if(yClick){
                     robotState = RobotState.DEPOSITBACK;
+                     gp1bholding = false;
+                    gp1aholding = false;
                 }
 
                 break;
