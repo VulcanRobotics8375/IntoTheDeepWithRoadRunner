@@ -17,11 +17,14 @@ public class Arm extends Subsystem {
     private ArmPos armPos = ArmPos.TRANSFER;
 
 
-    private final double LEFT_FRONT_POSITION = 0.2578;
-    private final double RIGHT_FRONT_POSITION = 0.775;
+    private final double LEFT_FRONT_POSITION = 0.2778;
+    private final double RIGHT_FRONT_POSITION = 0.755;
 
-    private final double LEFT_BACK_DEPOSIT_POSITION = 0.7467;
-    private final double RIGHT_BACK_DEPOSIT_POSITION = 0.2833;
+    private final double LEFT_FRONT_DEPO_POSITION = 0.3761;
+    private final double RIGHT_FRONT_DEPO_POSITION = 0.6561;
+
+    private final double LEFT_BACK_DEPOSIT_POSITION = 0.7067;
+    private final double RIGHT_BACK_DEPOSIT_POSITION = 0.3233;
 
     private final double LEFT_TRANSFER_POSITION = 0.5339;
     private final double RIGHT_TRANSFER_POSITION = 0.5;
@@ -34,13 +37,13 @@ public class Arm extends Subsystem {
         transfer(); // Start in middle position
     }
 
-    public void frontSpec(){
-        armPos = ArmPos.FRONT_SPEC;
+    public void frontIntake(){
+        armPos = ArmPos.FRONT_INTAKE;
         setPos();
     }
 
-    public void frontSam() {
-        armPos = ArmPos.FRONT_SAM;
+    public void frontDeposit() {
+        armPos = ArmPos.FRONT_DEPOSIT;
         setPos();
     }
 
@@ -70,14 +73,14 @@ public class Arm extends Subsystem {
                 armServoRight.setPosition(RIGHT_TRANSFER_POSITION);
                 break;
 
-            case FRONT_SPEC:
+            case FRONT_DEPOSIT:
                 //set servos to 0 degrees
+                armServoLeft.setPosition(LEFT_FRONT_DEPO_POSITION);
+                armServoRight.setPosition(RIGHT_FRONT_DEPO_POSITION);
+                break;
+            case FRONT_INTAKE:
                 armServoLeft.setPosition(LEFT_FRONT_POSITION);
                 armServoRight.setPosition(RIGHT_FRONT_POSITION);
-                break;
-            case FRONT_SAM:
-                armServoLeft.setPosition(LEFT_FRONT_POSITION + 0.028);
-                armServoRight.setPosition(RIGHT_FRONT_POSITION - 0.028);
                 break;
             case BACK_DEP:
                 //set servos to  back
@@ -102,10 +105,10 @@ public class Arm extends Subsystem {
     }
 
     enum ArmPos {
-        FRONT_SPEC,
+        FRONT_INTAKE,
         BACK_DEP,
         TRANSFER,
-        FRONT_SAM
+        FRONT_DEPOSIT
     }
 
 }

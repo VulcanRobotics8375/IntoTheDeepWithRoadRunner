@@ -66,6 +66,8 @@ public class MainOpmode extends OpModePipeline {
     private boolean gp1aClick = false;
     private boolean gp1bPrev = false;
     private boolean gp1bClick = false;
+    private boolean gp1hangPrev = false;
+    private boolean gp1hangClick = false;
 
 
 
@@ -107,6 +109,9 @@ public class MainOpmode extends OpModePipeline {
         gp1aPrev = gamepad1.a;
         gp1bClick = gamepad1.b && gp1bPrev;
         gp1bPrev = gamepad1.b;
+
+        gp1hangClick = gamepad1.dpad_down && gp1hangPrev;
+        gp1hangPrev = gamepad1.dpad_down;
 
 
         //assign buttons for claw on init
@@ -213,7 +218,6 @@ public class MainOpmode extends OpModePipeline {
 
             case TRANSFERPOS:
                 telemetry.addData("state", "TRANSFER POSITION");
-                robotState = RobotState.TRANSFERPOS; // Reset to a safe state
                 subsystems.transferPos();
 
                 if(aClick){
@@ -228,7 +232,18 @@ public class MainOpmode extends OpModePipeline {
                 else if(yClick){
                     robotState = RobotState.DEPOSITBACK;
                 }
+                else if(gp1hangClick){
+                    robotState = RobotState.HANG;
+                }
                 break;
+
+            case HANG:
+                telemetry.addData("state", "HANG");
+                subsystems.hang();
+                if(gp1hangClick){
+                    robotState = RobotState.TRANSFERPOS;
+                }
+
         }
         telemetry.addData("Claw Open", claw);
         telemetry.addData("Previous Click", clawPrev);
@@ -242,6 +257,7 @@ public class MainOpmode extends OpModePipeline {
         SPECIMANINTAKE,
         DEPOSITFRONT,
         DEPOSITBACK,
+        HANG,
     }
 
 
