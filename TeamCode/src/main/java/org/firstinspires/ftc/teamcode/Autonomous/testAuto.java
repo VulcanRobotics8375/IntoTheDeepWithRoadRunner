@@ -373,22 +373,23 @@ public class testAuto extends LinearOpMode {
                 .waitSeconds(1)
                 .stopAndAdd(claw.closeClaw())
                 .waitSeconds(0.2)
-                .build();
-/*
+
+
 
                 //deposit sample 3
 
-                .stopAndAdd(lift.goTo(3000))
                 .stopAndAdd(horizontalExtendo.goToBack())
                 .turnTo(Math.toRadians(45))
-                .splineToConstantHeading(new Vector2d(-54, -54), Math.toRadians(45))
+                .splineToConstantHeading(new Vector2d(-53, -57), Math.toRadians(45))
+                .stopAndAdd(lift.goTo(3100))
                 .stopAndAdd(arm.armBackDeposit())
                 .stopAndAdd(pas.deposit())
                 .waitSeconds(2)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.2)
                 .stopAndAdd(arm.armTransfer())
-
+                .stopAndAdd(pas.intake())   .build();
+/*
                 //intake sample 4
                 .stopAndAdd(lift.goTo(0))
                 .turnTo(Math.toRadians(110))
