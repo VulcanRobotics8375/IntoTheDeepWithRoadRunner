@@ -204,11 +204,15 @@ public class MainOpmode extends OpModePipeline {
 
 
             case DEPOSITBACK:
-                if(gp1aClick) { //specimen deposit back
+                if(gp1aClick || gp1aholding) { //specimen deposit back
+                    gp1aholding=true;
+                    gp1bholding=false;
                     subsystems.depositBack(highBucket, claw);
                     telemetry.addData("Deposit", "BACK SPECIMEN");
                 }
-                if(gp1bClick){ //sample deposit back
+                if(gp1bClick || gp1bholding){ //sample deposit back
+                    gp1bholding=true;
+                    gp1aholding=false;
                     subsystems.depositBack(highBar, claw);
                     telemetry.addData("Deposit", "BACK SAMPLE");
 
@@ -217,15 +221,23 @@ public class MainOpmode extends OpModePipeline {
 
                 if(aClick){
                     robotState = RobotState.SAMPLEINTAKE;
+                    gp1bholding = false;
+                    gp1aholding = false;
                 }
                 else if(bClick){
                     robotState = RobotState.DEPOSITFRONT;
+                    gp1bholding = false;
+                    gp1aholding = false;
                 }
                 else if(xClick){
                     robotState = RobotState.SPECIMANINTAKE;
+                    gp1bholding = false;
+                    gp1aholding = false;
                 }
                 else if(yClick){
                     robotState = RobotState.TRANSFERPOS;
+                    gp1bholding = false;
+                    gp1aholding = false;
                 }
 
                 break;
