@@ -45,14 +45,14 @@ public class MainConfig extends RobotConfig {
     }
     
     public void depositFront(int height, boolean claw) {
-        intake.deposit(claw);
+        intake.depositFront(claw);
         lift2.setPos(height);
         arm.frontDeposit();
-        horizontalExtendo.goToBack();
+        horizontalExtendo.goToFront();
     }
 
     public void depositBack(int height, boolean claw) {
-        intake.deposit(claw);
+        intake.depositBack(claw);
         lift2.setPos(height);
         arm.back();
         horizontalExtendo.goToBack();

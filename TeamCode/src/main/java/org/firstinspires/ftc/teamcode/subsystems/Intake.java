@@ -87,8 +87,16 @@ public class Intake extends Subsystem {
         return Math.max(min, Math.min(max, value));
     }
 
-    public void deposit(boolean claw) {
+    public void depositBack(boolean claw) {
         clawRoll.setPosition(ROLL_SPEC_DEPO);
+        clawPitch.setPosition(PITCH_STRAIGHT);
+        if(claw) {
+            toggleClaw();
+        }
+    }
+
+    public void depositFront(boolean claw) {
+        clawRoll.setPosition(CLAW_NORMAL_POS);
         clawPitch.setPosition(PITCH_STRAIGHT);
         if(claw) {
             toggleClaw();
