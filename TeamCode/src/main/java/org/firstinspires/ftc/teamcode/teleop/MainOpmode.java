@@ -21,6 +21,8 @@ gamepad1 left bumper -> claw Spin to 90 degrees
 gamepad1 left trigger -> spin claw clockwise
 gamepad1 right trigger -> spin claw counterclockwise
 
+gamepad1 dpad down -> go to hang position
+
 gamepad2 a button -> sample intake position
 gamepad2 x button -> specimen intake position
 gamepad2 y button -> deposit back
@@ -39,7 +41,6 @@ public class MainOpmode extends OpModePipeline {
     MainConfig subsystems = new MainConfig();
 
     private RobotState robotState = RobotState.TRANSFERPOS;  //set first state as transfer
-    private Switch stateSwitch = new Switch();
 
     //set lift positions
     private final int highBucket = 3000; //set location of the high bucket
