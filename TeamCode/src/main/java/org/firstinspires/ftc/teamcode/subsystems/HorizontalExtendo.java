@@ -17,10 +17,10 @@ public class HorizontalExtendo extends Subsystem {
 
     // Define servo limits
     private final double fullRetractLeft = 0.9208;
-    private final double fullExtendLeft = 0.63614;//needs fixing
+    private final double fullExtendLeft = 0.33614;
 
     private final double fullRetractRight = 0.3359;
-    private final double fullExtendRight = 0.6206; //needs fixing
+    private final double fullExtendRight = 0.9206;
 
     // Initialize current positions
     private double leftServoPos = fullRetractLeft;

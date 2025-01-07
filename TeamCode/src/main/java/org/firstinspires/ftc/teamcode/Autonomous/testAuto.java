@@ -98,13 +98,13 @@ public class testAuto extends LinearOpMode {
     public class HorizontalExtendo {
         private Servo linkServoLeft;
         private Servo linkServoRight;
-        private final double fullRetractLeft = 0.69;
-        private final double fullExtendLeft = 0.044864;
-        private final double midLeft = 0.327568;
 
-        private final double fullRetractRight = 0.37;
-        private final double fullExtendRight = 0.95513608;
-        private final double midRight = 0.9756804;
+        private final double fullRetractLeft = 0.9208;
+        private final double fullExtendLeft = 0.33614;
+
+        private final double fullRetractRight = 0.3359;
+        private final double fullExtendRight = 0.9206;
+
 
         public HorizontalExtendo(HardwareMap hardwareMap) {
             linkServoLeft = hardwareMap.get(Servo.class, "linkServoLeft");
@@ -134,18 +134,6 @@ public class testAuto extends LinearOpMode {
         }
         public Action goToBack() {
             return new goToBack();
-        }
-
-        public class goToMid implements Action {
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                linkServoLeft.setPosition(midLeft);
-                linkServoRight.setPosition(midRight);
-                return false;
-            }
-        }
-        public Action goToMid() {
-            return new goToMid();
         }
 
     }
