@@ -16,32 +16,49 @@ public class MeepMeepTesting {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(5, -63, Math.toRadians(90)))
-                        .lineToY(-38)
-                        .strafeToLinearHeading(new Vector2d(25.7,-40),Math.toRadians(30))
-                        .turnTo(Math.toRadians(-30))
-                .strafeToLinearHeading(new Vector2d(35.7,-40),Math.toRadians(30))
-                .turnTo(Math.toRadians(-30))
-                .strafeToLinearHeading(new Vector2d(44.7,-40),Math.toRadians(30))
-                .turnTo(Math.toRadians(-30))
+                //deposit preload
+                .lineToY(-38)
 
+                //give first sample to human
+                .strafeToLinearHeading(new Vector2d(25.7,-40),Math.toRadians(30))
+                .turnTo(Math.toRadians(-45))
+
+                //give second sample to human
+                .strafeToLinearHeading(new Vector2d(35.7,-40),Math.toRadians(30))
+                .turnTo(Math.toRadians(-45))
+
+                //give third sample to human
+                .strafeToLinearHeading(new Vector2d(44.7,-40),Math.toRadians(30))
+                .turnTo(Math.toRadians(-45))
+
+                //pick up second speciman on wall
                 .strafeToLinearHeading(new Vector2d(35,-50),Math.toRadians(-90))
 
-                .strafeTo(new Vector2d(5,-32))
+                //deposit second speciman
+                .strafeTo(new Vector2d(5,-37))
 
+                //pick up third speciman on floor
                 .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
-                .strafeToLinearHeading(new Vector2d(5,-32),Math.toRadians(-90))
 
+                //deposit third speciman
+                .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
+
+                //pick up fourth speciman on floor
                 .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
-                .strafeToLinearHeading(new Vector2d(5,-32),Math.toRadians(-90))
 
+                //deposit fourth speciman
+                .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
+
+                //pick up fifth speciman
                 .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
-                .strafeToLinearHeading(new Vector2d(5,-32),Math.toRadians(-90))
 
-
+                //deposit fifth speciman
+                .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
 
 
 
                 .build());
+
 
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)

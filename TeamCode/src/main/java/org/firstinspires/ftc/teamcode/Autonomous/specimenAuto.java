@@ -223,6 +223,7 @@ public class specimenAuto extends LinearOpMode {
 
         private static final double PITCH_STRAIGHT = 0;
         private static final double PITCH_SAMPLE = 0.687;
+        private static final double PITCH_SPECIMAN = 0.5;
 
 
         public PitchandSpin(HardwareMap hardwareMap) {
@@ -257,6 +258,20 @@ public class specimenAuto extends LinearOpMode {
         public Action intake() {
             return new Intake();
         }
+
+        public class SpecIntake implements Action {
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                clawPitch.setPosition(PITCH_SPECIMAN);
+
+                clawSpin.setPosition(CLAW_NORMAL_POS);
+                return false;
+            }
+        }
+        public Action specintake() {
+            return new SpecIntake();
+        }
     }
 
     public class Claw {
@@ -288,6 +303,38 @@ public class specimenAuto extends LinearOpMode {
             return new OpenClaw();
         }
     }
+
+    public class Sweeper {
+        private Servo sweeper;
+
+        public Sweeper(HardwareMap hardwareMap) {
+            sweeper = hardwareMap.get(Servo.class, "sweeper");
+        }
+
+        public class SweeperUp implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                sweeper.setPosition(0.27);
+                return false;
+            }
+        }
+        public Action sweeperUp() {
+            return new SweeperUp();
+        }
+
+        public class SweeperDown implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                sweeper.setPosition(0.5);
+                return false;
+            }
+        }
+        public Action sweeperDown() {
+            return new SweeperDown();
+        }
+    }
+
+
     //end of subsystem classes
 
 
@@ -303,14 +350,26 @@ public class specimenAuto extends LinearOpMode {
         Lift lift = new Lift(hardwareMap);
         Arm arm = new Arm(hardwareMap);
         PitchandSpin pas = new PitchandSpin(hardwareMap);
+        Sweeper sweeper = new Sweeper(hardwareMap);
 
 
         Action action1 = drive.actionBuilder(initialPose)
 
                 //deposit preload
+                .stopAndAdd(lift.goTo(2600))
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .stopAndAdd(arm.armIntake())
+                .stopAndAdd(pas.intake())
                 .lineToY(-38)
+                .waitSeconds(1)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.5)
 
                 //give first sample to human
+                .stopAndAdd(lift.goTo(0))
+                .stopAndAdd(horizontalExtendo.goToBack())
+                .stopAndAdd(arm.armTransfer())
+                .stopAndAdd(sweeper.sweeperDown())
                 .strafeToLinearHeading(new Vector2d(25.7,-40),Math.toRadians(30))
                 .turnTo(Math.toRadians(-45))
 
@@ -321,31 +380,101 @@ public class specimenAuto extends LinearOpMode {
                 //give third sample to human
                 .strafeToLinearHeading(new Vector2d(44.7,-40),Math.toRadians(30))
                 .turnTo(Math.toRadians(-45))
+                .stopAndAdd(sweeper.sweeperUp())
+
 
                 //pick up second speciman on wall
+                .stopAndAdd(lift.goTo(1000))
+                .stopAndAdd(arm.armIntake())
+                .stopAndAdd(pas.deposit())
                 .strafeToLinearHeading(new Vector2d(35,-50),Math.toRadians(-90))
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .waitSeconds(1)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(0.3)
+                .stopAndAdd(lift.goTo(2100))
+                .stopAndAdd(arm.armTransfer())
+                .stopAndAdd(horizontalExtendo.goToBack())
+
+
 
                 //deposit second speciman
                 .strafeTo(new Vector2d(5,-37))
+                .stopAndAdd(arm.armBackDeposit())
+                .stopAndAdd(lift.goTo(1800))
+                .waitSeconds(0.5)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.5)
+                .stopAndAdd(lift.goTo(0))
 
                 //pick up third speciman on floor
                 .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .stopAndAdd(arm.armIntake())
+                .stopAndAdd(pas.specintake())
+                .waitSeconds(0.5)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(0.5)
+                .stopAndAdd(arm.armBackDeposit())
+                .stopAndAdd(pas.deposit())
+                .stopAndAdd(lift.goTo(2100))
+
+
 
                 //deposit third speciman
                 .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
+                .stopAndAdd(lift.goTo(1800))
+                .waitSeconds(0.5)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.5)
+                .stopAndAdd(lift.goTo(0))
+
+
 
                 //pick up fourth speciman on floor
                 .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .stopAndAdd(arm.armIntake())
+                .stopAndAdd(pas.specintake())
+                .waitSeconds(0.5)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(0.5)
+                .stopAndAdd(arm.armBackDeposit())
+                .stopAndAdd(pas.deposit())
+                .stopAndAdd(lift.goTo(2100))
+
 
                 //deposit fourth speciman
                 .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
+                .stopAndAdd(lift.goTo(1800))
+                .waitSeconds(0.5)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.5)
+                .stopAndAdd(lift.goTo(0))
 
                 //pick up fifth speciman
                 .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .stopAndAdd(arm.armIntake())
+                .stopAndAdd(pas.specintake())
+                .waitSeconds(0.5)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(0.5)
+                .stopAndAdd(arm.armBackDeposit())
+                .stopAndAdd(pas.deposit())
+                .stopAndAdd(lift.goTo(2100))
 
                 //deposit fifth speciman
                 .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
+                .stopAndAdd(lift.goTo(1800))
+                .waitSeconds(0.5)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.5)
+                .stopAndAdd(lift.goTo(0))
 
+                //park
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .strafeToLinearHeading(new Vector2d(28.2,-54),Math.toRadians(-45))
 
 
                 .build();
@@ -356,6 +485,7 @@ public class specimenAuto extends LinearOpMode {
         Actions.runBlocking(arm.armTransfer());
         Actions.runBlocking(pas.intake());
         Actions.runBlocking(horizontalExtendo.goToBack());
+        Actions.runBlocking(sweeper.sweeperUp());
 
 
 
