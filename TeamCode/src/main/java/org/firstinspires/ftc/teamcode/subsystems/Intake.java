@@ -75,6 +75,7 @@ public class Intake extends Subsystem {
             clawRoll.setPosition(CLAW_NORMAL_POS);
         }
         claw.setPosition(CLAW_OPEN_POSITION);
+        clawOpen = true;
 
         // Set Claw Pitch for Sample Intake
         clawPitch.setPosition(PITCH_SAMPLE);
