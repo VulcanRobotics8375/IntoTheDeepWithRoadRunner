@@ -37,6 +37,13 @@ public class MainConfig extends RobotConfig {
         intake.sampleIntake(clawRollIncCCW, clawRollIncCW,  claw90degTurn, claw);
     }
 
+    public void sampleIntakeReady(double clawRollIncCCW, double clawRollIncCW, boolean claw90degTurn) {
+        lift2.setPos(0);//down
+        horizontalExtendo.goToFront();
+        arm.sampleIntakeHover();
+        intake.sampleIntakeReady(clawRollIncCCW, clawRollIncCW,  claw90degTurn);
+    }
+
     public void specimenIntake(boolean claw) {
         intake.specimenIntake(claw);
         lift2.setPos(0);//down

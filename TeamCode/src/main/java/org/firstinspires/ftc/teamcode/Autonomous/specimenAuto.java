@@ -314,7 +314,7 @@ public class specimenAuto extends LinearOpMode {
         public class SweeperUp implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                sweeper.setPosition(0.27);
+                sweeper.setPosition(0.97);
                 return false;
             }
         }
@@ -325,7 +325,7 @@ public class specimenAuto extends LinearOpMode {
         public class SweeperDown implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                sweeper.setPosition(0.5);
+                sweeper.setPosition(0.359);
                 return false;
             }
         }

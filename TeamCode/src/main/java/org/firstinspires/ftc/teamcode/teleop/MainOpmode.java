@@ -69,9 +69,12 @@ public class MainOpmode extends OpModePipeline {
     private boolean gp1bClick = false;
     private boolean gp1hangPrev = false;
     private boolean gp1hangClick = false;
+    private boolean exitIntake = false;
+    private boolean exitIntakePrev = false;
 
       boolean gp1bholding = false;
     boolean gp1aholding = false;
+    boolean intakeHolding = false;
 
 
     @Override
@@ -116,6 +119,9 @@ public class MainOpmode extends OpModePipeline {
         gp1hangClick = gamepad1.dpad_down && gp1hangPrev;
         gp1hangPrev = gamepad1.dpad_down;
 
+        exitIntake = gamepad1.dpad_right && exitIntakePrev;
+        exitIntakePrev = gamepad1.dpad_right;
+
 
 
         //assign buttons for claw on init
@@ -133,7 +139,7 @@ public class MainOpmode extends OpModePipeline {
                 telemetry.addData("state", "SPECIMAN INTAKE");
 
                 if(aClick){
-                    robotState = RobotState.SAMPLEINTAKE;
+                    robotState = RobotState.SAMPLEINTAKEREADY;
                 }
                 else if(bClick){
                     robotState = RobotState.DEPOSITFRONT;
@@ -146,10 +152,15 @@ public class MainOpmode extends OpModePipeline {
                 }
                 break;
 
-            case SAMPLEINTAKE: 
-                subsystems.sampleIntake(clawRollIncCCW, clawRollIncCW,  claw90degTurn, claw); //manualControl code for intaking samples
-                telemetry.addData("state", "SAMPLE INTAKE");
 
+            case SAMPLEINTAKEREADY:
+
+                subsystems.sampleIntakeReady(clawRollIncCCW, clawRollIncCW,  claw90degTurn);
+
+
+                if(claw){
+                    robotState = RobotState.SAMPLEINTAKE;
+                }
                 if(aClick){
                     robotState = RobotState.TRANSFERPOS;
                 }
@@ -162,6 +173,20 @@ public class MainOpmode extends OpModePipeline {
                 else if(yClick){
                     robotState = RobotState.DEPOSITBACK;
                 }
+
+                break;
+
+            case SAMPLEINTAKE:
+                    subsystems.sampleIntake(clawRollIncCCW, clawRollIncCW,  claw90degTurn,claw);
+                if(exitIntake){
+                    robotState = RobotState.SAMPLEINTAKEREADY;
+                }
+                else if(aClick){
+                    robotState = RobotState.TRANSFERPOS;
+                }
+
+                telemetry.addData("state", "SAMPLE INTAKE");
+
                 break;
 
             case DEPOSITFRONT:
@@ -181,7 +206,7 @@ public class MainOpmode extends OpModePipeline {
                 telemetry.addData("state", "DEPOSITFRONT");
 
                 if(aClick){
-                    robotState = RobotState.SAMPLEINTAKE;
+                    robotState = RobotState.SAMPLEINTAKEREADY;
                     gp1bholding = false;
                     gp1aholding = false;
                 }
@@ -221,7 +246,7 @@ public class MainOpmode extends OpModePipeline {
                 telemetry.addData("state", "DEPOSITBACK");
 
                 if(aClick){
-                    robotState = RobotState.SAMPLEINTAKE;
+                    robotState = RobotState.SAMPLEINTAKEREADY;
                     gp1bholding = false;
                     gp1aholding = false;
                 }
@@ -248,7 +273,7 @@ public class MainOpmode extends OpModePipeline {
                 subsystems.transferPos();
 
                 if(aClick){
-                    robotState = RobotState.SAMPLEINTAKE;
+                    robotState = RobotState.SAMPLEINTAKEREADY;
                 }
                 else if(bClick){
                     robotState = RobotState.DEPOSITFRONT;
@@ -282,6 +307,7 @@ public class MainOpmode extends OpModePipeline {
     public enum RobotState {
         TRANSFERPOS,
         SAMPLEINTAKE,
+        SAMPLEINTAKEREADY,
         SPECIMANINTAKE,
         DEPOSITFRONT,
         DEPOSITBACK,

@@ -17,18 +17,20 @@ public class Arm extends Subsystem {
     private ArmPos armPos = ArmPos.TRANSFER;
 
 
-    private final double LEFT_FRONT_POSITION = 0.2778;
-    private final double RIGHT_FRONT_POSITION = 0.755;
+    private final double LEFT_FRONT_POSITION = 0.2683;
+    private final double RIGHT_FRONT_POSITION = 0.765;
 
-    private final double LEFT_FRONT_DEPO_POSITION = 0.3761;
-    private final double RIGHT_FRONT_DEPO_POSITION = 0.6561;
+    private final double LEFT_FRONT_DEPO_POSITION = 0.39;
+    private final double RIGHT_FRONT_DEPO_POSITION = 0.6378;
 
-    private final double LEFT_BACK_DEPOSIT_POSITION = 0.7067;
-    private final double RIGHT_BACK_DEPOSIT_POSITION = 0.3233;
+    private final double LEFT_BACK_DEPOSIT_POSITION = 0.7467;
+    private final double RIGHT_BACK_DEPOSIT_POSITION = 0.2833;
 
     private final double LEFT_TRANSFER_POSITION = 0.5339;
     private final double RIGHT_TRANSFER_POSITION = 0.5;
 
+    private final double SAMPLEINTAKEHOVERLEFT = 0.2889;
+    private final double SAMPLEINTAKEHOVERRIGHT = 0.7439;
 
     @Override
     public void init() {
@@ -44,6 +46,11 @@ public class Arm extends Subsystem {
 
     public void frontDeposit() {
         armPos = ArmPos.FRONT_DEPOSIT;
+        setPos();
+    }
+
+    public void sampleIntakeHover(){
+        armPos = ArmPos.SAMPLE_INTAKE_HOVER;
         setPos();
     }
 
@@ -87,6 +94,11 @@ public class Arm extends Subsystem {
                 armServoLeft.setPosition(LEFT_BACK_DEPOSIT_POSITION);
                 armServoRight.setPosition(RIGHT_BACK_DEPOSIT_POSITION);
                 break;
+            case SAMPLE_INTAKE_HOVER:
+                //set servos to 0 degrees
+                armServoLeft.setPosition(SAMPLEINTAKEHOVERLEFT);
+                armServoRight.setPosition(SAMPLEINTAKEHOVERRIGHT);
+                break;
         }
     }
 
@@ -108,7 +120,8 @@ public class Arm extends Subsystem {
         FRONT_INTAKE,
         BACK_DEP,
         TRANSFER,
-        FRONT_DEPOSIT
+        FRONT_DEPOSIT,
+        SAMPLE_INTAKE_HOVER
     }
 
 }

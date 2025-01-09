@@ -17,7 +17,7 @@ public class Intake extends Subsystem {
     private boolean clawOpen = false;
 
     private static final double CLAW_OPEN_POSITION = 0.5;
-    private static final double CLAW_CLOSED_POSITION = 0.32;
+    private static final double CLAW_CLOSED_POSITION = 0.27;
 
     private static final double ROLL_90_POSITION = 0.6173;
     private static final double CLAW_NORMAL_POS = 0.3458;
@@ -56,6 +56,26 @@ public class Intake extends Subsystem {
         if(rightBumper) {
             toggleClaw();
         }
+        // Set Claw Pitch for Sample Intake
+        clawPitch.setPosition(PITCH_SAMPLE);
+    }
+
+
+    public void sampleIntakeReady(double leftTrigger, double rightTrigger, boolean leftBumper) {
+
+        // Roll Adjustment Logic
+        double currentRollPosition = clawRoll.getPosition(); // Get the current roll position
+        double rollAdjustment = -rightTrigger * 0.01 + leftTrigger * 0.01;
+        clawRoll.setPosition(clamp(currentRollPosition + rollAdjustment, ROLL_MAX_POS, ROLL_SPEC_DEPO)); // Adjust claw roll position
+
+        if(leftBumper && currentRollPosition<0.4){
+            clawRoll.setPosition(ROLL_90_POSITION);
+        }
+        else if(leftBumper && currentRollPosition >= 0.4){
+            clawRoll.setPosition(CLAW_NORMAL_POS);
+        }
+        claw.setPosition(CLAW_OPEN_POSITION);
+
         // Set Claw Pitch for Sample Intake
         clawPitch.setPosition(PITCH_SAMPLE);
     }
