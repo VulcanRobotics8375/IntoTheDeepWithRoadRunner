@@ -157,6 +157,7 @@ public class MainOpmode extends OpModePipeline {
 
                 subsystems.sampleIntakeReady(clawRollIncCCW, clawRollIncCW,  claw90degTurn);
 
+                telemetry.addData("state", "SAMPLE INTAKE HOVER");
 
                 if(claw){
                     robotState = RobotState.SAMPLEINTAKE;
