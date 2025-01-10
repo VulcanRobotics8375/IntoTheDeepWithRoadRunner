@@ -17,25 +17,29 @@ public class MeepMeepTesting {
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(5, -63, Math.toRadians(90)))
                 //deposit preload
-                .lineToY(-38)
+                .lineToY(-57)
 
                 //give first sample to human
-                .strafeToLinearHeading(new Vector2d(25.7,-40),Math.toRadians(30))
-                .turnTo(Math.toRadians(-45))
+                .splineTo(new Vector2d(37.6,-32.6),Math.toRadians(90))
+
+                .splineToConstantHeading(new Vector2d(44,-14),Math.toRadians(90))
+                .lineToY(-55).setTangent(Math.toRadians(90))
 
                 //give second sample to human
-                .strafeToLinearHeading(new Vector2d(35.7,-40),Math.toRadians(30))
-                .turnTo(Math.toRadians(-45))
-
+                .splineToConstantHeading(new Vector2d(48,-14),Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(50,-14),Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(51,-55),Math.toRadians(-90))
                 //give third sample to human
-                .strafeToLinearHeading(new Vector2d(44.7,-40),Math.toRadians(30))
-                .turnTo(Math.toRadians(-45))
+               /*
 
-                //pick up second speciman on wall
-                .strafeToLinearHeading(new Vector2d(35,-50),Math.toRadians(-90))
+                //intake second speciman
+                .strafeToLinearHeading(new Vector2d(35,-46),Math.toRadians(-90))
+
+
 
                 //deposit second speciman
-                .strafeTo(new Vector2d(5,-37))
+                .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
+
 
                 //pick up third speciman on floor
                 .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
@@ -55,7 +59,8 @@ public class MeepMeepTesting {
                 //deposit fifth speciman
                 .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
 
-
+                .strafeToLinearHeading(new Vector2d(28.2,-54),Math.toRadians(-45))
+*/
 
                 .build());
 
