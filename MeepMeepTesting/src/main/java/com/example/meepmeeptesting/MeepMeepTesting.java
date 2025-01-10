@@ -20,25 +20,28 @@ public class MeepMeepTesting {
                 .lineToY(-57)
 
                 //give first sample to human
-                .splineTo(new Vector2d(37.6,-32.6),Math.toRadians(90))
+                .splineTo(new Vector2d(33.6,-32.6),Math.toRadians(90))
 
                 .splineToConstantHeading(new Vector2d(44,-14),Math.toRadians(90))
                 .lineToY(-55).setTangent(Math.toRadians(90))
 
                 //give second sample to human
-                .splineToConstantHeading(new Vector2d(48,-14),Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(50,-14),Math.toRadians(-90))
+
+                        .splineToSplineHeading(new Pose2d(48,-14,Math.toRadians(-90)),Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(51,-55),Math.toRadians(-90))
+
                 //give third sample to human
-               /*
+
+                .splineToConstantHeading(new Vector2d(60,-15),Math.toRadians(-90))
+                                .lineToY(-55)
+
+
 
                 //intake second speciman
-                .strafeToLinearHeading(new Vector2d(35,-46),Math.toRadians(-90))
-
-
 
                 //deposit second speciman
-                .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
+
+               .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
 
 
                 //pick up third speciman on floor
@@ -60,7 +63,7 @@ public class MeepMeepTesting {
                 .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
 
                 .strafeToLinearHeading(new Vector2d(28.2,-54),Math.toRadians(-45))
-*/
+
 
                 .build());
 

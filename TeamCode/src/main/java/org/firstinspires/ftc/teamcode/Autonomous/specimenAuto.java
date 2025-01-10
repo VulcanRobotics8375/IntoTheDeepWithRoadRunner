@@ -125,6 +125,18 @@ public class specimenAuto extends LinearOpMode {
             return new goToFront();
         }
 
+        public class goToMid implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                linkServoLeft.setPosition(midPosLeft);
+                linkServoRight.setPosition(midPosRight);
+                return false;
+            }
+        }
+        public Action mid() {
+            return new goToMid();
+        }
+
         public class goToBack implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
@@ -330,116 +342,59 @@ public class specimenAuto extends LinearOpMode {
                 .waitSeconds(0.3)
                 .stopAndAdd(lift.goTo(0))
                 .stopAndAdd(horizontalExtendo.goToBack())
-                .stopAndAdd(pas.intake())
-                .stopAndAdd(lift.goTo(0))
+                .stopAndAdd(pas.specintake())
 
 
                 //give first sample to human
-                .splineTo(new Vector2d(44,-14),Math.toRadians(90))
+                .splineTo(new Vector2d(33.6,-32.6),Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(44,-14),Math.toRadians(90))
                 .lineToY(-55).setTangent(Math.toRadians(90))
 
                 //give second sample to human
-                .splineToConstantHeading(new Vector2d(48,-14),Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(50,-14),Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(48,-14,Math.toRadians(-90)),Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(51,-55),Math.toRadians(-90))
 
                 //give third sample to human
+                .splineToConstantHeading(new Vector2d(60,-15),Math.toRadians(-90))
+                .lineToY(-55)
 
-                /*
-
-
-
-              //pick up second speciman on wall
-              .stopAndAdd(arm.armIntake())
-              .stopAndAdd(pa())
-               .strafeToLinearHeading(new Vector2d(35,-46),Math.toRadians(-90))
-              .stopAndAdd(horizontalExtendo.goToFront())
+              //pick up second speciman on ground
+              .stopAndAdd(horizontalExtendo.mid())
               .waitSeconds(1)
               .stopAndAdd(claw.closeClaw())
               .waitSeconds(0.3)
-              .stopAndAdd(lift.goTo(2100))
-              .stopAndAdd(arm.armTransfer())
+              .stopAndAdd(arm.armBackDeposit())
+                .stopAndAdd(pas.deposit())
               .stopAndAdd(horizontalExtendo.goToBack())
 
+/*
+
+                //deposit second speciman
+
+               .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
+
+                //pick up third speciman on floor
+                .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
+
+                //deposit third speciman
+                .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
+
+                //pick up fourth speciman on floor
+                .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
+
+                //deposit fourth speciman
+                .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
+
+                //pick up fifth speciman
+                .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
+
+                //deposit fifth speciman
+                .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
+
+                //park
+                .strafeToLinearHeading(new Vector2d(28.2,-54),Math.toRadians(-45))
 
 
-              //deposit second speciman
-              .strafeTo(new Vector2d(5,-37))
-              .stopAndAdd(arm.armBackDeposit())
-              .stopAndAdd(lift.goTo(1800))
-              .waitSeconds(0.5)
-              .stopAndAdd(claw.openClaw())
-              .waitSeconds(0.5)
-              .stopAndAdd(lift.goTo(0))
-
-              //pick up third speciman on floor
-              .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
-              .stopAndAdd(horizontalExtendo.goToFront())
-              .stopAndAdd(arm.armIntake())
-              .stopAndAdd(pas.specintake())
-              .waitSeconds(0.5)
-              .stopAndAdd(claw.closeClaw())
-              .waitSeconds(0.5)
-              .stopAndAdd(arm.armBackDeposit())
-              .stopAndAdd(pas.deposit())
-              .stopAndAdd(lift.goTo(2100))
-
-
-
-              //deposit third speciman
-              .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
-              .stopAndAdd(lift.goTo(1800))
-              .waitSeconds(0.5)
-              .stopAndAdd(claw.openClaw())
-              .waitSeconds(0.5)
-              .stopAndAdd(lift.goTo(0))
-
-
-
-              //pick up fourth speciman on floor
-              .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
-              .stopAndAdd(horizontalExtendo.goToFront())
-              .stopAndAdd(arm.armIntake())
-              .stopAndAdd(pas.specintake())
-              .waitSeconds(0.5)
-              .stopAndAdd(claw.closeClaw())
-              .waitSeconds(0.5)
-              .stopAndAdd(arm.armBackDeposit())
-              .stopAndAdd(pas.deposit())
-              .stopAndAdd(lift.goTo(2100))
-
-
-              //deposit fourth speciman
-              .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
-              .stopAndAdd(lift.goTo(1800))
-              .waitSeconds(0.5)
-              .stopAndAdd(claw.openClaw())
-              .waitSeconds(0.5)
-              .stopAndAdd(lift.goTo(0))
-
-              //pick up fifth speciman
-              .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
-              .stopAndAdd(horizontalExtendo.goToFront())
-              .stopAndAdd(arm.armIntake())
-              .stopAndAdd(pas.specintake())
-              .waitSeconds(0.5)
-              .stopAndAdd(claw.closeClaw())
-              .waitSeconds(0.5)
-              .stopAndAdd(arm.armBackDeposit())
-              .stopAndAdd(pas.deposit())
-              .stopAndAdd(lift.goTo(2100))
-
-              //deposit fifth speciman
-              .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
-              .stopAndAdd(lift.goTo(1800))
-              .waitSeconds(0.5)
-              .stopAndAdd(claw.openClaw())
-              .waitSeconds(0.5)
-              .stopAndAdd(lift.goTo(0))
-
-              //park
-              .stopAndAdd(horizontalExtendo.goToFront())
-              .strafeToLinearHeading(new Vector2d(28.2,-54),Math.toRadians(-45))
 */
 
                 .build();
