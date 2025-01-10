@@ -346,8 +346,7 @@ public class specimenAuto extends LinearOpMode {
 
 
                 //give first sample to human
-                .splineTo(new Vector2d(33.6,-32.6),Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(44,-14),Math.toRadians(90))
+                .splineTo(new Vector2d(40,-14),Math.toRadians(90))
                 .lineToY(-55).setTangent(Math.toRadians(90))
 
                 //give second sample to human
@@ -367,12 +366,12 @@ public class specimenAuto extends LinearOpMode {
                 .stopAndAdd(pas.deposit())
               .stopAndAdd(horizontalExtendo.goToBack())
 
-/*
+
 
                 //deposit second speciman
 
                .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
-
+/*
                 //pick up third speciman on floor
                 .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
 

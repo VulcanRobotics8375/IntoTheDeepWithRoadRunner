@@ -20,9 +20,7 @@ public class MeepMeepTesting {
                 .lineToY(-57)
 
                 //give first sample to human
-                .splineTo(new Vector2d(33.6,-32.6),Math.toRadians(90))
-
-                .splineToConstantHeading(new Vector2d(44,-14),Math.toRadians(90))
+                .splineTo(new Vector2d(40,-14),Math.toRadians(90))
                 .lineToY(-55).setTangent(Math.toRadians(90))
 
                 //give second sample to human
