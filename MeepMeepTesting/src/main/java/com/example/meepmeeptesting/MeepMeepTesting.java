@@ -12,34 +12,42 @@ public class MeepMeepTesting {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 11.3)
+                .setConstraints(50, 50, Math.toRadians(180), Math.toRadians(180), 11.3)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(5, -63, Math.toRadians(90)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(5, -63, Math.toRadians(-90)))
                 //deposit preload
-                .lineToY(-57)
+                .splineToConstantHeading(new Vector2d(5,-35),Math.toRadians(-35))
+                .splineToConstantHeading(new Vector2d(35.7,-27.2),Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(35.7,-16),Math.toRadians(90))
+
+              .splineToConstantHeading(new Vector2d(46.9,-16),Math.toRadians(-90))
+
 
                 //give first sample to human
-                .splineTo(new Vector2d(40,-14),Math.toRadians(90))
-                .lineToY(-55).setTangent(Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(46.9,-52),Math.toRadians(90))
 
                 //give second sample to human
+                .splineToConstantHeading(new Vector2d(54,-16),Math.toRadians(-25))
+                .splineToConstantHeading(new Vector2d(57,-25),Math.toRadians(-90))
 
-                        .splineToSplineHeading(new Pose2d(48,-14,Math.toRadians(-90)),Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(51,-55),Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(57,-52),Math.toRadians(-90))
 
                 //give third sample to human
 
-                .splineToConstantHeading(new Vector2d(60,-15),Math.toRadians(-90))
-                                .lineToY(-55)
+                .splineToConstantHeading(new Vector2d(57,-16),Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(61,-25),Math.toRadians(-90))
+
+                .splineToConstantHeading(new Vector2d(54,-52),Math.toRadians(-180))
 
 
 
                 //intake second speciman
 
-                //deposit second speciman
+                //done on the way
 
-               .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
+                //deposit second speciman
+                .splineToConstantHeading(new Vector2d(3,-35),Math.toRadians(90))
 
 
                 //pick up third speciman on floor
@@ -61,7 +69,6 @@ public class MeepMeepTesting {
                 .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
 
                 .strafeToLinearHeading(new Vector2d(28.2,-54),Math.toRadians(-45))
-
 
                 .build());
 

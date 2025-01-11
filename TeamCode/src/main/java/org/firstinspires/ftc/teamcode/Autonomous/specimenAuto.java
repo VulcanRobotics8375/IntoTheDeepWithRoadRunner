@@ -315,7 +315,7 @@ public class specimenAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
         //set starting position
-        Pose2d initialPose =new Pose2d(5, -63, Math.toRadians(90));
+        Pose2d initialPose =new Pose2d(5, -63, Math.toRadians(-90));
 
         //initialize subsystems
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
@@ -331,47 +331,61 @@ public class specimenAuto extends LinearOpMode {
                 //deposit preload
                 .stopAndAdd(lift.goTo(2460))
                 .waitSeconds(0.6)
-                .stopAndAdd(arm.armIntake())
+                .stopAndAdd(arm.armBackDeposit())
                 .stopAndAdd(pas.deposit())
-                .lineToY(-57)
-                .stopAndAdd(horizontalExtendo.goToFront())
+                .splineToConstantHeading(new Vector2d(5,-35),Math.toRadians(-35))
                 .waitSeconds(0.8)
                 .stopAndAdd(lift.goTo(1200))
                 .waitSeconds(0.5)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.3)
                 .stopAndAdd(lift.goTo(0))
-                .stopAndAdd(horizontalExtendo.goToBack())
-                .stopAndAdd(pas.specintake())
+                .stopAndAdd(arm.armIntake())
+
+                //deposit preload
+                .splineToConstantHeading(new Vector2d(35.7,-27.2),Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(35.7,-16),Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(46.9,-16),Math.toRadians(-90))
 
 
                 //give first sample to human
-                .splineTo(new Vector2d(40,-14),Math.toRadians(90))
-                .lineToY(-55).setTangent(Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(46.9,-52),Math.toRadians(90))
 
                 //give second sample to human
-                .splineToSplineHeading(new Pose2d(48,-14,Math.toRadians(-90)),Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(51,-55),Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(54,-16),Math.toRadians(-25))
+                .splineToConstantHeading(new Vector2d(57,-25),Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(57,-52),Math.toRadians(-90))
 
                 //give third sample to human
-                .splineToConstantHeading(new Vector2d(60,-15),Math.toRadians(-90))
-                .lineToY(-55)
 
-              //pick up second speciman on ground
-              .stopAndAdd(horizontalExtendo.mid())
-              .waitSeconds(1)
-              .stopAndAdd(claw.closeClaw())
-              .waitSeconds(0.3)
-              .stopAndAdd(arm.armBackDeposit())
-                .stopAndAdd(pas.deposit())
-              .stopAndAdd(horizontalExtendo.goToBack())
+                .splineToConstantHeading(new Vector2d(57,-16),Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(61,-25),Math.toRadians(-90))
+                .stopAndAdd(lift.goTo(1000))
+                .splineToConstantHeading(new Vector2d(54,-52),Math.toRadians(-180))
 
+
+
+                //intake second speciman
+
+                //done on the way
+                .waitSeconds(1)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(0.4)
+                .stopAndAdd(arm.armBackDeposit())
+                .stopAndAdd(lift.goTo(2000))
 
 
                 //deposit second speciman
+                .splineToConstantHeading(new Vector2d(3,-35),Math.toRadians(90))
+                .stopAndAdd(lift.goTo(1500))
+                .waitSeconds(0.5)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.5)
+                .stopAndAdd(lift.goTo(0))
 
-               .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
-/*
+
+
+
                 //pick up third speciman on floor
                 .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
 
@@ -390,11 +404,7 @@ public class specimenAuto extends LinearOpMode {
                 //deposit fifth speciman
                 .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
 
-                //park
                 .strafeToLinearHeading(new Vector2d(28.2,-54),Math.toRadians(-45))
-
-
-*/
 
                 .build();
 
