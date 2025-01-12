@@ -242,7 +242,7 @@ public class MainOpmode extends OpModePipeline {
 
             case SPECIMENDEPO:
 
-                subsystems.specDepositFrontMove(highBar, claw);
+                subsystems.specDepositFrontMove(highBar, claw); // front intake position
 
                 telemetry.addData("Deposit", "FRONT SPECIMEN");
                 if(exitIntake){

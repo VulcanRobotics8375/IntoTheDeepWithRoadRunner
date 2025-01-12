@@ -16,10 +16,11 @@ public class Arm extends Subsystem {
 
     private ArmPos armPos = ArmPos.TRANSFER;
 
-
+    // can try to be used for spec front depo move
     private final double LEFT_FRONT_POSITION = 0.2683;
     private final double RIGHT_FRONT_POSITION = 0.765;
 
+    // used for spec front depo
     private final double LEFT_FRONT_DEPO_POSITION = 0.39;
     private final double RIGHT_FRONT_DEPO_POSITION = 0.6378;
 
@@ -29,11 +30,10 @@ public class Arm extends Subsystem {
     private final double LEFT_TRANSFER_POSITION = 0.5339;
     private final double RIGHT_TRANSFER_POSITION = 0.5;
 
+    // can try to be used for spec front depo move
     private final double SAMPLEINTAKEHOVERLEFT = 0.2889;
     private final double SAMPLEINTAKEHOVERRIGHT = 0.7439;
 
-    private final double LEFTSPECDEPO = 0.8167;
-    private final double RIGHTSPECDEPO = 0.2156;
 
     @Override
     public void init() {
@@ -42,13 +42,13 @@ public class Arm extends Subsystem {
         transfer(); // Start in middle position
     }
 
+    // sets position for spec depo
     public void specDeo(){
         armPos = ArmPos.SPEC_DEPO;
         setPos();
     }
 
-
-
+    // could set position for spec depo move
     public void frontIntake(){
         armPos = ArmPos.FRONT_INTAKE;
         setPos();
@@ -59,6 +59,7 @@ public class Arm extends Subsystem {
         setPos();
     }
 
+    // could set position for spec depo move
     public void sampleIntakeHover(){
         armPos = ArmPos.SAMPLE_INTAKE_HOVER;
         setPos();
@@ -89,7 +90,6 @@ public class Arm extends Subsystem {
                 armServoLeft.setPosition(LEFT_TRANSFER_POSITION);
                 armServoRight.setPosition(RIGHT_TRANSFER_POSITION);
                 break;
-
             case FRONT_DEPOSIT:
                 //set servos to 0 degrees
                 armServoLeft.setPosition(LEFT_FRONT_DEPO_POSITION);
@@ -104,11 +104,10 @@ public class Arm extends Subsystem {
                 armServoLeft.setPosition(LEFT_BACK_DEPOSIT_POSITION);
                 armServoRight.setPosition(RIGHT_BACK_DEPOSIT_POSITION);
                 break;
-
             case SPEC_DEPO:
-                //set servos to  back
-                armServoLeft.setPosition(LEFTSPECDEPO);
-                armServoRight.setPosition(RIGHTSPECDEPO);
+                //set servos to back
+                armServoLeft.setPosition(LEFT_FRONT_DEPO_POSITION);
+                armServoRight.setPosition(RIGHT_FRONT_DEPO_POSITION);
                 break;
             case SAMPLE_INTAKE_HOVER:
                 //set servos to 0 degrees

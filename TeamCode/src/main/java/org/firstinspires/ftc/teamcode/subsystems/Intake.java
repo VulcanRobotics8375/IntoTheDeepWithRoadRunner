@@ -82,7 +82,7 @@ public class Intake extends Subsystem {
     }
 public void specDepo(boolean claw){
     clawRoll.setPosition(CLAW_NORMAL_POS);
-    clawPitch.setPosition(PITCH_SAMPLE);
+    clawPitch.setPosition(PITCH_STRAIGHT);
 
     if(claw) {
         toggleClaw();
