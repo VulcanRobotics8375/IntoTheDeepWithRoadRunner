@@ -22,6 +22,9 @@ public class HorizontalExtendo extends Subsystem {
     private final double fullRetractRight = 0.3359;
     private final double fullExtendRight = 0.9206;
 
+    private final double midPosLeft = 0.491;
+    private final double midPosRight = 0.76564;
+
     // Initialize current positions
     private double leftServoPos = fullRetractLeft;
     private double rightServoPos = fullRetractRight;
@@ -74,6 +77,11 @@ public class HorizontalExtendo extends Subsystem {
     public void goToBack() {
         moveGradually(fullRetractLeft, fullRetractRight);
     }
+
+    public  void goToMid(){
+        moveGradually(midPosLeft,midPosRight);
+    }
+
 
 
     public String getCurrentLinkagePos(){

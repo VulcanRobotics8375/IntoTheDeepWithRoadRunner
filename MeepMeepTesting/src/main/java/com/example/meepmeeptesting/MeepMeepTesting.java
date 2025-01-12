@@ -15,62 +15,58 @@ public class MeepMeepTesting {
                 .setConstraints(50, 50, Math.toRadians(180), Math.toRadians(180), 11.3)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(5, -63, Math.toRadians(-90)))
-                //deposit preload
-                .splineToConstantHeading(new Vector2d(5,-35),Math.toRadians(-35))
-                .splineToConstantHeading(new Vector2d(35.7,-27.2),Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(35.7,-16),Math.toRadians(90))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-37, -63, Math.toRadians(0)))
+                //preload sample deposit
+                //preload sample deposit
+                        .setTangent(Math.toRadians(180))
+                        .splineToConstantHeading(new Vector2d(-50, -58),Math.toRadians(180))
+                        .splineToSplineHeading(new Pose2d(-53,-57,Math.toRadians(45)),Math.toRadians(45)).setReversed(true)
+                .strafeTo(new Vector2d(-53, -57))
+                .waitSeconds(0.7)
 
-              .splineToConstantHeading(new Vector2d(46.9,-16),Math.toRadians(-90))
 
-
-                //give first sample to human
-                .splineToConstantHeading(new Vector2d(46.9,-52),Math.toRadians(90))
-
-                //give second sample to human
-                .splineToConstantHeading(new Vector2d(54,-16),Math.toRadians(-25))
-                .splineToConstantHeading(new Vector2d(57,-25),Math.toRadians(-90))
-
-                .splineToConstantHeading(new Vector2d(57,-52),Math.toRadians(-90))
-
-                //give third sample to human
-
-                .splineToConstantHeading(new Vector2d(57,-16),Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(61,-25),Math.toRadians(-90))
-
-                .splineToConstantHeading(new Vector2d(54,-52),Math.toRadians(-180))
+                //intake sample 2
+                .turnTo(Math.toRadians(97))
+                .strafeTo(new Vector2d(-46, -49.2))
+                .waitSeconds(0.2)
 
 
 
-                //intake second speciman
+                //deposit sample 2
 
-                //done on the way
+                .turnTo(Math.toRadians(45))
 
-                //deposit second speciman
-                .splineToConstantHeading(new Vector2d(3,-35),Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-53, -57), Math.toRadians(45))
 
 
-                //pick up third speciman on floor
-                .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
+                //intake sample 3
 
-                //deposit third speciman
-                .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
+                .turnTo(Math.toRadians(92))
+                .splineToConstantHeading(new Vector2d(-58, -50.7), Math.toRadians(92))
 
-                //pick up fourth speciman on floor
-                .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
 
-                //deposit fourth speciman
-                .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
 
-                //pick up fifth speciman
-                .strafeToLinearHeading(new Vector2d(16,-46.5),Math.toRadians(-45))
+                //deposit sample 3
 
-                //deposit fifth speciman
-                .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
+                .turnTo(Math.toRadians(45))
+                .splineToConstantHeading(new Vector2d(-53, -57), Math.toRadians(45))
 
-                .strafeToLinearHeading(new Vector2d(28.2,-54),Math.toRadians(-45))
+                //intake sample 4
+                .turnTo(Math.toRadians(120))
 
-                .build());
+                .splineToConstantHeading(new Vector2d(-59.4, -49.5), Math.toRadians(120))
+
+
+                //deposit sample 4
+
+                .turnTo(Math.toRadians(45))
+                .splineToConstantHeading(new Vector2d(-53, -57), Math.toRadians(45))
+
+
+                //park
+                .turnTo(0)
+                .splineToConstantHeading(new Vector2d(-29, -8.7), Math.toRadians(0))
+           .build());
 
 
 

@@ -327,20 +327,20 @@ public class specimenAuto extends LinearOpMode {
 
 
         Action action1 = drive.actionBuilder(initialPose)
-
+                .setTangent(Math.toRadians(90))
                 //deposit preload
-                .stopAndAdd(lift.goTo(2460))
-                .waitSeconds(0.6)
-                .stopAndAdd(arm.armBackDeposit())
-                .stopAndAdd(pas.deposit())
+//                .stopAndAdd(lift.goTo(1300))
+//                .waitSeconds(0.6)
+//                .stopAndAdd(arm.armBackDeposit())
+//                .stopAndAdd(pas.deposit())
                 .splineToConstantHeading(new Vector2d(5,-35),Math.toRadians(-35))
-                .waitSeconds(0.8)
-                .stopAndAdd(lift.goTo(1200))
-                .waitSeconds(0.5)
-                .stopAndAdd(claw.openClaw())
-                .waitSeconds(0.3)
-                .stopAndAdd(lift.goTo(0))
-                .stopAndAdd(arm.armIntake())
+//                .waitSeconds(0.8)
+//                .stopAndAdd(lift.goTo(800))
+//                .waitSeconds(0.5)
+//                .stopAndAdd(claw.openClaw())
+//                .waitSeconds(0.3)
+//                .stopAndAdd(lift.goTo(0))
+//                .stopAndAdd(arm.armIntake())
 
                 //deposit preload
                 .splineToConstantHeading(new Vector2d(35.7,-27.2),Math.toRadians(90))
@@ -360,12 +360,15 @@ public class specimenAuto extends LinearOpMode {
 
                 .splineToConstantHeading(new Vector2d(57,-16),Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(61,-25),Math.toRadians(-90))
-                .stopAndAdd(lift.goTo(1000))
+             //   .stopAndAdd(lift.goTo(1000))
                 .splineToConstantHeading(new Vector2d(54,-52),Math.toRadians(-180))
 
 
 
                 //intake second speciman
+
+                /*
+
 
                 //done on the way
                 .waitSeconds(1)
@@ -405,7 +408,7 @@ public class specimenAuto extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(5,-37),Math.toRadians(-90))
 
                 .strafeToLinearHeading(new Vector2d(28.2,-54),Math.toRadians(-45))
-
+ */
                 .build();
 
 

@@ -23,8 +23,8 @@ public class Arm extends Subsystem {
     private final double LEFT_FRONT_DEPO_POSITION = 0.39;
     private final double RIGHT_FRONT_DEPO_POSITION = 0.6378;
 
-    private final double LEFT_BACK_DEPOSIT_POSITION = 0.7467;
-    private final double RIGHT_BACK_DEPOSIT_POSITION = 0.2833;
+    private final double LEFT_BACK_DEPOSIT_POSITION = 0.7067;
+    private final double RIGHT_BACK_DEPOSIT_POSITION = 0.3233;
 
     private final double LEFT_TRANSFER_POSITION = 0.5339;
     private final double RIGHT_TRANSFER_POSITION = 0.5;
@@ -32,12 +32,22 @@ public class Arm extends Subsystem {
     private final double SAMPLEINTAKEHOVERLEFT = 0.2889;
     private final double SAMPLEINTAKEHOVERRIGHT = 0.7439;
 
+    private final double LEFTSPECDEPO = 0.8167;
+    private final double RIGHTSPECDEPO = 0.2156;
+
     @Override
     public void init() {
         armServoLeft = hardwareMap.servo.get("armServoLeft");
         armServoRight = hardwareMap.servo.get("armServoRight");
         transfer(); // Start in middle position
     }
+
+    public void specDeo(){
+        armPos = ArmPos.SPEC_DEPO;
+        setPos();
+    }
+
+
 
     public void frontIntake(){
         armPos = ArmPos.FRONT_INTAKE;
@@ -94,6 +104,12 @@ public class Arm extends Subsystem {
                 armServoLeft.setPosition(LEFT_BACK_DEPOSIT_POSITION);
                 armServoRight.setPosition(RIGHT_BACK_DEPOSIT_POSITION);
                 break;
+
+            case SPEC_DEPO:
+                //set servos to  back
+                armServoLeft.setPosition(LEFTSPECDEPO);
+                armServoRight.setPosition(RIGHTSPECDEPO);
+                break;
             case SAMPLE_INTAKE_HOVER:
                 //set servos to 0 degrees
                 armServoLeft.setPosition(SAMPLEINTAKEHOVERLEFT);
@@ -109,8 +125,8 @@ public class Arm extends Subsystem {
 
 
         if (Math.abs(manualInput) > 0.1){
-            armServoRight.setPosition(Range.clip(armServoRight.getPosition() + 0.01 * manualInput, RIGHT_BACK_DEPOSIT_POSITION, RIGHT_FRONT_POSITION));
-            armServoLeft.setPosition(Range.clip(armServoLeft.getPosition() - 0.01 * manualInput, LEFT_FRONT_POSITION, LEFT_BACK_DEPOSIT_POSITION));
+            armServoRight.setPosition(armServoRight.getPosition() + 0.01 * manualInput);
+            armServoLeft.setPosition(armServoLeft.getPosition()- 0.01 * manualInput);
 
 
         }
@@ -121,6 +137,7 @@ public class Arm extends Subsystem {
         BACK_DEP,
         TRANSFER,
         FRONT_DEPOSIT,
+        SPEC_DEPO,
         SAMPLE_INTAKE_HOVER
     }
 

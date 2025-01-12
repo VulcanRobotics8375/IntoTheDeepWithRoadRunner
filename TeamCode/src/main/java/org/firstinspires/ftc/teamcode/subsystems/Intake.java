@@ -80,6 +80,14 @@ public class Intake extends Subsystem {
         // Set Claw Pitch for Sample Intake
         clawPitch.setPosition(PITCH_SAMPLE);
     }
+public void specDepo(boolean claw){
+    clawRoll.setPosition(CLAW_NORMAL_POS);
+    clawPitch.setPosition(PITCH_SAMPLE);
+
+    if(claw) {
+        toggleClaw();
+    }
+}
 
 
     public void specimenIntake(boolean claw){
