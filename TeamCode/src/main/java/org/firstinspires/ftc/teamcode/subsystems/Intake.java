@@ -17,7 +17,7 @@ public class Intake extends Subsystem {
     private boolean clawOpen = false;
 
     private static final double CLAW_OPEN_POSITION = 0.5;
-    private static final double CLAW_CLOSED_POSITION = 0.27;
+    private static final double CLAW_CLOSED_POSITION = 0.23;
 
     private static final double ROLL_90_POSITION = 0.6173;
     private static final double CLAW_NORMAL_POS = 0.3458;
@@ -36,7 +36,7 @@ public class Intake extends Subsystem {
 
         claw.setPosition(CLAW_CLOSED_POSITION);
         clawRoll.setPosition(CLAW_NORMAL_POS);
-        clawPitch.setPosition(PITCH_STRAIGHT);
+        clawPitch.setPosition(PITCH_SAMPLE);
     }
 
     public void sampleIntake(double leftTrigger, double rightTrigger, boolean leftBumper, boolean rightBumper) {
@@ -117,7 +117,7 @@ public void specDepo(boolean claw){
     }
 
     public void depositBack(boolean claw) {
-        clawRoll.setPosition(ROLL_SPEC_DEPO);
+        clawRoll.setPosition(CLAW_NORMAL_POS);
         clawPitch.setPosition(PITCH_STRAIGHT);
         if(claw) {
             toggleClaw();
