@@ -6,7 +6,7 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class MeepMeepTesting {
+public class SampleAutoTest {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
 
@@ -16,11 +16,12 @@ public class MeepMeepTesting {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-37, -63, Math.toRadians(0)))
-                //preload sample deposit
+                .setTangent(Math.toRadians(180))
 
                 //preload sample deposit
-                                .setTangent(Math.toRadians(180))
-                                .splineToConstantHeading(new Vector2d(-54, -61),Math.toRadians(180)).waitSeconds(1)
+
+                .splineToConstantHeading(new Vector2d(-54, -61),Math.toRadians(180))
+                .waitSeconds(1)
 
                 //intake sample 2
                 .waitSeconds(0.7)
@@ -28,11 +29,7 @@ public class MeepMeepTesting {
                 .splineToLinearHeading(new Pose2d(-50,-49.2,Math.toRadians(90)),Math.toRadians(0))
 
                 //deposit sample 2
-                .waitSeconds(1)
-
                 .splineToLinearHeading(new Pose2d(-57,-57,Math.toRadians(45)),Math.toRadians(90))
-
-                .waitSeconds(1)
 
                 //intake sample 3
 
@@ -65,9 +62,16 @@ public class MeepMeepTesting {
                 .waitSeconds(1)
 
 
-                //park
-
+                //park or go pick up sample
                 .splineTo(new Vector2d(-29,-8.7),Math.toRadians(0))
+
+                //deposit fifth sample?
+                        .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-57,-57,Math.toRadians(45)),Math.toRadians(-90))
+
+
+                //park or go pick up sample
+                        .setTangent(Math.toRadians(90)) .splineTo(new Vector2d(-29,-8.7),Math.toRadians(0))
 
                 .build());
 
