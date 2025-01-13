@@ -142,17 +142,20 @@ public class sampleAuto extends LinearOpMode {
         private Servo armServoLeft;
         private Servo armServoRight;
 
-        private final double LEFT_FRONT_POSITION = 0.2683;
-        private final double RIGHT_FRONT_POSITION = 0.765;
+        // can try to be used for spec front depo move
 
-        private final double LEFT_FRONT_DEPOSIT = 0.39;
-        private final double RIGHT_FRONT_DEPOSIT = 0.6378;
+        private final double FRONT_INTAKE_POSITION = 0.2178;
 
-        private final double LEFT_BACK_DEPOSIT_POSITION = 0.7467;
-        private final double RIGHT_BACK_DEPOSIT_POSITION = 0.2833;
+        // used for spec front depo and sample front depo
 
-        private final double LEFT_TRANSFER_POSITION = 0.5339;
-        private final double RIGHT_TRANSFER_POSITION = 0.5;
+        private final double FRONT_DEPO_POSITION = 0.4128;
+
+
+        private final double BACK_DEPOSIT_POSITION = 0.8;
+
+
+        private final double TRANSFER_POSITION = 0.5861;
+
 
 
 
@@ -166,8 +169,8 @@ public class sampleAuto extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
 
-                armServoRight.setPosition(RIGHT_FRONT_POSITION);
-                armServoLeft.setPosition(LEFT_FRONT_POSITION);
+                armServoRight.setPosition(FRONT_INTAKE_POSITION);
+                armServoLeft.setPosition(FRONT_INTAKE_POSITION);
                 return false;
             }
         }
@@ -179,8 +182,8 @@ public class sampleAuto extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
 
-                armServoRight.setPosition(RIGHT_BACK_DEPOSIT_POSITION);
-                armServoLeft.setPosition(LEFT_BACK_DEPOSIT_POSITION);
+                armServoRight.setPosition(BACK_DEPOSIT_POSITION);
+                armServoLeft.setPosition(BACK_DEPOSIT_POSITION);
                 return false;
             }
         }
@@ -192,8 +195,8 @@ public class sampleAuto extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
 
-                armServoRight.setPosition(RIGHT_FRONT_DEPOSIT);
-                armServoLeft.setPosition(LEFT_FRONT_DEPOSIT);
+                armServoRight.setPosition(FRONT_DEPO_POSITION);
+                armServoLeft.setPosition(FRONT_DEPO_POSITION);
                 return false;
             }
         }
@@ -205,8 +208,8 @@ public class sampleAuto extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
 
-                armServoRight.setPosition(RIGHT_TRANSFER_POSITION);
-                armServoLeft.setPosition(LEFT_TRANSFER_POSITION);
+                armServoRight.setPosition(TRANSFER_POSITION);
+                armServoLeft.setPosition(TRANSFER_POSITION);
                 return false;
             }
         }

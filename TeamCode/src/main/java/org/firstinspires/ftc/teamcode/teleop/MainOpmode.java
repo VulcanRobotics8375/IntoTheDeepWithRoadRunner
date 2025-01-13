@@ -43,7 +43,7 @@ public class MainOpmode extends OpModePipeline {
 
     //set lift positions
     private final int highBucket = 2120; //set location of the high bucket
-    private final int highBar = 1000; //set location as high bar
+    private final int highBar = 925; //set location as high bar
 
     //define buttons for claw
     private boolean clawPrev = false;
