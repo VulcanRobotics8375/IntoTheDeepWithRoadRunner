@@ -16,7 +16,7 @@ public class Lift2 extends Subsystem{
     private DcMotorEx liftMotorLeft;
     private DcMotorEx liftMotorRight;
 
-    private PID liftPID = new PID(0.01, 0, 0, 0.005); // Tuned PID coefficients
+    private PID liftPID = new PID(0.013, 0, 0.13,0.005); // Tuned PID coefficients
 
     private final int LIFT_TOP_POSITION = 2120; // Adjust based on lift's top position
     private int LIFT_BOTTOM_POSITION; // Bottom position (assume 0 for base)

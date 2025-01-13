@@ -144,7 +144,7 @@ public class sampleAuto extends LinearOpMode {
 
         // can try to be used for spec front depo move
 
-        private final double FRONT_INTAKE_POSITION = 0.2178;
+        private final double FRONT_INTAKE_POSITION = 0.24;
 
         // used for spec front depo and sample front depo
 
@@ -275,7 +275,7 @@ public class sampleAuto extends LinearOpMode {
         public class CloseClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.23);
+                claw.setPosition(0.26);
                 return false;
             }
         }
@@ -286,7 +286,7 @@ public class sampleAuto extends LinearOpMode {
         public class OpenClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.5);
+                claw.setPosition(0.48 );
                 return false;
             }
         }
@@ -300,7 +300,7 @@ public class sampleAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
         //set starting position
-        Pose2d initialPose =new Pose2d(-37, -63, Math.toRadians(45));
+        Pose2d initialPose =new Pose2d(-37, -63, Math.toRadians(0));
 
         //initialize subsystems
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
@@ -316,9 +316,9 @@ public class sampleAuto extends LinearOpMode {
 
                 //preload sample deposit
                 .stopAndAdd(pas.deposit())
-                .stopAndAdd(lift.goTo(3100))
-                .splineToConstantHeading(new Vector2d(-53, -57),Math.toRadians(135))
-                .waitSeconds(0.7)
+                .stopAndAdd(lift.goTo(2100))
+                .splineToConstantHeading(new Vector2d(-54, -61),Math.toRadians(180))
+                .waitSeconds(1)
                 .stopAndAdd(arm.armBackDeposit())
                 .waitSeconds(0.3)
                 .stopAndAdd(claw.openClaw())
@@ -328,18 +328,28 @@ public class sampleAuto extends LinearOpMode {
                 .stopAndAdd(lift.goTo(0))
 
 
-
                 //intake sample 2
-
+                .waitSeconds(0.7)
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-46,-49.2,Math.toRadians(90)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-50,-49.2,Math.toRadians(90)),Math.toRadians(0))
+                .stopAndAdd(arm.armIntake())
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .waitSeconds(0.5)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(0.5)
+                .stopAndAdd(horizontalExtendo.goToBack())
+
 
                 //deposit sample 2
-                .waitSeconds(1)
+                .stopAndAdd(lift.goTo(2100))
+                .splineToLinearHeading(new Pose2d(-57,-57,Math.toRadians(45)),Math.toRadians(90))
+                .stopAndAdd(arm.armBackDeposit())
+                .stopAndAdd(pas.deposit())
+                .waitSeconds(0.5)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.2)
+                .stopAndAdd(lift.goTo(0))
 
-                .splineToLinearHeading(new Pose2d(-53,-57,Math.toRadians(45)),Math.toRadians(90))
-
-                .waitSeconds(1)
 
                 //intake sample 3
 
@@ -353,7 +363,7 @@ public class sampleAuto extends LinearOpMode {
                 //deposit sample 3
 
 
-                .splineToLinearHeading(new Pose2d(-53,-57,Math.toRadians(45)),Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-57,-57,Math.toRadians(45)),Math.toRadians(90))
 
                 .waitSeconds(1)
 
@@ -367,7 +377,7 @@ public class sampleAuto extends LinearOpMode {
 
                 //deposit sample 4
 
-                .splineToLinearHeading(new Pose2d(-53,-57,Math.toRadians(45)),Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-57,-57,Math.toRadians(45)),Math.toRadians(90))
 
                 .waitSeconds(1)
 

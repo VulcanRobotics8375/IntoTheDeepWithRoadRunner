@@ -157,7 +157,7 @@ public class specimenAuto extends LinearOpMode {
 
         // can try to be used for spec front depo move
 
-        private final double FRONT_INTAKE_POSITION = 0.2178;
+        private final double FRONT_INTAKE_POSITION = 0.24;
 
         // used for spec front depo and sample front depo
 
@@ -292,7 +292,7 @@ public class specimenAuto extends LinearOpMode {
         public class CloseClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.27);
+                claw.setPosition(0.2739);
                 return false;
             }
         }
@@ -303,7 +303,7 @@ public class specimenAuto extends LinearOpMode {
         public class OpenClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.5);
+                claw.setPosition(0.48);
                 return false;
             }
         }

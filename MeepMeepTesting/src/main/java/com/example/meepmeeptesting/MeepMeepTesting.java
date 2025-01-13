@@ -15,23 +15,22 @@ public class MeepMeepTesting {
                 .setConstraints(50, 50, Math.toRadians(180), Math.toRadians(180), 11.3)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-37, -63, Math.toRadians(45)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-37, -63, Math.toRadians(0)))
                 //preload sample deposit
 
                 //preload sample deposit
                                 .setTangent(Math.toRadians(180))
-        //        .strafeTo(new Vector2d(-53, -57)).setTangent(Math.toRadians(90))
-                                .splineToConstantHeading(new Vector2d(-53, -57),Math.toRadians(135)).waitSeconds(1)
+                                .splineToConstantHeading(new Vector2d(-54, -61),Math.toRadians(180)).waitSeconds(1)
 
                 //intake sample 2
                 .waitSeconds(0.7)
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-46,-49.2,Math.toRadians(90)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-50,-49.2,Math.toRadians(90)),Math.toRadians(0))
 
                 //deposit sample 2
                 .waitSeconds(1)
 
-                .splineToLinearHeading(new Pose2d(-53,-57,Math.toRadians(45)),Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-57,-57,Math.toRadians(45)),Math.toRadians(90))
 
                 .waitSeconds(1)
 
@@ -47,7 +46,7 @@ public class MeepMeepTesting {
                 //deposit sample 3
 
 
-                .splineToLinearHeading(new Pose2d(-53,-57,Math.toRadians(45)),Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-57,-57,Math.toRadians(45)),Math.toRadians(90))
 
                 .waitSeconds(1)
 
@@ -61,7 +60,7 @@ public class MeepMeepTesting {
 
                 //deposit sample 4
 
-                .splineToLinearHeading(new Pose2d(-53,-57,Math.toRadians(45)),Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-57,-57,Math.toRadians(45)),Math.toRadians(90))
 
                 .waitSeconds(1)
 
