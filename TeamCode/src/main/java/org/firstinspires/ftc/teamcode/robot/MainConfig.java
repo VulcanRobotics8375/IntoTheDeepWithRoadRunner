@@ -89,6 +89,7 @@ public class MainConfig extends RobotConfig {
 
     public void hang(){
         intake.transferPos();
+        lift2.setPos(1000);
         arm.transfer();
         horizontalExtendo.goToBack();
     }

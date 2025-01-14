@@ -311,6 +311,7 @@ public class MainOpmode extends OpModePipeline {
             case HANG:
                 telemetry.addData("state", "HANG");
                 subsystems.hang();
+
                 if(gp2hangClick){
                     robotState = RobotState.TRANSFERPOS;
                 }

@@ -292,7 +292,7 @@ public class specimenAuto extends LinearOpMode {
         public class CloseClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.2739);
+                claw.setPosition(0.22);
                 return false;
             }
         }
