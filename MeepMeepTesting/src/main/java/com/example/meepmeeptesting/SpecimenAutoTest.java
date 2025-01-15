@@ -12,14 +12,15 @@ public class SpecimenAutoTest {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(50, 50, Math.toRadians(180), Math.toRadians(180), 11.3)
+                .setConstraints(30, 30, Math.toRadians(180), Math.toRadians(180), 11.3)
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(8, -63, Math.toRadians(90)))
+                //deposit preload
+
                 .setTangent(Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(8,-35),Math.toRadians(90))
 
-                //deposit preload
                 .setTangent(Math.toRadians(-35)) .splineToConstantHeading(new Vector2d(35.7,-27.2),Math.toRadians(90))
 
                 //get to first sample
@@ -38,6 +39,31 @@ public class SpecimenAutoTest {
                 .splineToConstantHeading(new Vector2d(57,-55),Math.toRadians(-90))
 
 
+                //get to third sample
+                .splineToConstantHeading(new Vector2d(56,-19),Math.toRadians(60))
+                .splineToConstantHeading(new Vector2d(61,-16),Math.toRadians(-90))
+
+                //push third sample
+                .splineToConstantHeading(new Vector2d(61 ,-55),Math.toRadians(-90))
+
+                //deposit second spec
+                        .setTangent(Math.toRadians(180)) .splineToLinearHeading(new Pose2d(8,-35,Math.toRadians(90)),Math.toRadians(90))
+
+                //pick up third spec
+                        .setTangent(Math.toRadians(-45)).splineToConstantHeading(new Vector2d(34.6 ,-59),Math.toRadians(-45))
+
+
+                //deposit third spec
+                .setTangent(Math.toRadians(180)) .splineToLinearHeading(new Pose2d(8,-35,Math.toRadians(90)),Math.toRadians(90))
+
+                //pick up fourth spec
+                .setTangent(Math.toRadians(-45)).splineToConstantHeading(new Vector2d(34.6 ,-59),Math.toRadians(-45))
+
+                //deposit fourth spec
+                .setTangent(Math.toRadians(180)) .splineToLinearHeading(new Pose2d(8,-35,Math.toRadians(90)),Math.toRadians(90))
+
+                //park
+                .setTangent(Math.toRadians(-45)) .splineToLinearHeading(new Pose2d(26,-50,Math.toRadians(-45)),Math.toRadians(-45))
 
                 .build());
 
