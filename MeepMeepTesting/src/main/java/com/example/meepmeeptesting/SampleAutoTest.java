@@ -19,64 +19,67 @@ public class SampleAutoTest {
 
                 //preload sample deposit
                 .setTangent(Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-47, -62),Math.toRadians(180))
-                .waitSeconds(1)
+
+                .splineToConstantHeading(new Vector2d(-50, -62),Math.toRadians(180))
+
 
                 //intake sample 2
-                .waitSeconds(0.7)
-                .strafeToLinearHeading(new Vector2d(-48,-49.2),Math.toRadians(90))
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-50,-50.5,Math.toRadians(90)),Math.toRadians(90))
 
-                .waitSeconds(1)
+
 
                 //deposit sample 2
-                .setTangent(Math.toRadians(225))
-                .strafeToLinearHeading(new Vector2d(-53.5,-53.5),Math.toRadians(45))
+                .turnTo(Math.toRadians(45))
+
+                .splineToConstantHeading(new Vector2d(-55.5, -54), Math.toRadians(45))
                 .waitSeconds(1)
+
+
+
 
                 //intake sample 3
+                .turnTo(Math.toRadians(92))
 
-                .strafeToLinearHeading(new Vector2d(-58,-45.7),Math.toRadians(90))
-
-
-                .waitSeconds(2)
-
-                //deposit sample 3
-
-                .strafeToLinearHeading(new Vector2d(-53.5,-53.5),Math.toRadians(45))
-
+                .splineToConstantHeading(new Vector2d(-58, -50.7), Math.toRadians(92))
                 .waitSeconds(1)
 
-                /*
 
 
 
+                //deposit sample 3
+                .turnTo(Math.toRadians(45))
 
-                            //intake sample 4
-
-                            .splineToLinearHeading(new Pose2d(-58.4,-49.5,Math.toRadians(120)),Math.toRadians(90))
-
-
-                            .waitSeconds(1)
-
-                            //deposit sample 4
-
-                            .splineToLinearHeading(new Pose2d(-52,-52,Math.toRadians(45)),Math.toRadians(90))
-
-                            .waitSeconds(1)
+                .splineToConstantHeading(new Vector2d(-55.5, -54), Math.toRadians(45))
+                .waitSeconds(1)
 
 
-                            //park or go pick up sample
-                            .splineTo(new Vector2d(-29,-8.7),Math.toRadians(0))
 
-                            //deposit fifth sample?
-                            .setTangent(Math.toRadians(180))
-                            .splineToLinearHeading(new Pose2d(-52,-52,Math.toRadians(45)),Math.toRadians(-90))
+                //intake sample 4
+
+                .turnTo(Math.toRadians(120))
+
+                .splineToConstantHeading(new Vector2d(-59.4, -49.5), Math.toRadians(120))
+                .waitSeconds(1)
 
 
-                            //park or go pick up sample
-                                    .setTangent(Math.toRadians(90))
-                            .splineToLinearHeading(new Pose2d(-29,-8.7,Math.toRadians(0)),Math.toRadians(0))
-             */
+                //deposit sample 4
+                .turnTo(Math.toRadians(45))
+
+                .splineToConstantHeading(new Vector2d(-55.5, -54), Math.toRadians(45))
+                .waitSeconds(1)
+
+                //park or go pick up sample
+                .splineTo(new Vector2d(-29,-8.7),Math.toRadians(0))
+
+                //deposit fifth sample?
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-53.5,-53.5,Math.toRadians(45)),Math.toRadians(-90))
+
+
+                //park or go pick up sample
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-29,-8.7,Math.toRadians(0)),Math.toRadians(0))
 
                 .build());
 

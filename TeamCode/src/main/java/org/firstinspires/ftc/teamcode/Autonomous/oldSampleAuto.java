@@ -316,7 +316,7 @@ public class oldSampleAuto extends LinearOpMode {
 
                 //preload sample deposit
                 .stopAndAdd(lift.goTo(2100))
-                .strafeTo(new Vector2d(-53, -57))
+                .strafeTo(new Vector2d(-58, -62))
                 .waitSeconds(0.7)
                 .stopAndAdd(arm.armBackDeposit())
                 .stopAndAdd(pas.deposit())

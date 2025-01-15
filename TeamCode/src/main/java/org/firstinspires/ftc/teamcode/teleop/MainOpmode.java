@@ -43,7 +43,7 @@ public class MainOpmode extends OpModePipeline {
 
     //set lift positions
     private final int highBucket = 2120; //set location of the high bucket
-    private final int highBar = 850; //set location as high bar
+    private final int highBar = 650; //set location as high bar
 
     //define buttons for claw
     private boolean clawPrev = false;
@@ -211,6 +211,8 @@ public class MainOpmode extends OpModePipeline {
                     gp1aholding = false;
                     subsystems.specDepositFront(highBar, false);
                     if(claw){
+                        gp1bholding = false;
+
                         robotState = RobotState.SPECIMENDEPO;
                     }
                     telemetry.addData("Deposit", "FRONT SPECIMEN");
@@ -242,7 +244,7 @@ public class MainOpmode extends OpModePipeline {
 
             case SPECIMENDEPO:
 
-                subsystems.specDepositFrontMove(highBar, claw); // front intake position
+                subsystems.specDepositFrontMove(highBar-100, claw); // front intake position
 
                 telemetry.addData("Deposit", "FRONT SPECIMEN");
                 if(exitIntake){

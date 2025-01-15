@@ -151,7 +151,7 @@ public class sampleAuto extends LinearOpMode {
         private final double FRONT_DEPO_POSITION = 0.4128;
 
 
-        private final double BACK_DEPOSIT_POSITION = 0.8;
+        private final double BACK_DEPOSIT_POSITION = 0.85;
 
 
         private final double TRANSFER_POSITION = 0.5861;
@@ -315,48 +315,113 @@ public class sampleAuto extends LinearOpMode {
 
 
                 //preload sample deposit
+
+                .stopAndAdd(lift.goTo(2100))
                 .setTangent(Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-47, -62),Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-50, -62),Math.toRadians(180))
+                .stopAndAdd(pas.deposit())
                 .waitSeconds(1)
+                .stopAndAdd(arm.armBackDeposit())
+                .waitSeconds(0.5)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.5)
+                .stopAndAdd(lift.goTo(0))
+
+
 
                 //intake sample 2
-                .waitSeconds(0.7)
-                .strafeToLinearHeading(new Vector2d(-48,-49.2),Math.toRadians(90))
-
+                .stopAndAdd(arm.armIntake())
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-50.5,-51.5,Math.toRadians(87)),Math.toRadians(90))
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .stopAndAdd(pas.intake())
                 .waitSeconds(1)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(0.7)
+                .stopAndAdd(arm.armTransfer())
+                .stopAndAdd(horizontalExtendo.goToBack())
+
+
 
                 //deposit sample 2
-                .setTangent(Math.toRadians(225))
-                .strafeToLinearHeading(new Vector2d(-53.5,-53.5),Math.toRadians(45))
+                .turnTo(Math.toRadians(45))
+                .setTangent(Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-54.5, -53), Math.toRadians(45))
+                .stopAndAdd(lift.goTo(2100))
+                .stopAndAdd(pas.deposit())
                 .waitSeconds(1)
+                .stopAndAdd(arm.armBackDeposit())
+                .waitSeconds(1)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.5)
+                .stopAndAdd(arm.armTransfer())
+                .stopAndAdd(lift.goTo(0))
+                .waitSeconds(1)
+
+
+
 
                 //intake sample 3
 
-                .strafeToLinearHeading(new Vector2d(-58,-45.7),Math.toRadians(90))
+                .stopAndAdd(arm.armIntake())
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-60,-51.5,Math.toRadians(90)),Math.toRadians(90))
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .stopAndAdd(pas.intake())
+                .waitSeconds(1)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(0.7)
+                .stopAndAdd(arm.armTransfer())
+                .stopAndAdd(horizontalExtendo.goToBack())
 
-
-                .waitSeconds(2)
 
                 //deposit sample 3
-
-                .strafeToLinearHeading(new Vector2d(-53.5,-53.5),Math.toRadians(45))
-
+                .turnTo(Math.toRadians(45))
+                .setTangent(Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-54.5, -53), Math.toRadians(45))
+                .stopAndAdd(lift.goTo(2100))
+                .stopAndAdd(pas.deposit())
                 .waitSeconds(1)
+                .stopAndAdd(arm.armBackDeposit())
+                .waitSeconds(1)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.5)
+                .stopAndAdd(arm.armTransfer())
+                .stopAndAdd(lift.goTo(0))
+                .waitSeconds(1)
+
 
                 //intake sample 4
 
-                .splineToLinearHeading(new Pose2d(-58.4,-49.5,Math.toRadians(120)),Math.toRadians(90))
 
-
+                .stopAndAdd(arm.armIntake())
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-59.4, -49.5,Math.toRadians(122)),Math.toRadians(90))
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .stopAndAdd(pas.intake())
                 .waitSeconds(1)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(0.7)
+                .stopAndAdd(arm.armTransfer())
+                .stopAndAdd(horizontalExtendo.goToBack())
+                .waitSeconds(1)
+
 
                 //deposit sample 4
-
-                .strafeToLinearHeading(new Vector2d(-53.5,-53.5),Math.toRadians(45))
-
+                 .turnTo(Math.toRadians(45))
+                .stopAndAdd(pas.deposit())
+                .stopAndAdd(lift.goTo(2100))
+                .setTangent(Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-54.5, -53), Math.toRadians(45))
                 .waitSeconds(1)
-
-
+                .stopAndAdd(arm.armBackDeposit())
+                .waitSeconds(1)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.5)
+                .stopAndAdd(arm.armTransfer())
+                .stopAndAdd(lift.goTo(0))
+                .waitSeconds(1)
+/*
                 //park or go pick up sample
                 .splineTo(new Vector2d(-29,-8.7),Math.toRadians(0))
 
@@ -368,7 +433,7 @@ public class sampleAuto extends LinearOpMode {
                 //park or go pick up sample
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(-29,-8.7,Math.toRadians(0)),Math.toRadians(0))
-
+*/
                 .build();
 
 

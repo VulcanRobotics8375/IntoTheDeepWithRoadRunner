@@ -18,7 +18,7 @@ public class Arm extends Subsystem {
 
     // can try to be used for spec front depo move
 
-    private final double FRONT_INTAKE_POSITION = 0.24;
+    private final double FRONT_INTAKE_POSITION = 0.23;
 
     // used for spec front depo and sample front depo
 
