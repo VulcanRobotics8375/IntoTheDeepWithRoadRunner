@@ -157,12 +157,10 @@ public class specimenAuto extends LinearOpMode {
 
         // can try to be used for spec front depo move
 
-        private final double FRONT_INTAKE_POSITION = 0.24;
-
-        // used for spec front depo and sample front depo
+        private final double INTAKE_POSITION = 0.7511;
 
 
-        private final double BACK_DEPOSIT_POSITION = 0.8;
+        private final double DEPOSIT_POSITION = 0.4328;
 
 
         private final double TRANSFER_POSITION = 0.5861;
@@ -175,31 +173,44 @@ public class specimenAuto extends LinearOpMode {
 
         }
 
-        public class ArmIntake implements Action {
+        public class Intake implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
 
-                armServoRight.setPosition(FRONT_INTAKE_POSITION);
-                armServoLeft.setPosition(FRONT_INTAKE_POSITION);
+                armServoRight.setPosition(INTAKE_POSITION);
+                armServoLeft.setPosition(INTAKE_POSITION);
                 return false;
             }
         }
-        public Action armIntake() {
-            return new ArmIntake();
+        public Action intake() {
+            return new Intake();
         }
 
-
-        public class ArmDepositBack implements Action {
+        public class DepositDown implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
 
-                armServoRight.setPosition(BACK_DEPOSIT_POSITION);
-                armServoLeft.setPosition(BACK_DEPOSIT_POSITION);
+                armServoRight.setPosition(DEPOSIT_POSITION-0.1);
+                armServoLeft.setPosition(DEPOSIT_POSITION-0.1);
                 return false;
             }
         }
-        public Action armBackDeposit() {
-            return new ArmDepositBack();
+        public Action depositdown() {
+            return new DepositDown();
+        }
+
+
+        public class Deposit implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+
+                armServoRight.setPosition(DEPOSIT_POSITION);
+                armServoLeft.setPosition(DEPOSIT_POSITION);
+                return false;
+            }
+        }
+        public Action deposit() {
+            return new Deposit();
         }
 
 
@@ -226,9 +237,8 @@ public class specimenAuto extends LinearOpMode {
         private static final double CLAW_NORMAL_POS = 0.3458;
         private static final double ROLL_SPEC_DEPO = 0.9027;
 
-        private static final double PITCH_STRAIGHT = 0;
-        private static final double PITCH_SAMPLE = 0.687;
-        private static final double PITCH_SPECIMAN = 0.5;
+
+        private static final double PITCH_STRAIGHT = 0.1034;
 
 
         public PitchandSpin(HardwareMap hardwareMap) {
@@ -237,7 +247,20 @@ public class specimenAuto extends LinearOpMode {
 
         }
 
-        public class Deposit implements Action {
+        public class Start implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+
+                clawPitch.setPosition(PITCH_STRAIGHT);
+                clawSpin.setPosition(CLAW_NORMAL_POS);
+                return false;
+            }
+        }
+        public Action start() {
+            return new Start();
+        }
+
+        public class Intake implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
 
@@ -246,40 +269,10 @@ public class specimenAuto extends LinearOpMode {
                 return false;
             }
         }
-        public Action deposit() {
-            return new Deposit();
-        }
-
-        public class Intake implements Action {
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                clawPitch.setPosition(PITCH_SAMPLE);
-
-                clawSpin.setPosition(CLAW_NORMAL_POS);
-                return false;
-            }
-        }
-
-
-
         public Action intake() {
             return new Intake();
         }
 
-        public class SpecIntake implements Action {
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                clawPitch.setPosition(PITCH_SPECIMAN);
-
-                clawSpin.setPosition(CLAW_NORMAL_POS);
-                return false;
-            }
-        }
-        public Action specintake() {
-            return new SpecIntake();
-        }
     }
 
     public class Claw {
@@ -292,7 +285,7 @@ public class specimenAuto extends LinearOpMode {
         public class CloseClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.22);
+                claw.setPosition(0.21);
                 return false;
             }
         }
@@ -318,7 +311,7 @@ public class specimenAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
         //set starting position
-        Pose2d initialPose =new Pose2d(8, -63, Math.toRadians(90));
+        Pose2d initialPose =new Pose2d(8, -59, Math.toRadians(90));
 
         //initialize subsystems
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
@@ -330,12 +323,22 @@ public class specimenAuto extends LinearOpMode {
 
 
         Action action1 = drive.actionBuilder(initialPose)
-                .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(8,-35),Math.toRadians(90))
-
                 //deposit preload
-                .setTangent(Math.toRadians(-35)) .splineToConstantHeading(new Vector2d(35.7,-27.2),Math.toRadians(90))
+                .stopAndAdd(lift.goTo(650))
+                .setTangent(Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(8,-33),Math.toRadians(90))
+                .waitSeconds(0.3)
+                .stopAndAdd(arm.depositdown())
+                .waitSeconds(0.4)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.2)
+                .stopAndAdd(lift.goTo(0))
+                .stopAndAdd(arm.intake())
+                .stopAndAdd(pas.intake())
 
+
+
+                .setTangent(Math.toRadians(-35)) .splineToConstantHeading(new Vector2d(35.7,-27.2),Math.toRadians(90))
                 //get to first sample
                 .splineToConstantHeading(new Vector2d(35.7,-16),Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(46.9,-16),Math.toRadians(-90))
@@ -349,9 +352,47 @@ public class specimenAuto extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(57,-16),Math.toRadians(-90))
 
                 //push second sample
-                .splineToConstantHeading(new Vector2d(57,-55),Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(57,-56.5),Math.toRadians(-90))
+                .waitSeconds(1)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(0.2)
+                .stopAndAdd(arm.armTransfer())
 
 
+                //deposit second spec
+                .setTangent(Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(5,-33),Math.toRadians(90))
+                .stopAndAdd(lift.goTo(650))
+                .waitSeconds(0.8)
+                .stopAndAdd(arm.depositdown())
+                .waitSeconds(0.4)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.2)
+                .stopAndAdd(lift.goTo(0))
+                .stopAndAdd(arm.intake())
+
+
+/*
+
+
+                //pick up third spec
+                .setTangent(Math.toRadians(-45)).splineToConstantHeading(new Vector2d(34.6 ,-59),Math.toRadians(-45))
+
+
+                //deposit third spec
+                .setTangent(Math.toRadians(180)) .splineToLinearHeading(new Pose2d(2,-39,Math.toRadians(90)),Math.toRadians(90))
+
+                //pick up fourth spec
+                .setTangent(Math.toRadians(-45)).splineToConstantHeading(new Vector2d(34.6 ,-59),Math.toRadians(-45))
+
+                //deposit fourth spec
+                .setTangent(Math.toRadians(180)) .splineToLinearHeading(new Pose2d(1,-39,Math.toRadians(90)),Math.toRadians(90))
+
+                //park
+                .setTangent(Math.toRadians(-45)) .splineToLinearHeading(new Pose2d(26,-50,Math.toRadians(-45)),Math.toRadians(-45))
+
+
+ */
 
                 .build();
 
@@ -359,7 +400,7 @@ public class specimenAuto extends LinearOpMode {
         // actions that need to happen on init; for instance, a claw tightening.
         Actions.runBlocking(claw.closeClaw());
         Actions.runBlocking(arm.armTransfer());
-        Actions.runBlocking(pas.intake());
+        Actions.runBlocking(pas.start());
         Actions.runBlocking(horizontalExtendo.goToBack());
 
 

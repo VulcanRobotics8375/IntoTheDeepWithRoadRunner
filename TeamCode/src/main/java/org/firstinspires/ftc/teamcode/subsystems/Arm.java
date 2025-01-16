@@ -18,14 +18,14 @@ public class Arm extends Subsystem {
 
     // can try to be used for spec front depo move
 
-    private final double FRONT_INTAKE_POSITION = 0.23;
+    private final double FRONT_INTAKE_POSITION = 0.3;
 
     // used for spec front depo and sample front depo
 
-    private final double FRONT_DEPO_POSITION = 0.4128;
+    private final double FRONT_DEPO_POSITION = 0.4328;
 
 
-    private final double BACK_DEPOSIT_POSITION = 0.8;
+    private final double BACK_DEPOSIT_POSITION = 0.7511;
 
 
     private final double TRANSFER_POSITION = 0.5861;
@@ -33,7 +33,7 @@ public class Arm extends Subsystem {
 
     // can try to be used for spec front depo move
 
-    private final double SAMPLEINTAKEHOVER = 0.275;
+    private final double SAMPLEINTAKEHOVER = 0.37;
 
 
     @Override
@@ -71,6 +71,11 @@ public class Arm extends Subsystem {
         setPos();
     }
 
+    public void specDepoMove(){
+        armPos = ArmPos.SPEC_DEPO_MOVE;
+        setPos();
+    }
+
     public void transfer(){
         armPos = ArmPos.TRANSFER;
         setPos();
@@ -99,6 +104,11 @@ public class Arm extends Subsystem {
                 armServoLeft.setPosition(FRONT_INTAKE_POSITION);
                 armServoRight.setPosition(FRONT_INTAKE_POSITION);
                 break;
+
+            case SPEC_DEPO_MOVE:
+                armServoLeft.setPosition(SAMPLEINTAKEHOVER+0.75);
+                armServoRight.setPosition(SAMPLEINTAKEHOVER+0.75);
+
             case BACK_DEP:
                 //set servos to  back
                 armServoLeft.setPosition(BACK_DEPOSIT_POSITION);
@@ -137,7 +147,8 @@ public class Arm extends Subsystem {
         TRANSFER,
         FRONT_DEPOSIT,
         SPEC_DEPO,
-        SAMPLE_INTAKE_HOVER
+        SAMPLE_INTAKE_HOVER,
+        SPEC_DEPO_MOVE
     }
 
 }

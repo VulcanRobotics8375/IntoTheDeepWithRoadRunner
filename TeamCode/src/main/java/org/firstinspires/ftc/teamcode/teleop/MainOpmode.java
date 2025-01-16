@@ -152,7 +152,7 @@ public class MainOpmode extends OpModePipeline {
                 else if(bClick){
                     robotState = RobotState.DEPOSITFRONT;
                 }
-                else if(xClick){
+                else if(xClick || gp1aClick){
                     robotState = RobotState.TRANSFERPOS;
                 }
                 else if(yClick){
@@ -248,19 +248,20 @@ public class MainOpmode extends OpModePipeline {
 
                 telemetry.addData("Deposit", "FRONT SPECIMEN");
                 if(exitIntake){
+                    gp1bholding = true;
                     robotState = RobotState.DEPOSITFRONT;
                 }
                 if(aClick){
                     robotState = RobotState.SAMPLEINTAKEREADY;
                 }
                 else if(bClick){
-                    robotState = RobotState.DEPOSITBACK;
+                    robotState = RobotState.TRANSFERPOS;
                 }
                 else if(xClick){
                     robotState = RobotState.SPECIMANINTAKE;
                 }
                 else if(yClick){
-                    robotState = RobotState.TRANSFERPOS;
+                    robotState = RobotState.DEPOSITBACK;
                 }
 
                 break;

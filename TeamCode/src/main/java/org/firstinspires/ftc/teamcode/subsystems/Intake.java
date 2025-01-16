@@ -24,9 +24,9 @@ public class Intake extends Subsystem {
     private static final double ROLL_SPEC_DEPO = 0.9027;
     private static final double ROLL_MAX_POS = 0;
 
-    private static final double PITCH_STRAIGHT = 0;
-    private static final double PITCH_SPECIMAN = 0.5;
-    private static final double PITCH_SAMPLE = 0.687;
+    private static final double PITCH_STRAIGHT = 0.1034;
+    private static final double PITCH_SPECIMAN = 0.5744;
+    private static final double PITCH_SAMPLE = 0.8472;
 
     @Override
     public void init() {
