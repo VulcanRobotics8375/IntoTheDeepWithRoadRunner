@@ -16,17 +16,17 @@ public class Intake extends Subsystem {
 
     private boolean clawOpen = false;
 
-    private static final double CLAW_OPEN_POSITION = 0.48;
-    private static final double CLAW_CLOSED_POSITION = 0.21;
+    private static final double CLAW_OPEN_POSITION = 0.6433;
+    private static final double CLAW_CLOSED_POSITION = 0.308;
 
     private static final double ROLL_90_POSITION = 0.6173;
     private static final double CLAW_NORMAL_POS = 0.3458;
     private static final double ROLL_SPEC_DEPO = 0.9027;
     private static final double ROLL_MAX_POS = 0;
 
-    private static final double PITCH_STRAIGHT = 0.1034;
-    private static final double PITCH_SPECIMAN = 0.5744;
-    private static final double PITCH_SAMPLE = 0.8472;
+    private static final double PITCH_STRAIGHT = 0.75;
+    private static final double PITCH_SPECIMAN = 0.584;
+    private static final double PITCH_SAMPLE = 0.4248;
 
     @Override
     public void init() {
@@ -82,7 +82,7 @@ public class Intake extends Subsystem {
     }
 public void specDepo(boolean claw){
     clawRoll.setPosition(CLAW_NORMAL_POS);
-    clawPitch.setPosition(PITCH_STRAIGHT);
+    clawPitch.setPosition(0);
 
     if(claw) {
         toggleClaw();

@@ -148,8 +148,6 @@ public class sampleAuto extends LinearOpMode {
 
         // used for spec front depo and sample front depo
 
-        private final double FRONT_DEPO_POSITION = 0.4128;
-
 
         private final double BACK_DEPOSIT_POSITION = 0.85;
 
@@ -191,18 +189,6 @@ public class sampleAuto extends LinearOpMode {
             return new ArmDepositBack();
         }
 
-        public class ArmDepositFront implements Action {
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-
-                armServoRight.setPosition(FRONT_DEPO_POSITION);
-                armServoLeft.setPosition(FRONT_DEPO_POSITION);
-                return false;
-            }
-        }
-        public Action armDepositFront() {
-            return new ArmDepositFront();
-        }
 
         public class ArmTransfer implements Action {
             @Override
@@ -227,8 +213,8 @@ public class sampleAuto extends LinearOpMode {
         private static final double CLAW_NORMAL_POS = 0.3458;
         private static final double ROLL_SPEC_DEPO = 0.9027;
 
-        private static final double PITCH_STRAIGHT = 0;
-        private static final double PITCH_SAMPLE = 0.687;
+        private static final double PITCH_STRAIGHT = 0.75;
+        private static final double PITCH_SAMPLE = 0.4248;
 
 
         public PitchandSpin(HardwareMap hardwareMap) {
@@ -275,7 +261,7 @@ public class sampleAuto extends LinearOpMode {
         public class CloseClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.22);
+                claw.setPosition(0.3);
                 return false;
             }
         }
@@ -286,7 +272,7 @@ public class sampleAuto extends LinearOpMode {
         public class OpenClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.48 );
+                claw.setPosition(0.6433 );
                 return false;
             }
         }
@@ -300,7 +286,7 @@ public class sampleAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
         //set starting position
-        Pose2d initialPose =new Pose2d(-41, -63, Math.toRadians(0));
+        Pose2d initialPose =new Pose2d(-41, -63, Math.toRadians(90));
 
         //initialize subsystems
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
@@ -315,125 +301,53 @@ public class sampleAuto extends LinearOpMode {
 
 
                 //preload sample deposit
-
-                .stopAndAdd(lift.goTo(2100))
-                .setTangent(Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-50, -62),Math.toRadians(180))
-                .stopAndAdd(pas.deposit())
-                .waitSeconds(1)
-                .stopAndAdd(arm.armBackDeposit())
-                .waitSeconds(0.5)
-                .stopAndAdd(claw.openClaw())
-                .waitSeconds(0.5)
-                .stopAndAdd(lift.goTo(0))
-
+                .setTangent(Math.toRadians(135))
+                .splineToLinearHeading(new Pose2d(-55.5,-54,Math.toRadians(45)),Math.toRadians(225))
 
 
                 //intake sample 2
-                .stopAndAdd(arm.armIntake())
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-50.5,-51.5,Math.toRadians(87)),Math.toRadians(90))
-                .stopAndAdd(horizontalExtendo.goToFront())
-                .stopAndAdd(pas.intake())
-                .waitSeconds(1)
-                .stopAndAdd(claw.closeClaw())
-                .waitSeconds(0.7)
-                .stopAndAdd(arm.armTransfer())
-                .stopAndAdd(horizontalExtendo.goToBack())
+                .splineToLinearHeading(new Pose2d(-50,-50.5,Math.toRadians(90)),Math.toRadians(90))
 
 
 
                 //deposit sample 2
-                .turnTo(Math.toRadians(45))
-                .setTangent(Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-54.5, -53), Math.toRadians(45))
-                .stopAndAdd(lift.goTo(2100))
-                .stopAndAdd(pas.deposit())
-                .waitSeconds(1)
-                .stopAndAdd(arm.armBackDeposit())
-                .waitSeconds(1)
-                .stopAndAdd(claw.openClaw())
-                .waitSeconds(0.5)
-                .stopAndAdd(arm.armTransfer())
-                .stopAndAdd(lift.goTo(0))
-                .waitSeconds(1)
+                .setTangent(Math.toRadians(225))
+                .splineToLinearHeading(new Pose2d(-55.5, -54,Math.toRadians(45)),Math.toRadians(90))
 
-
-
+                .waitSeconds(1)
 
                 //intake sample 3
-
-                .stopAndAdd(arm.armIntake())
-                .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-60,-51.5,Math.toRadians(90)),Math.toRadians(90))
-                .stopAndAdd(horizontalExtendo.goToFront())
-                .stopAndAdd(pas.intake())
+                .setTangent(Math.toRadians(90)).splineToLinearHeading(new Pose2d(-58,-50.7,Math.toRadians(90)),Math.toRadians(90))
                 .waitSeconds(1)
-                .stopAndAdd(claw.closeClaw())
-                .waitSeconds(0.7)
-                .stopAndAdd(arm.armTransfer())
-                .stopAndAdd(horizontalExtendo.goToBack())
-
 
                 //deposit sample 3
-                .turnTo(Math.toRadians(45))
-                .setTangent(Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-54.5, -53), Math.toRadians(45))
-                .stopAndAdd(lift.goTo(2100))
-                .stopAndAdd(pas.deposit())
+                .setTangent(Math.toRadians(260))
+                .splineToLinearHeading(new Pose2d(-55.5, -54,Math.toRadians(45)),Math.toRadians(90))
+
                 .waitSeconds(1)
-                .stopAndAdd(arm.armBackDeposit())
-                .waitSeconds(1)
-                .stopAndAdd(claw.openClaw())
-                .waitSeconds(0.5)
-                .stopAndAdd(arm.armTransfer())
-                .stopAndAdd(lift.goTo(0))
-                .waitSeconds(1)
+
 
 
                 //intake sample 4
+                .setTangent(Math.toRadians(120))
+                .splineToLinearHeading(new Pose2d(-59.4, -49.5,Math.toRadians(120)),Math.toRadians(90))
 
 
-                .stopAndAdd(arm.armIntake())
-                .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-59.4, -49.5,Math.toRadians(122)),Math.toRadians(90))
-                .stopAndAdd(horizontalExtendo.goToFront())
-                .stopAndAdd(pas.intake())
-                .waitSeconds(1)
-                .stopAndAdd(claw.closeClaw())
-                .waitSeconds(0.7)
-                .stopAndAdd(arm.armTransfer())
-                .stopAndAdd(horizontalExtendo.goToBack())
                 .waitSeconds(1)
 
 
                 //deposit sample 4
-                 .turnTo(Math.toRadians(45))
-                .stopAndAdd(pas.deposit())
-                .stopAndAdd(lift.goTo(2100))
-                .setTangent(Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-54.5, -53), Math.toRadians(45))
+
+
+                .setTangent(Math.toRadians(300))
+                .splineToLinearHeading(new Pose2d(-55.5, -54,Math.toRadians(45)),Math.toRadians(90))
+
                 .waitSeconds(1)
-                .stopAndAdd(arm.armBackDeposit())
-                .waitSeconds(1)
-                .stopAndAdd(claw.openClaw())
-                .waitSeconds(0.5)
-                .stopAndAdd(arm.armTransfer())
-                .stopAndAdd(lift.goTo(0))
-                .waitSeconds(1)
-/*
+
                 //park or go pick up sample
                 .splineTo(new Vector2d(-29,-8.7),Math.toRadians(0))
 
-                //deposit fifth sample?
-                .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-53.5,-53.5,Math.toRadians(45)),Math.toRadians(-90))
-
-
-                //park or go pick up sample
-                .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-29,-8.7,Math.toRadians(0)),Math.toRadians(0))
-*/
                 .build();
 
 
