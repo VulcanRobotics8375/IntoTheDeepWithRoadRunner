@@ -237,11 +237,8 @@ public class specimenAuto extends LinearOpMode {
         private static final double CLAW_NORMAL_POS = 0.3458;
         private static final double ROLL_SPEC_DEPO = 0.9027;
 
-
-
-        private static final double PITCH_STRAIGHT = 0.75;
-        private static final double PITCH_90 = 0.4248;
-
+        private static final double PITCH_STRAIGHT = 0.643;
+        private static final double PITCH_90 = 0.365;
         public PitchandSpin(HardwareMap hardwareMap) {
             clawSpin = hardwareMap.get(Servo.class, "clawSpin");
             clawPitch = hardwareMap.get(Servo.class, "clawPitch");

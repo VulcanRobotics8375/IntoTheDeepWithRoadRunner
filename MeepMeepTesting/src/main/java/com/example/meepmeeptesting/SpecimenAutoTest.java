@@ -19,7 +19,7 @@ public class SpecimenAutoTest {
                         //deposit preload
 
                         .setTangent(Math.toRadians(90))
-                        .splineToConstantHeading(new Vector2d(8,-39),Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(8,-33),Math.toRadians(90))
 
                         .setTangent(Math.toRadians(-35)) .splineToConstantHeading(new Vector2d(35.7,-27.2),Math.toRadians(90))
 
@@ -36,12 +36,12 @@ public class SpecimenAutoTest {
                         .splineToConstantHeading(new Vector2d(57,-16),Math.toRadians(-90))
 
                         //push second sample
-                        .splineToConstantHeading(new Vector2d(57,-58),Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(59,-55.5),Math.toRadians(-90))
 
 
                         //deposit second spec
                         .setTangent(Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(3,-39),Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(5,-33),Math.toRadians(90))
 
 
                         //pick up third spec
