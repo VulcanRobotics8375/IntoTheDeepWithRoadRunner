@@ -16,8 +16,8 @@ public class Intake extends Subsystem {
 
     private boolean clawOpen = false;
 
-    private static final double CLAW_OPEN_POSITION = 0.6433;
-    private static final double CLAW_CLOSED_POSITION = 0.25;
+    private static final double CLAW_OPEN_POSITION = 0.448;
+    private static final double CLAW_CLOSED_POSITION = 0.1545;
 
     private static final double ROLL_90_POSITION = 0.6173;
     private static final double CLAW_NORMAL_POS = 0.3458;
@@ -25,10 +25,10 @@ public class Intake extends Subsystem {
     private static final double ROLL_MAX_POS = 0;
 
 
-    private static final double PITCH_STRAIGHT = 0.715;
-    private static final double PITCH_SAMPLE = 0.383;
+    private static final double PITCH_STRAIGHT = 1;
+    private static final double PITCH_SAMPLE = 0.6249;
 
-    private static final double PITCH_SPECIMAN = 0.57;
+    private static final double PITCH_SPECIMAN = 0.8;
 
     @Override
     public void init() {

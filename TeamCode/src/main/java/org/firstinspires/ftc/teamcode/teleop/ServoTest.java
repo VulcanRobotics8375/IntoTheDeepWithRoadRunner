@@ -18,7 +18,7 @@ public class ServoTest extends OpModePipeline {
         subsystems = new MainConfig();
         super.init();
 
-        servo = hardwareMap.servo.get("clawPitch");
+        servo = hardwareMap.servo.get("clawServo");
 
     }
     private boolean yPrev = false;

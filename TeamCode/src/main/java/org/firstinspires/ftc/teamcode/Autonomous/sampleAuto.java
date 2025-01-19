@@ -144,13 +144,13 @@ public class sampleAuto extends LinearOpMode {
 
         // can try to be used for spec front depo move
 
-        private final double FRONT_INTAKE_POSITION = 0.21;
+        private final double FRONT_INTAKE_POSITION = 0.20;
 
 
         private final double BACK_DEPOSIT_POSITION = 0.6472;
 
 
-        private final double TRANSFER_POSITION = 0.4972;
+        private final double TRANSFER_POSITION = 0.45;
 
 
 
@@ -230,8 +230,8 @@ public class sampleAuto extends LinearOpMode {
 
 
 
-        private static final double PITCH_STRAIGHT = 0.715;
-        private static final double PITCH_SAMPLE = 0.383;
+        private static final double PITCH_STRAIGHT = 1;
+        private static final double PITCH_SAMPLE = 0.6249;
 
 
 
@@ -279,7 +279,7 @@ public class sampleAuto extends LinearOpMode {
         public class CloseClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.27);
+                claw.setPosition(0.1545);
                 return false;
             }
         }
@@ -290,7 +290,7 @@ public class sampleAuto extends LinearOpMode {
         public class OpenClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.6433 );
+                claw.setPosition(0.448 );
                 return false;
             }
         }
@@ -327,7 +327,7 @@ public class sampleAuto extends LinearOpMode {
                 .stopAndAdd(pas.deposit())
                 .waitSeconds(1)
                 .stopAndAdd(claw.openClaw())
-                .waitSeconds(0.5)
+                .waitSeconds(1)
                 .stopAndAdd(lift.goTo(0))
                 .stopAndAdd(pas.intake())
                 .stopAndAdd(arm.armIntakeHover()).waitSeconds(0.5)
