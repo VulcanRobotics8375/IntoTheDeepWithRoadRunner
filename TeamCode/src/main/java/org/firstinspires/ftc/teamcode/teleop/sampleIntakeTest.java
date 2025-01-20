@@ -42,7 +42,7 @@ public class sampleIntakeTest extends OpModePipeline {
         claw90degTurn = gamepad1.left_bumper && !claw90degTurnPrev;
         claw90degTurnPrev = gamepad1.left_bumper;
 
-        subsystems.sampleIntake(clawRollIncCCW, clawRollIncCW,  claw90degTurn, clawOpen); //manualControl code for intaking samples
+        subsystems.sampleIntake(clawOpen); //manualControl code for intaking samples
 
 
         telemetry.addData("Claw Open", clawOpen);

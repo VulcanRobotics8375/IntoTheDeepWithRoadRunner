@@ -30,36 +30,34 @@ public class MainConfig extends RobotConfig {
         }
     }
 
-    public void sampleIntake(double clawRollIncCCW, double clawRollIncCW, boolean claw90degTurn, boolean claw) {
+    public void sampleIntake(boolean claw) {
         lift2.setPos(0);//down
-        horizontalExtendo.goToFront();
         arm.frontIntake();
-        intake.sampleIntake(clawRollIncCCW, clawRollIncCW,  claw90degTurn, claw);
+        intake.sampleIntake(claw);
     }
 
-    public void sampleIntakeReady(double clawRollIncCCW, double clawRollIncCW, boolean claw90degTurn) {
+    public void sampleIntakeReady() {
         lift2.setPos(0);//down
-        horizontalExtendo.goToFront();
+        horizontalExtendo.goToMid();
         arm.sampleIntakeHover();
-        intake.sampleIntakeReady(clawRollIncCCW, clawRollIncCW,  claw90degTurn);
+        intake.sampleIntakeReady();
     }
 
     public void specimenIntake(boolean claw) {
         intake.specimenIntake(claw);
         lift2.setPos(0);//down
         arm.sampleIntakeHover();
-        horizontalExtendo.goToFront();
     }
     
     public void depositFront(int height, boolean claw) {
-        intake.depositFront(claw);
+        intake.sampleDeposit(claw);
         lift2.setPos(height);
         arm.frontDeposit();
         horizontalExtendo.goToMid();
     }
 
     public void depositBack(int height, boolean claw) {
-        intake.depositBack(claw);
+        intake.sampleDeposit(claw);
         lift2.setPos(height);
         arm.back();
         horizontalExtendo.goToBack();
@@ -89,7 +87,7 @@ public class MainConfig extends RobotConfig {
 
     public void hang(){
         intake.transferPos();
-        lift2.setPos(2150);
+        lift2.setPos(2200);
         arm.transfer();
         horizontalExtendo.goToBack();
     }

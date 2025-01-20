@@ -5,87 +5,61 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.Servo;
-
+import com.qualcomm.robotcore.hardware.CRServo;
 import org.firstinspires.ftc.teamcode.robotcorelib.util.Subsystem;
 
 public class Intake extends Subsystem {
 
     private Servo claw;
-    private Servo clawRoll;
-    private Servo clawPitch;
+    private CRServo leftSpinner;
+    private CRServo rightSpinner;
 
     private boolean clawOpen = false;
 
-    private static final double CLAW_OPEN_POSITION = 0.448;
-    private static final double CLAW_CLOSED_POSITION = 0.1545;
+    private static final double CLAW_OPEN_POSITION = 0;
+    private static final double CLAW_CLOSED_POSITION = 1;
 
-    private static final double ROLL_90_POSITION = 0.6173;
-    private static final double CLAW_NORMAL_POS = 0.3458;
-    private static final double ROLL_SPEC_DEPO = 0.9027;
-    private static final double ROLL_MAX_POS = 0;
-
-
-    private static final double PITCH_STRAIGHT = 1;
-    private static final double PITCH_SAMPLE = 0.6249;
-
-    private static final double PITCH_SPECIMAN = 0.8;
 
     @Override
     public void init() {
         claw = hardwareMap.get(Servo.class, "clawServo");
-        clawRoll = hardwareMap.get(Servo.class, "clawSpin");
-        clawPitch = hardwareMap.get(Servo.class, "clawPitch");
-
+        leftSpinner = hardwareMap.get(CRServo.class, "leftSpinner");
+        rightSpinner = hardwareMap.get(CRServo.class, "rightSpinner");
+        leftSpinner.setPower(0);
+        rightSpinner.setPower(0);
         claw.setPosition(CLAW_CLOSED_POSITION);
-        clawRoll.setPosition(CLAW_NORMAL_POS);
-        clawPitch.setPosition(PITCH_SAMPLE);
+
     }
 
-    public void sampleIntake(double leftTrigger, double rightTrigger, boolean leftBumper, boolean rightBumper) {
+    public void sampleIntake(boolean rightBumper) {
 
-        // Roll Adjustment Logic
-        double currentRollPosition = clawRoll.getPosition(); // Get the current roll position
-        double rollAdjustment = -rightTrigger * 0.01 + leftTrigger * 0.01;
-        clawRoll.setPosition(clamp(currentRollPosition + rollAdjustment, ROLL_MAX_POS, ROLL_SPEC_DEPO)); // Adjust claw roll position
 
-        if(leftBumper && currentRollPosition<0.4){
-            clawRoll.setPosition(ROLL_90_POSITION);
-        }
-        else if(leftBumper && currentRollPosition >= 0.4){
-            clawRoll.setPosition(CLAW_NORMAL_POS);
-        }
+       rightSpinner.setPower(1);
+       leftSpinner.setPower(-1);
+
         // Claw Open/Close Logic
         if(rightBumper) {
             toggleClaw();
+            rightSpinner.setPower(0);
+            leftSpinner.setPower(0);
         }
-        // Set Claw Pitch for Sample Intake
-        clawPitch.setPosition(PITCH_SAMPLE);
+
     }
 
 
-    public void sampleIntakeReady(double leftTrigger, double rightTrigger, boolean leftBumper) {
+    public void sampleIntakeReady() {
 
-        // Roll Adjustment Logic
-        double currentRollPosition = clawRoll.getPosition(); // Get the current roll position
-        double rollAdjustment = -rightTrigger * 0.01 + leftTrigger * 0.01;
-        clawRoll.setPosition(clamp(currentRollPosition + rollAdjustment, ROLL_MAX_POS, ROLL_SPEC_DEPO)); // Adjust claw roll position
-
-        if(leftBumper && currentRollPosition<0.4){
-            clawRoll.setPosition(ROLL_90_POSITION);
-        }
-        else if(leftBumper && currentRollPosition >= 0.4){
-            clawRoll.setPosition(CLAW_NORMAL_POS);
-        }
+        leftSpinner.setPower(0);
+        rightSpinner.setPower(0);
         claw.setPosition(CLAW_OPEN_POSITION);
         clawOpen = true;
 
-        // Set Claw Pitch for Sample Intake
-        clawPitch.setPosition(PITCH_SAMPLE);
     }
-public void specDepo(boolean claw){
-    clawRoll.setPosition(CLAW_NORMAL_POS);
-    clawPitch.setPosition(PITCH_STRAIGHT);
 
+
+public void specDepo(boolean claw){
+    leftSpinner.setPower(0);
+    rightSpinner.setPower(0);
     if(claw) {
         toggleClaw();
     }
@@ -94,8 +68,8 @@ public void specDepo(boolean claw){
 
     public void specimenIntake(boolean claw){
 
-        clawRoll.setPosition(CLAW_NORMAL_POS);
-        clawPitch.setPosition(PITCH_SPECIMAN);
+        leftSpinner.setPower(0);
+        rightSpinner.setPower(0);
 
         if(claw) {
             toggleClaw();
@@ -104,8 +78,8 @@ public void specDepo(boolean claw){
 
     public void transferPos() {
         claw.setPosition(CLAW_CLOSED_POSITION);
-        clawRoll.setPosition(CLAW_NORMAL_POS);
-        clawPitch.setPosition(PITCH_SAMPLE);
+        leftSpinner.setPower(0);
+        rightSpinner.setPower(0);
     }
 
     public void toggleClaw() {
@@ -114,28 +88,15 @@ public void specDepo(boolean claw){
         claw.setPosition(targetPosition);
     }
 
-    private double clamp(double value, double min, double max) {
-        return Math.max(min, Math.min(max, value));
-    }
 
-    public void depositBack(boolean claw) {
-        clawRoll.setPosition(CLAW_NORMAL_POS);
-        clawPitch.setPosition(PITCH_STRAIGHT);
+    public void sampleDeposit(boolean claw) {
+        leftSpinner.setPower(0);
+        rightSpinner.setPower(0);
         if(claw) {
+            leftSpinner.setPower(-1);
+            rightSpinner.setPower(1);
             toggleClaw();
         }
-    }
-
-    public void depositFront(boolean claw) {
-        clawRoll.setPosition(CLAW_NORMAL_POS);
-        clawPitch.setPosition(PITCH_STRAIGHT);
-        if(claw) {
-            toggleClaw();
-        }
-    }
-
-    public void setPitch(double x){
-        clawPitch.setPosition(x);
     }
 
 }

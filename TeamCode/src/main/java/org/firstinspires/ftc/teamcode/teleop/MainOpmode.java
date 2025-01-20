@@ -48,10 +48,9 @@ public class MainOpmode extends OpModePipeline {
     //define buttons for claw
     private boolean clawPrev = false;
     private boolean claw = false; //claw boolean: gamepad1.right bumper
-    private double clawRollIncCCW = 0.0; //counterclockwise incrementer: gamepad1.left trigger
-    private double clawRollIncCW = 0.0; //clockwise incrementer: gamepad1.right trigger
-    private boolean claw90degTurnPrev = false;
-    private boolean claw90degTurn = false; //claw 90 degree turn: gamepad1.left bumper
+    private double horizBack = 0.0; //horizontal extendo back manual: gamepad1.left trigger
+    private double horizForward = 0.0; //horizontal extendo forward manual: gamepad1.right trigger
+
 
     private boolean aPrev = false;
     private boolean aClick = false;
@@ -101,8 +100,11 @@ public class MainOpmode extends OpModePipeline {
                 gamepad1.right_stick_x   // Rotation
         );
         subsystems.lift2.update();
-        subsystems.lift2.manualControl(-gamepad2.left_stick_y); //initialize gamepad2 left joystick as manual input for lift
-        subsystems.horizontalExtendo.run(-gamepad2.right_stick_y); //initialize gamepad2 right joystick as manual input for horizextendo
+
+        horizBack = gamepad1.left_trigger; //same
+        horizForward = gamepad1.right_trigger; //same
+
+        subsystems.horizontalExtendo.run(horizBack,horizForward);
 
         aClick = gamepad2.a && !aPrev;
         aPrev = gamepad2.a;
@@ -132,13 +134,10 @@ public class MainOpmode extends OpModePipeline {
 
 
 
-        //assign buttons for claw on init
+        //assign buttons for claw
         claw = gamepad1.right_bumper && !clawPrev; //set claw status
         clawPrev = gamepad1.right_bumper;
-        clawRollIncCCW = gamepad1.left_trigger; //same
-        clawRollIncCW = gamepad1.right_trigger; //same
-        claw90degTurn = gamepad1.left_bumper && !claw90degTurnPrev;
-        claw90degTurnPrev = gamepad1.left_bumper;
+
 
         switch (robotState) {
 
@@ -163,7 +162,7 @@ public class MainOpmode extends OpModePipeline {
 
             case SAMPLEINTAKEREADY:
 
-                subsystems.sampleIntakeReady(clawRollIncCCW, clawRollIncCW,  claw90degTurn);
+                subsystems.sampleIntakeReady();
 
                 telemetry.addData("state", "SAMPLE INTAKE HOVER");
 
@@ -186,7 +185,7 @@ public class MainOpmode extends OpModePipeline {
                 break;
 
             case SAMPLEINTAKE:
-                    subsystems.sampleIntake(clawRollIncCCW, clawRollIncCW,  claw90degTurn,claw);
+                    subsystems.sampleIntake(claw);
                 if(exitIntake){
                     robotState = RobotState.SAMPLEINTAKEREADY;
                 }

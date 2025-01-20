@@ -39,18 +39,24 @@ public class HorizontalExtendo extends Subsystem {
         linkServoRight.setPosition(rightServoPos);
     }
 
-    // GamePad2 right trigger to extend, left trigger to retract
-    // gamePad2 right bumper to full extend, left bumper to fully retract
-    public void run(double manualInput) {
-        // Ensure manualInput is non-zero
-        if (Math.abs(manualInput) > 0.1) { // Add a dead zone to prevent small input noise
-            // Adjust servo positions based on input
-            leftServoPos = Range.clip(leftServoPos - 0.005 * Math.signum(manualInput), fullExtendLeft, fullRetractLeft);
-            rightServoPos = Range.clip(rightServoPos + 0.005 * Math.signum(manualInput), fullRetractRight, fullExtendRight);
+    private double clamp(double value, double min, double max) {
+        return Math.max(min, Math.min(max, value));
+    }
 
-            // Apply updated positions
-            moveToPosition(leftServoPos, rightServoPos);
-        }
+
+    // GamePad1 right trigger to extend, left trigger to retract
+    // gamePad1 right bumper to full extend, left bumper to fully retract
+    public void run(double leftTrigger, double rightTrigger) {
+
+
+        // Roll Adjustment Logic
+        double currentLeftPosition = linkServoLeft.getPosition();
+        double currentRightPosition = linkServoRight.getPosition();
+        double Adjustment = rightTrigger * 0.01 - leftTrigger * 0.01;
+        linkServoLeft.setPosition(clamp(currentLeftPosition - Adjustment, fullExtendLeft, fullRetractLeft));
+        linkServoRight.setPosition(clamp(currentRightPosition + Adjustment, fullRetractRight, fullExtendRight));
+
+        moveToPosition(leftServoPos, rightServoPos);
     }
 
 
@@ -60,26 +66,18 @@ public class HorizontalExtendo extends Subsystem {
         linkServoRight.setPosition(rightPosition);
     }
 
-    public void moveGradually(double targetLeft, double targetRight) {
-        while (Math.abs(leftServoPos - targetLeft) > 0.01 || Math.abs(rightServoPos - targetRight) > 0.01) {
-            leftServoPos += (targetLeft - leftServoPos) * 0.1;
-            rightServoPos += (targetRight - rightServoPos) * 0.1;
-            moveToPosition(leftServoPos, rightServoPos);
-        }
-    }
-
 
 
     public void goToFront() {
-        moveGradually(fullExtendLeft, fullExtendRight);
+        moveToPosition(fullExtendLeft, fullExtendRight);
     }
 
     public void goToBack() {
-        moveGradually(fullRetractLeft, fullRetractRight);
+        moveToPosition(fullRetractLeft, fullRetractRight);
     }
 
     public  void goToMid(){
-        moveGradually(midPosLeft,midPosRight);
+        moveToPosition(midPosLeft,midPosRight);
     }
 
 

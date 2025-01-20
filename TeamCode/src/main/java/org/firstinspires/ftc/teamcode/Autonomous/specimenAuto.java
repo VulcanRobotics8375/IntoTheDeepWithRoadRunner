@@ -33,18 +33,18 @@ public class specimenAuto extends LinearOpMode {
         private int liftPosition;
         private int lastError = 0;
         private double lastTime;
-        private double kP = .01;
+        private double kP = .02;
         private double kD = .0003;
 
         public Lift(HardwareMap hardwareMap) {
             liftMotorLeft = hardwareMap.get(DcMotorEx.class, "liftMotorLeft");
-            liftMotorRight = hardwareMap.get(DcMotorEx.class, "liftMotorLeft");
+            liftMotorRight = hardwareMap.get(DcMotorEx.class, "liftMotorRight");
 
             liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             liftMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             liftMotorLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-            liftMotorLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+            liftMotorRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
             liftPosition = liftMotorLeft.getCurrentPosition();
             liftTarget = liftPosition;
