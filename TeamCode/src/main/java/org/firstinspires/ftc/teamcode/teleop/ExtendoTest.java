@@ -31,34 +31,15 @@ public class ExtendoTest extends OpModePipeline{
         Robot.update();
 
         // Check if manual input is active
-        double manualInput = gamepad1.right_stick_y;
+        double forward = gamepad1.right_trigger;
+        double back = gamepad1.left_trigger;
 
-        if (Math.abs(manualInput) > 0.1) { // Manual input takes priority
-            subsystems.horizontalExtendo.run(manualInput);
+
+        if (Math.abs(forward-back) > 0.1) { // Manual input takes priority
+            subsystems.horizontalExtendo.run(back,forward);
             isMovingToFront = false; // Disable automated movement when manual input is used
-        } else {
-            // Automated control based on toggle state
-            if (isMovingToFront) {
-                subsystems.horizontalExtendo.goToFront();
-            } else {
-                subsystems.horizontalExtendo.goToBack();
-            }
+
         }
-
-        // Check button A for "go to front"
-        if (gamepad1.a && !prevClickA) {
-            isMovingToFront = true;
-        }
-
-        // Check button B for "go to back"
-        if (gamepad1.b && !prevClickB) {
-            isMovingToFront = false;
-        }
-
-        // Update previous click states
-        prevClickA = gamepad1.a;
-        prevClickB = gamepad1.b;
-
         // Display telemetry
         telemetry.addData("Left Servo Position", subsystems.horizontalExtendo.getCurrentLinkagePos());
         telemetry.update();

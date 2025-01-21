@@ -11,14 +11,15 @@ import org.firstinspires.ftc.teamcode.robotcorelib.util.RobotRunMode;
 @TeleOp (name = "ServoTest")
 public class ServoTest extends OpModePipeline {
     public Servo servo;
-    private double servoPos = 0.3;
+    private double servoPos ;
 
     public void init() {
         runMode = RobotRunMode.TELEOP;
         subsystems = new MainConfig();
         super.init();
 
-        servo = hardwareMap.servo.get("clawServo");
+        servo = hardwareMap.servo.get("leftSpinner");
+servoPos= servo.getPosition();
 
     }
     private boolean yPrev = false;
