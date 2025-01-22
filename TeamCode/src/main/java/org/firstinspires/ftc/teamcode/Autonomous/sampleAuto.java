@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.HorizontalExtendo;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -144,13 +145,13 @@ public class sampleAuto extends LinearOpMode {
 
         // can try to be used for spec front depo move
 
-        private final double FRONT_INTAKE_POSITION = 0.20;
+        private final double FRONT_INTAKE_POSITION = 0.075;
 
 
-        private final double BACK_DEPOSIT_POSITION = 0.6472;
+        private final double BACK_DEPOSIT_POSITION = 0.6961;
 
 
-        private final double TRANSFER_POSITION = 0.45;
+        private final double TRANSFER_POSITION = 0.3739;
 
 
 
@@ -161,23 +162,6 @@ public class sampleAuto extends LinearOpMode {
             armServoRight = hardwareMap.get(Servo.class, "armServoRight");
 
         }
-
-        public class ArmIntakeHover implements Action {
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-
-                armServoRight.setPosition(FRONT_INTAKE_POSITION+0.05);
-                armServoLeft.setPosition(FRONT_INTAKE_POSITION+0.05);
-                return false;
-            }
-        }
-        public Action armIntakeHover() {
-            return new ArmIntakeHover();
-        }
-
-
-
-
 
         public class ArmIntake implements Action {
             @Override
@@ -222,64 +206,24 @@ public class sampleAuto extends LinearOpMode {
 
     }
 
-    public class PitchandSpin {
-        private Servo clawPitch;
-        private Servo clawSpin;
-
-        private static final double CLAW_NORMAL_POS = 0.3458;
-
-
-
-        private static final double PITCH_STRAIGHT = 1;
-        private static final double PITCH_SAMPLE = 0.6249;
-
-
-
-        public PitchandSpin(HardwareMap hardwareMap) {
-            clawSpin = hardwareMap.get(Servo.class, "clawSpin");
-            clawPitch = hardwareMap.get(Servo.class, "clawPitch");
-
-        }
-
-        public class Deposit implements Action {
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-
-                clawPitch.setPosition(PITCH_STRAIGHT);
-                clawSpin.setPosition(CLAW_NORMAL_POS);
-                return false;
-            }
-        }
-        public Action deposit() {
-            return new Deposit();
-        }
-
-        public class Intake implements Action {
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                clawPitch.setPosition(PITCH_SAMPLE);
-
-                clawSpin.setPosition(CLAW_NORMAL_POS);
-                return false;
-            }
-        }
-        public Action intake() {
-            return new Intake();
-        }
-    }
-
-    public class Claw {
+    public class Intake {
         private Servo claw;
+        private CRServo leftSpinner;
+        private CRServo rightSpinner;
 
-        public Claw(HardwareMap hardwareMap) {
+        public Intake(HardwareMap hardwareMap) {
             claw = hardwareMap.get(Servo.class, "clawServo");
+            leftSpinner = hardwareMap.get(CRServo.class, "leftSpinner");
+            rightSpinner = hardwareMap.get(CRServo.class, "rightSpinner");
+
         }
 
         public class CloseClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.1545);
+                claw.setPosition(0.2867);
+                leftSpinner.setPower(0);
+                rightSpinner.setPower(0);
                 return false;
             }
         }
@@ -290,7 +234,9 @@ public class sampleAuto extends LinearOpMode {
         public class OpenClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.448 );
+                claw.setPosition(0.2275 );
+                leftSpinner.setPower(1);
+                rightSpinner.setPower(-1);
                 return false;
             }
         }
@@ -308,11 +254,10 @@ public class sampleAuto extends LinearOpMode {
 
         //initialize subsystems
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
-        Claw claw = new Claw(hardwareMap);
+        Intake claw = new Intake(hardwareMap);
         HorizontalExtendo horizontalExtendo = new HorizontalExtendo(hardwareMap);
         Lift lift = new Lift(hardwareMap);
         Arm arm = new Arm(hardwareMap);
-        PitchandSpin pas = new PitchandSpin(hardwareMap);
 
 
         Action action1 = drive.actionBuilder(initialPose)
@@ -323,29 +268,29 @@ public class sampleAuto extends LinearOpMode {
                 .stopAndAdd(arm.armBackDeposit())
                 .setTangent(Math.toRadians(135))
                 .splineToLinearHeading(new Pose2d(-58,-56.5,Math.toRadians(45)),Math.toRadians(225))
-                .waitSeconds(0.7)
-                .stopAndAdd(pas.deposit())
                 .waitSeconds(1)
                 .stopAndAdd(claw.openClaw())
-                .waitSeconds(1)
+                .waitSeconds(0.5)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(0.5)
+                .stopAndAdd(arm.armTransfer())
                 .stopAndAdd(lift.goTo(0))
-                .stopAndAdd(pas.intake())
-                .stopAndAdd(arm.armIntakeHover()).waitSeconds(0.5)
+                .waitSeconds(0.5)
 
 
                 //intake sample 2
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(-53,-53,Math.toRadians(90)),Math.toRadians(90))
                 .waitSeconds(0.2)
-                .stopAndAdd(horizontalExtendo.goToFront())
-                .waitSeconds(1)
                 .stopAndAdd(arm.armIntake())
-                .waitSeconds(0.2)
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(1)
                 .stopAndAdd(claw.closeClaw())
                 .waitSeconds(0.5)
                 .stopAndAdd(horizontalExtendo.goToBack())
 
-
+/*
                 //deposit sample 2
                 .stopAndAdd(lift.goTo(2100))
                 .stopAndAdd(arm.armBackDeposit())
@@ -353,14 +298,12 @@ public class sampleAuto extends LinearOpMode {
                 .setTangent(Math.toRadians(225))
                 .splineToLinearHeading(new Pose2d(-58,-56.5,Math.toRadians(45)),Math.toRadians(90))
                 .waitSeconds(0.5)
-                .stopAndAdd(pas.deposit())
 
                 .waitSeconds(1)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.5)
                 .stopAndAdd(lift.goTo(0))
-                .stopAndAdd(pas.intake())
-                .stopAndAdd(arm.armIntakeHover())
+                .stopAndAdd(arm.armIntake())
                 .waitSeconds(1)
 
                 //intake sample 3
@@ -380,12 +323,10 @@ public class sampleAuto extends LinearOpMode {
                 .setTangent(Math.toRadians(260))
                 .splineToLinearHeading(new Pose2d(-58,-56.5,Math.toRadians(45)),Math.toRadians(90))
                 .waitSeconds(0.5)
-                .stopAndAdd(pas.deposit())
                 .waitSeconds(0.3)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.5)
                 .stopAndAdd(lift.goTo(0))
-                .stopAndAdd(pas.intake())
                 .stopAndAdd(arm.armIntakeHover())
                 .waitSeconds(1)
 
@@ -415,9 +356,7 @@ public class sampleAuto extends LinearOpMode {
                 .setTangent(Math.toRadians(300))
                 .splineToLinearHeading(new Pose2d(-58,-56.5,Math.toRadians(45)),Math.toRadians(90))
 
-                .waitSeconds(0.5)
-                .stopAndAdd(pas.deposit())
-                .waitSeconds(0.3)
+                .waitSeconds(0.5).waitSeconds(0.3)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.5)
                 .waitSeconds(1)
@@ -432,13 +371,14 @@ public class sampleAuto extends LinearOpMode {
                 //park or go pick up sample
                 .splineToLinearHeading(new Pose2d(-29,-8.7,Math.toRadians(0)),Math.toRadians(0))
 
+
+ */
                 .build();
 
 
         // actions that need to happen on init; for instance, a claw tightening.
         Actions.runBlocking(claw.closeClaw());
         Actions.runBlocking(arm.armTransfer());
-        Actions.runBlocking(pas.intake());
         Actions.runBlocking(horizontalExtendo.goToBack());
 
 
