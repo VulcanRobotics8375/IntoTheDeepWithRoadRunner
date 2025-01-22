@@ -22,6 +22,8 @@ public class sampleIntakeTest extends OpModePipeline {
         runMode = RobotRunMode.TELEOP;
         super.subsystems = subsystems; //first 4 lines needed always
         super.init();
+        subsystems.sampleIntakeReady(); //manualControl code for intaking samples
+
     }
 
     private boolean prevClickrB = false;

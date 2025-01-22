@@ -16,11 +16,8 @@ public class Arm extends Subsystem {
 
     private ArmPos armPos = ArmPos.TRANSFER;
 
-    // can try to be used for spec front depo move
+    private final double FRONT_INTAKE_POSITION = 0.075;
 
-    private final double FRONT_INTAKE_POSITION = 0.06;
-
-    // used for spec front depo and sample front depo
 
     private final double FRONT_DEPO_POSITION = 0.3;
 
@@ -31,9 +28,7 @@ public class Arm extends Subsystem {
     private final double TRANSFER_POSITION = 0.3739;
 
 
-    // can try to be used for spec front depo move
-
-    private final double SAMPLEINTAKEHOVER = 0.15;
+    private final double SAMPLEINTAKEHOVER = 0.27;
 
 
     @Override

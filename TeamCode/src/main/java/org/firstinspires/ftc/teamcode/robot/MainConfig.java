@@ -45,8 +45,8 @@ public class MainConfig extends RobotConfig {
 
     public void specimenIntake(boolean claw) {
         intake.specimenIntake(claw);
-        lift2.setPos(0);//down
-        arm.sampleIntakeHover();
+        lift2.setPos(900);//down
+        arm.frontIntake();
     }
     
     public void depositFront(int height, boolean claw) {

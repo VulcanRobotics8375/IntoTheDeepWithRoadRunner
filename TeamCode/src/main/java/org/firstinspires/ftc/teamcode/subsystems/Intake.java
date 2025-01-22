@@ -16,8 +16,9 @@ public class Intake extends Subsystem {
 
     private boolean clawOpen = false;
 
-    private static final double CLAW_OPEN_POSITION = 0.2;
-    private static final double CLAW_CLOSED_POSITION = 0.3;
+    private static final double CLAW_OPEN_POSITION = 0.2275;
+    private static final double CLAW_CLOSED_POSITION = 0.2867;
+
 
 
     @Override
@@ -40,8 +41,6 @@ public class Intake extends Subsystem {
         // Claw Open/Close Logic
         if(rightBumper) {
             toggleClaw();
-            rightSpinner.setPower(0);
-            leftSpinner.setPower(0);
         }
 
     }

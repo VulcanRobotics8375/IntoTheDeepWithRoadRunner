@@ -18,7 +18,7 @@ public class ServoTest extends OpModePipeline {
         subsystems = new MainConfig();
         super.init();
 
-        servo = hardwareMap.servo.get("leftSpinner");
+        servo = hardwareMap.servo.get("sweeper");
 servoPos= servo.getPosition();
 
     }

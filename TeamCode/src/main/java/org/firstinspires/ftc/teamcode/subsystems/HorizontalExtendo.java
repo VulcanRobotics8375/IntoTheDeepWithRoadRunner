@@ -13,19 +13,14 @@ public class HorizontalExtendo extends Subsystem {
     private Servo linkServoLeft;
     private Servo linkServoRight;
 
-
-
-    // Define servo limits
     private final double fullRetractLeft = 0.9208;
-    private final double midPosLeft = 0.791;
+    private final double midPosLeft = 0.641;
     private final double fullExtendLeft = 0.33614;
 
     private final double fullRetractRight = 0.3359;
-    private final double midPosRight = 0.46564;
+    private final double midPosRight = 0.61564;
     private final double fullExtendRight = 0.9206;
 
-
-    // Initialize current positions
     private double leftServoPos = fullRetractLeft;
     private double rightServoPos = fullRetractRight;
 
@@ -34,7 +29,6 @@ public class HorizontalExtendo extends Subsystem {
         linkServoLeft = hardwareMap.servo.get("linkServoLeft");
         linkServoRight = hardwareMap.servo.get("linkServoRight");
 
-        // Set initial positions
         linkServoLeft.setPosition(leftServoPos);
         linkServoRight.setPosition(rightServoPos);
     }
@@ -43,46 +37,39 @@ public class HorizontalExtendo extends Subsystem {
         return Math.max(min, Math.min(max, value));
     }
 
-
-    // GamePad1 right trigger to extend, left trigger to retract
-    // gamePad1 right bumper to full extend, left bumper to fully retract
     public void run(double leftTrigger, double rightTrigger) {
+        double adjustment = rightTrigger * 0.005 - leftTrigger * 0.005;
+        leftServoPos = clamp(leftServoPos - adjustment, fullExtendLeft, fullRetractLeft);
+        rightServoPos = clamp(rightServoPos + adjustment, fullRetractRight, fullExtendRight);
 
+        linkServoLeft.setPosition(leftServoPos);
+        linkServoRight.setPosition(rightServoPos);
+    }
 
-        // Roll Adjustment Logic
-        double currentLeftPosition = linkServoLeft.getPosition();
-        double currentRightPosition = linkServoRight.getPosition();
-        double Adjustment = rightTrigger * 0.01 - leftTrigger * 0.01;
-        linkServoLeft.setPosition(clamp(currentLeftPosition - Adjustment, fullExtendLeft, fullRetractLeft));
-        linkServoRight.setPosition(clamp(currentRightPosition + Adjustment, fullRetractRight, fullExtendRight));
-
+    public void goToFront() {
+        leftServoPos = fullExtendLeft;
+        rightServoPos = fullExtendRight;
         moveToPosition(leftServoPos, rightServoPos);
     }
 
+    public void goToBack() {
+        leftServoPos = fullRetractLeft;
+        rightServoPos = fullRetractRight;
+        moveToPosition(leftServoPos, rightServoPos);
+    }
 
-    // Method to set servo positions
+    public void goToMid() {
+        leftServoPos = midPosLeft;
+        rightServoPos = midPosRight;
+        moveToPosition(leftServoPos, rightServoPos);
+    }
+
     private void moveToPosition(double leftPosition, double rightPosition) {
         linkServoLeft.setPosition(leftPosition);
         linkServoRight.setPosition(rightPosition);
     }
 
-
-
-    public void goToFront() {
-        moveToPosition(fullExtendLeft, fullExtendRight);
-    }
-
-    public void goToBack() {
-        moveToPosition(fullRetractLeft, fullRetractRight);
-    }
-
-    public  void goToMid(){
-        moveToPosition(midPosLeft,midPosRight);
-    }
-
-
-
-    public String getCurrentLinkagePos(){
-        return "left servo pos: " + leftServoPos + "\nright servo pos: " + rightServoPos;
+    public String getCurrentLinkagePos() {
+        return "Left servo pos: " + leftServoPos + "\nRight servo pos: " + rightServoPos;
     }
 }

@@ -13,15 +13,20 @@ import org.firstinspires.ftc.teamcode.robotcorelib.util.RobotRunMode;
 
 @TeleOp
 public class Test extends LinearOpMode {
-    public CRServo spinner = null;
+    public CRServo spinner1 = null;
+    public CRServo spinner2 = null;
+
     @Override
     public void runOpMode() throws InterruptedException {
-        spinner = hardwareMap.get(CRServo.class, "leftSpinner");
+        spinner1 = hardwareMap.get(CRServo.class, "leftSpinner");
+        spinner2 = hardwareMap.get(CRServo.class, "rightSpinner");
 
         waitForStart();
 
         while (!isStopRequested()) {
-            spinner.setPower(1.0);
+            spinner1.setPower(1.0);
+            spinner2.setPower(-1.0);
+
         }
     }
 }
