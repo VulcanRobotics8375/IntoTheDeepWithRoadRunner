@@ -161,7 +161,7 @@ public class MainOpmode extends OpModePipeline {
                 break;
 
             case SAMPLEINTAKE:
-                    subsystems.sampleIntake(claw);
+                subsystems.sampleIntake(claw);
                 if(exitIntake){
                     robotState = RobotState.SAMPLEINTAKEREADY;
                 }
@@ -184,10 +184,9 @@ public class MainOpmode extends OpModePipeline {
                if(SpecLiftHeight || gp1bholding) { //specimen deposit front
                     gp1bholding = true;
                     gp1aholding = false;
-                    subsystems.specDepositFront(highBar, false);
+                    subsystems.specDepositFront(highBar + 200, false);
                     if(claw){
                         gp1bholding = false;
-
                         robotState = RobotState.SPECIMENDEPO;
                     }
                     telemetry.addData("Deposit", "FRONT SPECIMEN");
@@ -219,9 +218,10 @@ public class MainOpmode extends OpModePipeline {
 
             case SPECIMENDEPO:
 
-                subsystems.specDepositFrontMove(highBar-100, claw); // front intake position
 
+                subsystems.specDepositFrontMove(highBar + 200, claw); // replace with forward lunge
                 telemetry.addData("Deposit", "FRONT SPECIMEN");
+
                 if(exitIntake){
                     gp1bholding = true;
                     robotState = RobotState.DEPOSITFRONT;

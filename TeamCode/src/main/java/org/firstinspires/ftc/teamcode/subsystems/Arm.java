@@ -99,11 +99,10 @@ public class Arm extends Subsystem {
                 armServoLeft.setPosition(FRONT_INTAKE_POSITION);
                 armServoRight.setPosition(FRONT_INTAKE_POSITION);
                 break;
-
             case SPEC_DEPO_MOVE:
                 armServoLeft.setPosition(SAMPLEINTAKEHOVER);
                 armServoRight.setPosition(SAMPLEINTAKEHOVER);
-
+                break;
             case BACK_DEP:
                 //set servos to  back
                 armServoLeft.setPosition(BACK_DEPOSIT_POSITION);

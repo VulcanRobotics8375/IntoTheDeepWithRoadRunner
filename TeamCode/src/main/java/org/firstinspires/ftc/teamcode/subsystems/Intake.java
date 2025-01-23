@@ -17,7 +17,7 @@ public class Intake extends Subsystem {
     private boolean clawOpen = false;
 
     private static final double CLAW_OPEN_POSITION = 0.2275;
-    private static final double CLAW_CLOSED_POSITION = 0.2867;
+    private static final double CLAW_CLOSED_POSITION = 0.2910;
 
 
 
