@@ -16,7 +16,7 @@ public class MainOpmode extends OpModePipeline {
 
     //set lift positions
     private final int highBucket = 2120; //set location of the high bucket
-    private final int highBar = 550; //set location as high bar
+    private final int highBar = 750; //set location as high bar
 
     //define buttons for claw
     private boolean clawPrev = false;
@@ -184,11 +184,8 @@ public class MainOpmode extends OpModePipeline {
                if(SpecLiftHeight || gp1bholding) { //specimen deposit front
                     gp1bholding = true;
                     gp1aholding = false;
-                    subsystems.specDepositFront(highBar + 200, false);
-                    if(claw){
-                        gp1bholding = false;
-                        robotState = RobotState.SPECIMENDEPO;
-                    }
+                    subsystems.specDepositFront(highBar, claw);
+
                     telemetry.addData("Deposit", "FRONT SPECIMEN");
                 }
                 telemetry.addData("state", "DEPOSITFRONT");
@@ -212,31 +209,6 @@ public class MainOpmode extends OpModePipeline {
                     robotState = RobotState.DEPOSITBACK;
                      gp1bholding = false;
                     gp1aholding = false;
-                }
-
-                break;
-
-            case SPECIMENDEPO:
-
-
-                subsystems.specDepositFrontMove(highBar + 200, claw); // replace with forward lunge
-                telemetry.addData("Deposit", "FRONT SPECIMEN");
-
-                if(exitIntake){
-                    gp1bholding = true;
-                    robotState = RobotState.DEPOSITFRONT;
-                }
-                if(aClick){
-                    robotState = RobotState.SAMPLEINTAKEREADY;
-                }
-                else if(bClick){
-                    robotState = RobotState.TRANSFERPOS;
-                }
-                else if(xClick){
-                    robotState = RobotState.SPECIMANINTAKE;
-                }
-                else if(yClick){
-                    robotState = RobotState.DEPOSITBACK;
                 }
 
                 break;
@@ -309,7 +281,6 @@ public class MainOpmode extends OpModePipeline {
         SPECIMANINTAKE,
         DEPOSITFRONT,
         DEPOSITBACK,
-        SPECIMENDEPO,
         HANG,
     }
 

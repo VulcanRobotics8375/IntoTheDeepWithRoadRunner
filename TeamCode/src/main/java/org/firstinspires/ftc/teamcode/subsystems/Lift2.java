@@ -36,7 +36,7 @@ public class Lift2 extends Subsystem{
         // Initialize liftMotorLeft
         liftMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        liftMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftMotorLeft.setPower(0);
 
         // Initialize liftMotorRight

@@ -12,11 +12,11 @@ import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
-import org.firstinspires.ftc.teamcode.subsystems.HorizontalExtendo;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -25,8 +25,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 @Config
-@Autonomous(name = "OLD sample auto", group = "Autonomous")
-public class oldSampleAuto extends LinearOpMode {
+@Autonomous(name = "new sample auto", group = "Autonomous")
+public class newSampleAuto extends LinearOpMode {
 
     //subsystem classes
     public class Lift {
@@ -36,18 +36,18 @@ public class oldSampleAuto extends LinearOpMode {
         private int liftPosition;
         private int lastError = 0;
         private double lastTime;
-        private double kP = .01;
+        private double kP = .02;
         private double kD = .0003;
 
         public Lift(HardwareMap hardwareMap) {
             liftMotorLeft = hardwareMap.get(DcMotorEx.class, "liftMotorLeft");
-            liftMotorRight = hardwareMap.get(DcMotorEx.class, "liftMotorLeft");
+            liftMotorRight = hardwareMap.get(DcMotorEx.class, "liftMotorRight");
 
             liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             liftMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             liftMotorLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-            liftMotorLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+            liftMotorRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
             liftPosition = liftMotorLeft.getCurrentPosition();
             liftTarget = liftPosition;
@@ -144,17 +144,14 @@ public class oldSampleAuto extends LinearOpMode {
 
         // can try to be used for spec front depo move
 
-        private final double FRONT_INTAKE_POSITION = 0.24;
-
-        // used for spec front depo and sample front depo
-
-        private final double FRONT_DEPO_POSITION = 0.4128;
+        private final double FRONT_INTAKE_POSITION = 0.075;
 
 
-        private final double BACK_DEPOSIT_POSITION = 0.8;
+        private final double BACK_DEPOSIT_POSITION = 0.6961;
 
 
-        private final double TRANSFER_POSITION = 0.5861;
+        private final double TRANSFER_POSITION = 0.3739;
+
 
 
 
@@ -191,18 +188,6 @@ public class oldSampleAuto extends LinearOpMode {
             return new ArmDepositBack();
         }
 
-        public class ArmDepositFront implements Action {
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-
-                armServoRight.setPosition(FRONT_DEPO_POSITION);
-                armServoLeft.setPosition(FRONT_DEPO_POSITION);
-                return false;
-            }
-        }
-        public Action armDepositFront() {
-            return new ArmDepositFront();
-        }
 
         public class ArmTransfer implements Action {
             @Override
@@ -220,62 +205,24 @@ public class oldSampleAuto extends LinearOpMode {
 
     }
 
-    public class PitchandSpin {
-        private Servo clawPitch;
-        private Servo clawSpin;
-
-        private static final double CLAW_NORMAL_POS = 0.3458;
-        private static final double ROLL_SPEC_DEPO = 0.9027;
-
-        private static final double PITCH_STRAIGHT = 0;
-        private static final double PITCH_SAMPLE = 0.687;
-
-
-        public PitchandSpin(HardwareMap hardwareMap) {
-            clawSpin = hardwareMap.get(Servo.class, "clawSpin");
-            clawPitch = hardwareMap.get(Servo.class, "clawPitch");
-
-        }
-
-        public class Deposit implements Action {
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-
-                clawPitch.setPosition(PITCH_STRAIGHT);
-                clawSpin.setPosition(ROLL_SPEC_DEPO);
-                return false;
-            }
-        }
-        public Action deposit() {
-            return new Deposit();
-        }
-
-        public class Intake implements Action {
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                clawPitch.setPosition(PITCH_SAMPLE);
-
-                clawSpin.setPosition(CLAW_NORMAL_POS);
-                return false;
-            }
-        }
-        public Action intake() {
-            return new Intake();
-        }
-    }
-
-    public class Claw {
+    public class Intake {
         private Servo claw;
+        private CRServo leftSpinner;
+        private CRServo rightSpinner;
 
-        public Claw(HardwareMap hardwareMap) {
+        public Intake(HardwareMap hardwareMap) {
             claw = hardwareMap.get(Servo.class, "clawServo");
+            leftSpinner = hardwareMap.get(CRServo.class, "leftSpinner");
+            rightSpinner = hardwareMap.get(CRServo.class, "rightSpinner");
+
         }
 
         public class CloseClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.22);
+                claw.setPosition(0.2867);
+                leftSpinner.setPower(0);
+                rightSpinner.setPower(0);
                 return false;
             }
         }
@@ -286,7 +233,9 @@ public class oldSampleAuto extends LinearOpMode {
         public class OpenClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.48 );
+                claw.setPosition(0.2275 );
+                leftSpinner.setPower(1);
+                rightSpinner.setPower(-1);
                 return false;
             }
         }
@@ -300,121 +249,17 @@ public class oldSampleAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
         //set starting position
-        Pose2d initialPose =new Pose2d(-41, -63, Math.toRadians(0));
+        Pose2d initialPose =new Pose2d(-41, -63, Math.toRadians(180));
 
         //initialize subsystems
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
-        Claw claw = new Claw(hardwareMap);
+        Intake claw = new Intake(hardwareMap);
         HorizontalExtendo horizontalExtendo = new HorizontalExtendo(hardwareMap);
         Lift lift = new Lift(hardwareMap);
         Arm arm = new Arm(hardwareMap);
-        PitchandSpin pas = new PitchandSpin(hardwareMap);
 
 
         Action action1 = drive.actionBuilder(initialPose)
-
-
-                //preload sample deposit
-                .stopAndAdd(lift.goTo(2100))
-                .strafeTo(new Vector2d(-58, -62))
-                .waitSeconds(0.7)
-                .stopAndAdd(arm.armBackDeposit())
-                .stopAndAdd(pas.deposit())
-                .waitSeconds(0.3)
-                .stopAndAdd(claw.openClaw())
-                .waitSeconds(0.5)
-                .stopAndAdd(pas.intake())
-                .stopAndAdd(arm.armTransfer())
-
-
-                //intake sample 2
-                .stopAndAdd(lift.goTo(0))
-                .turnTo(Math.toRadians(97))
-                .strafeTo(new Vector2d(-46, -50.7))
-                .waitSeconds(0.2)
-                .stopAndAdd(horizontalExtendo.goToFront())
-                .stopAndAdd(arm.armIntake())
-                .stopAndAdd(pas.intake())
-                .waitSeconds(0.7)
-                .stopAndAdd(claw.closeClaw())
-                .waitSeconds(0.8)
-                .stopAndAdd(arm.armTransfer())
-
-
-                //deposit sample 2
-                .stopAndAdd(horizontalExtendo.goToBack())
-                .turnTo(Math.toRadians(45))
-                .stopAndAdd(lift.goTo(2100))
-                .splineToConstantHeading(new Vector2d(-53, -57), Math.toRadians(45))
-                .waitSeconds(1)
-                .stopAndAdd(arm.armBackDeposit())
-                .stopAndAdd(pas.deposit())
-                .waitSeconds(1)
-                .stopAndAdd(claw.openClaw())
-                .waitSeconds(0.2)
-                .stopAndAdd(arm.armTransfer())
-                .stopAndAdd(pas.intake())
-
-
-
-                //intake sample 3
-                .stopAndAdd(lift.goTo(0))
-                .turnTo(Math.toRadians(92))
-                .stopAndAdd(horizontalExtendo.goToFront())
-                .stopAndAdd(arm.armIntake())
-                .splineToConstantHeading(new Vector2d(-58, -50.7), Math.toRadians(92))
-                .waitSeconds(1)
-                .stopAndAdd(claw.closeClaw())
-                .waitSeconds(0.2)
-                .stopAndAdd(arm.armTransfer())
-
-
-
-                //deposit sample 3
-                .stopAndAdd(horizontalExtendo.goToBack())
-                .turnTo(Math.toRadians(45))
-                .stopAndAdd(lift.goTo(2100))
-                .splineToConstantHeading(new Vector2d(-53, -57), Math.toRadians(45))
-                .waitSeconds(1)
-                .stopAndAdd(arm.armBackDeposit())
-                .stopAndAdd(pas.deposit())
-                .waitSeconds(1)
-                .stopAndAdd(claw.openClaw())
-                .waitSeconds(0.2)
-                .stopAndAdd(arm.armTransfer())
-                .stopAndAdd(pas.intake())
-
-
-                //intake sample 4
-                .stopAndAdd(lift.goTo(0))
-                .turnTo(Math.toRadians(120))
-                .stopAndAdd(arm.armIntake())
-                .stopAndAdd(pas.intake())
-                .stopAndAdd(horizontalExtendo.goToFront())
-                .splineToConstantHeading(new Vector2d(-59.4, -49.5), Math.toRadians(120))
-                .waitSeconds(1)
-                .stopAndAdd(claw.closeClaw())
-                .waitSeconds(0.2)
-                .stopAndAdd(arm.armTransfer())
-
-                //deposit sample 4
-                .stopAndAdd(horizontalExtendo.goToBack())
-                .turnTo(Math.toRadians(45))
-                .stopAndAdd(lift.goTo(2100))
-                .splineToConstantHeading(new Vector2d(-53, -57), Math.toRadians(45))
-                .waitSeconds(1)
-                .stopAndAdd(arm.armBackDeposit())
-                .stopAndAdd(pas.deposit())
-                .waitSeconds(1)
-                .stopAndAdd(claw.openClaw())
-                .waitSeconds(0.2)
-                .stopAndAdd(arm.armTransfer())
-                .stopAndAdd(pas.intake())
-
-                //park
-                .stopAndAdd(lift.goTo(0))
-                .turnTo(0)
-                .splineToConstantHeading(new Vector2d(-29, -8.7), Math.toRadians(0))
 
                 .build();
 
@@ -422,7 +267,6 @@ public class oldSampleAuto extends LinearOpMode {
         // actions that need to happen on init; for instance, a claw tightening.
         Actions.runBlocking(claw.closeClaw());
         Actions.runBlocking(arm.armTransfer());
-        Actions.runBlocking(pas.intake());
         Actions.runBlocking(horizontalExtendo.goToBack());
 
 
