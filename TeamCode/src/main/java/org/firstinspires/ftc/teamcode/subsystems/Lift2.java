@@ -18,7 +18,7 @@ public class Lift2 extends Subsystem{
 
     private PID liftPID = new PID(0.013, 0, 0.13,0.005); // Tuned PID coefficients
 
-    private final int LIFT_TOP_POSITION = 2120; // Adjust based on lift's top position
+    private final int LIFT_TOP_POSITION = 2210; // Adjust based on lift's top position
     private int LIFT_BOTTOM_POSITION; // Bottom position (assume 0 for base)
 
     private double targetPosition = 0.0;

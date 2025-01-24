@@ -15,7 +15,7 @@ public class MainOpmode extends OpModePipeline {
     private RobotState robotState = RobotState.TRANSFERPOS;  //set first state as transfer
 
     //set lift positions
-    private final int highBucket = 2120; //set location of the high bucket
+    private final int highBucket = 2200; //set location of the high bucket
     private final int highBar = 780; //set location as high bar
 
     //define buttons for claw
@@ -125,13 +125,13 @@ public class MainOpmode extends OpModePipeline {
                     robotState = RobotState.SAMPLEINTAKEREADY;
                 }
                 else if(bClick){
-                    robotState = RobotState.DEPOSITFRONT;
+                    robotState = RobotState.SAMPLEDEPOSIT;
                 }
                 else if(xClick || gp1aClick){
                     robotState = RobotState.TRANSFERPOS;
                 }
                 else if(yClick){
-                    robotState = RobotState.DEPOSITBACK;
+                    robotState = RobotState.SPECDEPOSIT;
                 }
                 break;
 
@@ -149,13 +149,13 @@ public class MainOpmode extends OpModePipeline {
                     robotState = RobotState.TRANSFERPOS;
                 }
                 else if(bClick){
-                    robotState = RobotState.DEPOSITFRONT;
+                    robotState = RobotState.SAMPLEDEPOSIT;
                 }
                 else if(xClick){
                     robotState = RobotState.SPECIMANINTAKE;
                 }
                 else if(yClick){
-                    robotState = RobotState.DEPOSITBACK;
+                    robotState = RobotState.SPECDEPOSIT;
                 }
 
                 break;
@@ -173,60 +173,40 @@ public class MainOpmode extends OpModePipeline {
 
                 break;
 
-            case DEPOSITFRONT:
-               if(SampleLiftHeight || gp1aholding){
-                    gp1aholding = true;
-                    gp1bholding = false;
+            case SAMPLEDEPOSIT:
 
-                    subsystems.depositFront(highBucket, claw);
-                    telemetry.addData("Deposit", "FRONT SAMPLE");
-               }
-               if(SpecLiftHeight || gp1bholding) { //specimen deposit front
-                    gp1bholding = true;
-                    gp1aholding = false;
-                    subsystems.specDepositFront(highBar, claw);
+                subsystems.depositFront(highBucket, claw);
 
-                    telemetry.addData("Deposit", "FRONT SPECIMEN");
-                }
-                telemetry.addData("state", "DEPOSITFRONT");
+                telemetry.addData("state", "SAMPLE DEPOSIT");
 
                 if(aClick){
                     robotState = RobotState.SAMPLEINTAKEREADY;
-                    gp1bholding = false;
-                    gp1aholding = false;
                 }
                 else if(bClick){
                     robotState = RobotState.TRANSFERPOS;
-                     gp1bholding = false;
-                    gp1aholding = false;
                 }
                 else if(xClick){
                     robotState = RobotState.SPECIMANINTAKE;
-                     gp1bholding = false;
-                    gp1aholding = false;
                 }
                 else if(yClick){
-                    robotState = RobotState.DEPOSITBACK;
-                     gp1bholding = false;
-                    gp1aholding = false;
+                    robotState = RobotState.SPECDEPOSIT;
+
                 }
 
                 break;
 
 
-            case DEPOSITBACK:
+            case SPECDEPOSIT:
 
-                    // subsystems.depositBack(highBucket, claw);
+                    subsystems.specDepositFront(highBar,claw);
+                    telemetry.addData("Deposit", "SPECIMEN");
 
-                    telemetry.addData("Deposit", "BACK SPECIMEN");
-
-                telemetry.addData("state", "DEPOSITBACK");
 
                 if(aClick){
                     robotState = RobotState.SAMPLEINTAKEREADY;
                 }
                 else if(bClick){
-                    robotState = RobotState.DEPOSITFRONT;
+                    robotState = RobotState.SAMPLEDEPOSIT;
                 }
                 else if(xClick){
                     robotState = RobotState.SPECIMANINTAKE;
@@ -245,13 +225,13 @@ public class MainOpmode extends OpModePipeline {
                     robotState = RobotState.SAMPLEINTAKEREADY;
                 }
                 else if(bClick){
-                    robotState = RobotState.DEPOSITFRONT;
+                    robotState = RobotState.SAMPLEDEPOSIT;
                 }
                 else if(xClick){
                     robotState = RobotState.SPECIMANINTAKE;
                 }
                 else if(yClick){
-                    robotState = RobotState.DEPOSITBACK;
+                    robotState = RobotState.SPECDEPOSIT;
                 }
                 else if(gp2hangClick){
                     robotState = RobotState.HANG;
@@ -279,8 +259,8 @@ public class MainOpmode extends OpModePipeline {
         SAMPLEINTAKE,
         SAMPLEINTAKEREADY,
         SPECIMANINTAKE,
-        DEPOSITFRONT,
-        DEPOSITBACK,
+        SAMPLEDEPOSIT,
+        SPECDEPOSIT,
         HANG,
     }
 

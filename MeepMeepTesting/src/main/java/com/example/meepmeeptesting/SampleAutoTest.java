@@ -18,8 +18,15 @@ public class SampleAutoTest {
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-41, -63, Math.toRadians(180)))
 
 
-                        .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-53,-53,Math.toRadians(90)),Math.toRadians(90))
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-57.8,-50,Math.toRadians(65)),Math.toRadians(90))
+                .turnTo(Math.toRadians(245))
+                .turnTo(Math.toRadians(90))
+                .turnTo(Math.toRadians(245))
+                .turnTo(Math.toRadians(120))
+                .turnTo(Math.toRadians(245))
+                .setTangent(Math.toRadians(45))
+                .splineToLinearHeading(new Pose2d(-22,-8,Math.toRadians(0)),Math.toRadians(0))
 
 
 

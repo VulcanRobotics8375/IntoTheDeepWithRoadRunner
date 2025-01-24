@@ -261,6 +261,16 @@ public class newSampleAuto extends LinearOpMode {
 
         Action action1 = drive.actionBuilder(initialPose)
 
+
+                .setTangent(Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-57.8,-50,Math.toRadians(65)),Math.toRadians(90))
+                .turnTo(Math.toRadians(245))
+                .turnTo(Math.toRadians(90))
+                .turnTo(Math.toRadians(245))
+                .turnTo(Math.toRadians(120))
+                .turnTo(Math.toRadians(245))
+                .setTangent(Math.toRadians(45))
+                .splineToLinearHeading(new Pose2d(-22,-8,Math.toRadians(0)),Math.toRadians(0))
                 .build();
 
 
