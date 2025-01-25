@@ -36,21 +36,21 @@ public class MainOpmode extends OpModePipeline {
 
     private boolean gp1aPrev = false;
     private boolean gp1aClick = false;
-    private boolean gp1bPrev = false;
-    private boolean gp1bClick = false;
+
+
     private boolean gp2hangPrev = false;
     private boolean gp2hangClick = false;
     private boolean exitIntake = false;
     private boolean exitIntakePrev = false;
 
-      boolean gp1bholding = false;
-    boolean gp1aholding = false;
 
-    private boolean SampleLiftHeight = false;
-    private boolean SampleLiftHeightPrev = false;
-    private boolean SpecLiftHeight = false;
-    private boolean SpecLiftHeightPrev = false;
+    private boolean gp2RB = false;
+    private boolean gp2RBPrev = false;
+    private boolean gp2LB = false;
+    private boolean gp2LBPrev = false;
 
+    private boolean holdingLow = false;
+    private boolean holdingHigh = false;
     @Override
     public void init() {
         super.subsystems = subsystems; //first 4 lines needed always
@@ -93,22 +93,18 @@ public class MainOpmode extends OpModePipeline {
 
         gp1aClick = gamepad1.a && gp1aPrev;
         gp1aPrev = gamepad1.a;
-        gp1bClick = gamepad1.b && gp1bPrev;
-        gp1bPrev = gamepad1.b;
 
         gp2hangClick = gamepad2.dpad_down && gp2hangPrev;
         gp2hangPrev = gamepad2.dpad_down;
 
-        SampleLiftHeight = gamepad2.right_bumper && SampleLiftHeightPrev;
-        SampleLiftHeightPrev = gamepad2.right_bumper;
-
-        SpecLiftHeight = gamepad2.left_bumper && SpecLiftHeightPrev;
-            SpecLiftHeightPrev = gamepad2.left_bumper;
-
         exitIntake = gamepad1.dpad_right && exitIntakePrev;
         exitIntakePrev = gamepad1.dpad_right;
 
+        gp2LB = gamepad2.left_bumper && gp2LBPrev;
+        gp2LBPrev = gamepad2.left_bumper;
 
+        gp2RB = gamepad2.right_bumper && gp2RBPrev;
+        gp2RBPrev = gamepad2.right_bumper;
 
         //assign buttons for claw
         claw = gamepad1.right_bumper && !clawPrev; //set claw status
@@ -175,21 +171,40 @@ public class MainOpmode extends OpModePipeline {
 
             case SAMPLEDEPOSIT:
 
-                subsystems.depositFront(highBucket, claw);
+                if(gp2LB || holdingLow){
+                    subsystems.depositFront(0, claw);
+                    holdingLow = true;
+                    holdingHigh = false;
+                }
+                if(gp2RB || holdingHigh){
+                    subsystems.depositFront(highBucket, claw);
+                    holdingLow = false;
+                    holdingHigh = true;
+                }
+
+
 
                 telemetry.addData("state", "SAMPLE DEPOSIT");
 
                 if(aClick){
                     robotState = RobotState.SAMPLEINTAKEREADY;
+                    holdingLow = false;
+                    holdingHigh = false;
                 }
                 else if(bClick){
                     robotState = RobotState.TRANSFERPOS;
+                    holdingLow = false;
+                    holdingHigh = false;
                 }
                 else if(xClick){
                     robotState = RobotState.SPECIMANINTAKE;
+                    holdingLow = false;
+                    holdingHigh = false;
                 }
                 else if(yClick){
                     robotState = RobotState.SPECDEPOSIT;
+                    holdingLow = false;
+                    holdingHigh = false;
 
                 }
 

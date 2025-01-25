@@ -34,8 +34,8 @@ public class specimenAuto extends LinearOpMode {
         private int liftPosition;
         private int lastError = 0;
         private double lastTime;
-        private double kP = .02;
-        private double kD = .0003;
+        private double kP = .013;
+        private double kD = 0.13;
 
         public Lift(HardwareMap hardwareMap) {
             liftMotorLeft = hardwareMap.get(DcMotorEx.class, "liftMotorLeft");
