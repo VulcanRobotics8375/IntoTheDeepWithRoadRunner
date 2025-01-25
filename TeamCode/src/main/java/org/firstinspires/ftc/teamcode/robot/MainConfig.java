@@ -45,7 +45,7 @@ public class MainConfig extends RobotConfig {
 
     public void specimenIntake(boolean claw) {
         intake.specimenIntake(claw);
-        lift2.setPos(630);
+        lift2.setPos(580);
         arm.frontIntake();
         horizontalExtendo.goToMid();
     }

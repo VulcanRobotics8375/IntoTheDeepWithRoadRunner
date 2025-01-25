@@ -35,7 +35,7 @@ public class specimenAuto extends LinearOpMode {
         private int lastError = 0;
         private double lastTime;
         private double kP = .013;
-        private double kD = 0.13;
+        private double kD = .0003; // originally 0.13 from past commit
 
         public Lift(HardwareMap hardwareMap) {
             liftMotorLeft = hardwareMap.get(DcMotorEx.class, "liftMotorLeft");
@@ -158,7 +158,7 @@ public class specimenAuto extends LinearOpMode {
 
         // can try to be used for spec front depo move
 
-        private final double INTAKE_POSITION = 0.073;
+        private final double INTAKE_POSITION = 0.077; // prev 0.073
 
 
         private final double DEPOSIT_POSITION = 0.3;
@@ -293,7 +293,7 @@ public class specimenAuto extends LinearOpMode {
 
         Action action1 = drive.actionBuilder(initialPose)
                 // preload depo spec
-                .stopAndAdd(lift.goTo(820))
+                .stopAndAdd(lift.goTo(800)) // prev 820
                 .stopAndAdd(horizontalExtendo.goToFront())
                 .stopAndAdd(arm.deposit())
                 .setTangent(Math.toRadians(90))
@@ -310,7 +310,7 @@ public class specimenAuto extends LinearOpMode {
                 //give first sample to human
 
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(40,-45,Math.toRadians(68)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(40,-45,Math.toRadians(70)),Math.toRadians(0))
                 .stopAndAdd(lift.goTo(0))
                 .stopAndAdd(claw.sampleIntake())
                 .stopAndAdd(arm.intake())
@@ -327,7 +327,7 @@ public class specimenAuto extends LinearOpMode {
 
                 //give second sample to human
                 .setTangent(Math.toRadians(20))
-                .splineToLinearHeading(new Pose2d(47,-41.5,Math.toRadians(52)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(47,-41.5,Math.toRadians(48)),Math.toRadians(0)) // prev math1 52
                 .stopAndAdd(claw.sampleIntake())
 
                 .stopAndAdd(arm.intake())
@@ -336,7 +336,7 @@ public class specimenAuto extends LinearOpMode {
                 .stopAndAdd(claw.closeClaw())
                 .waitSeconds(0.5)
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(47,-42.5,Math.toRadians(-90)),Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(47,-44,Math.toRadians(-90)),Math.toRadians(-90)) // prev y was -42.5
                 .waitSeconds(0.5)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.5)
@@ -353,8 +353,8 @@ public class specimenAuto extends LinearOpMode {
 
                 //deposit second spec
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(6,-47,Math.toRadians(90)),Math.toRadians(180))
-                .stopAndAdd(lift.goTo(820))
+                .splineToLinearHeading(new Pose2d(6,-48,Math.toRadians(90)),Math.toRadians(180))
+                .stopAndAdd(lift.goTo(820)) // prev 830
                 .stopAndAdd(horizontalExtendo.goToFront())
                 .stopAndAdd(arm.deposit())
                 .waitSeconds(0.5)
@@ -364,13 +364,13 @@ public class specimenAuto extends LinearOpMode {
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.2)
                 .stopAndAdd(horizontalExtendo.mid())
-                .stopAndAdd(lift.goTo(630))
+                .stopAndAdd(lift.goTo(610))
 
 
 
                 //pick up third spec
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(35,-50,Math.toRadians(-90)),Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(35,-47,Math.toRadians(-90)),Math.toRadians(-90))
                 .stopAndAdd(arm.intake())
 
                 .splineToConstantHeading(new Vector2d(35,-54),Math.toRadians(180))
@@ -391,7 +391,7 @@ public class specimenAuto extends LinearOpMode {
                 .stopAndAdd(horizontalExtendo.goToFront())
                 .waitSeconds(0.5)
                 .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(4,-38),Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(4,-34),Math.toRadians(90))
                 .waitSeconds(0.5)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.2)
