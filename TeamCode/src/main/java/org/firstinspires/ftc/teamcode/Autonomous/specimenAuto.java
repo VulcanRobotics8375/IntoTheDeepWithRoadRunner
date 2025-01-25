@@ -158,7 +158,7 @@ public class specimenAuto extends LinearOpMode {
 
         // can try to be used for spec front depo move
 
-        private final double INTAKE_POSITION = 0.077; // prev 0.073
+        private final double INTAKE_POSITION = 0.081; // prev 0.073
 
 
         private final double DEPOSIT_POSITION = 0.3;
@@ -293,7 +293,7 @@ public class specimenAuto extends LinearOpMode {
 
         Action action1 = drive.actionBuilder(initialPose)
                 // preload depo spec
-                .stopAndAdd(lift.goTo(800)) // prev 820
+                .stopAndAdd(lift.goTo(845)) // prev 820
                 .stopAndAdd(horizontalExtendo.goToFront())
                 .stopAndAdd(arm.deposit())
                 .setTangent(Math.toRadians(90))
@@ -310,7 +310,7 @@ public class specimenAuto extends LinearOpMode {
                 //give first sample to human
 
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(40,-45,Math.toRadians(70)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(39.5,-45.5,Math.toRadians(70)),Math.toRadians(0))
                 .stopAndAdd(lift.goTo(0))
                 .stopAndAdd(claw.sampleIntake())
                 .stopAndAdd(arm.intake())
@@ -335,8 +335,10 @@ public class specimenAuto extends LinearOpMode {
                 .waitSeconds(0.7)
                 .stopAndAdd(claw.closeClaw())
                 .waitSeconds(0.5)
+                .stopAndAdd(horizontalExtendo.mid())
                 .setTangent(Math.toRadians(-90))
                 .splineToLinearHeading(new Pose2d(47,-44,Math.toRadians(-90)),Math.toRadians(-90)) // prev y was -42.5
+                .stopAndAdd(horizontalExtendo.goToFront())
                 .waitSeconds(0.5)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.5)
@@ -348,23 +350,24 @@ public class specimenAuto extends LinearOpMode {
                 .waitSeconds(1)
                 .stopAndAdd(claw.closeClaw())
                 .waitSeconds(0.3)
+                .stopAndAdd(lift.goTo(660))
                 .stopAndAdd(horizontalExtendo.mid())
 
 
                 //deposit second spec
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(6,-48,Math.toRadians(90)),Math.toRadians(180))
-                .stopAndAdd(lift.goTo(820)) // prev 830
+                .stopAndAdd(lift.goTo(840)) // prev 830
                 .stopAndAdd(horizontalExtendo.goToFront())
                 .stopAndAdd(arm.deposit())
                 .waitSeconds(0.5)
                 .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(6,-38),Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(6,-34),Math.toRadians(90))
                 .waitSeconds(0.5)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.2)
                 .stopAndAdd(horizontalExtendo.mid())
-                .stopAndAdd(lift.goTo(610))
+                .stopAndAdd(lift.goTo(620))
 
 
 
@@ -378,14 +381,13 @@ public class specimenAuto extends LinearOpMode {
                 .waitSeconds(1)
                 .stopAndAdd(claw.closeClaw())
                 .waitSeconds(0.3)
-                .stopAndAdd(lift.goTo(820))
+                .stopAndAdd(lift.goTo(830))
                 .stopAndAdd(arm.deposit())
 
 
 
 
                 //deposit third spec
-
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(4,-47,Math.toRadians(90)),Math.toRadians(180))
                 .stopAndAdd(horizontalExtendo.goToFront())
