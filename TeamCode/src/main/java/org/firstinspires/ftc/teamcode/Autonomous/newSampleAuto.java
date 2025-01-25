@@ -262,6 +262,11 @@ public class newSampleAuto extends LinearOpMode {
         Action action1 = drive.actionBuilder(initialPose)
 
 
+                //deposit preload
+                .stopAndAdd(lift.goTo(2200))
+
+                //TODO: add code for horizontal extendo, arm, and open claw
+
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(-57.8,-50,Math.toRadians(65)),Math.toRadians(90))
                 .turnTo(Math.toRadians(245))

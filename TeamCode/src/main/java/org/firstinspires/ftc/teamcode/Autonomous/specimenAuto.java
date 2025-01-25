@@ -103,8 +103,8 @@ public class specimenAuto extends LinearOpMode {
         private final double fullRetractRight = 0.3359;
         private final double fullExtendRight = 0.9206;
 
-        private final double midPosLeft = 0.591;
-        private final double midPosRight = 0.66564;
+        private final double midPosLeft = 0.704;
+        private final double midPosRight = 0.553;
 
 
         public HorizontalExtendo(HardwareMap hardwareMap) {
@@ -158,13 +158,13 @@ public class specimenAuto extends LinearOpMode {
 
         // can try to be used for spec front depo move
 
-        private final double INTAKE_POSITION = 0.71;
+        private final double INTAKE_POSITION = 0.073;
 
 
-        private final double DEPOSIT_POSITION = 0.23;
+        private final double DEPOSIT_POSITION = 0.3;
 
 
-        private final double TRANSFER_POSITION = 0.43;
+        private final double TRANSFER_POSITION = 0.3739;
 
 
 
@@ -187,18 +187,6 @@ public class specimenAuto extends LinearOpMode {
             return new Intake();
         }
 
-        public class DepositDown implements Action {
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-
-                armServoRight.setPosition(DEPOSIT_POSITION-0.1);
-                armServoLeft.setPosition(DEPOSIT_POSITION-0.1);
-                return false;
-            }
-        }
-        public Action depositdown() {
-            return new DepositDown();
-        }
 
 
         public class Deposit implements Action {
@@ -246,10 +234,13 @@ public class specimenAuto extends LinearOpMode {
         public class CloseClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.2275);
+                claw.setPosition(0.2910);
+                leftSpinner.setPower(0);
+                rightSpinner.setPower(0);
                 return false;
             }
         }
+
         public Action closeClaw() {
             return new CloseClaw();
         }
@@ -257,15 +248,33 @@ public class specimenAuto extends LinearOpMode {
         public class OpenClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.2910);
+                claw.setPosition(0.2);
+                leftSpinner.setPower(0);
+                rightSpinner.setPower(0);
                 return false;
             }
         }
+
         public Action openClaw() {
             return new OpenClaw();
         }
-    }
 
+
+        public class SampleIntake implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                claw.setPosition(0.2);
+                leftSpinner.setPower(1);
+                rightSpinner.setPower(-1);
+                return false;
+            }
+        }
+
+        public Action sampleIntake() {
+            return new SampleIntake();
+        }
+
+    }
     //end of subsystem classes
 
 
@@ -283,76 +292,131 @@ public class specimenAuto extends LinearOpMode {
 
 
         Action action1 = drive.actionBuilder(initialPose)
-                //deposit preload
-                .stopAndAdd(lift.goTo(650))
+                // preload depo spec
+                .stopAndAdd(lift.goTo(820))
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .stopAndAdd(arm.deposit())
                 .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(8,-33),Math.toRadians(90))
-                .waitSeconds(0.3)
-                .stopAndAdd(arm.depositdown())
-                .waitSeconds(0.4)
+                .splineToConstantHeading(new Vector2d(8,-38),Math.toRadians(90))
+                .waitSeconds(0.25)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.2)
+                .stopAndAdd(horizontalExtendo.mid())
+                .stopAndAdd(lift.goTo(690))
+
+
+
+
+                //give first sample to human
+
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(40,-45,Math.toRadians(68)),Math.toRadians(0))
                 .stopAndAdd(lift.goTo(0))
+                .stopAndAdd(claw.sampleIntake())
                 .stopAndAdd(arm.intake())
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .waitSeconds(0.7)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(0.5)
+                .turnTo(Math.toRadians(-60))
+                .waitSeconds(0.25)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.25)
+                .stopAndAdd(horizontalExtendo.mid())
+
+
+                //give second sample to human
+                .setTangent(Math.toRadians(20))
+                .splineToLinearHeading(new Pose2d(47,-41.5,Math.toRadians(52)),Math.toRadians(0))
+                .stopAndAdd(claw.sampleIntake())
+
+                .stopAndAdd(arm.intake())
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .waitSeconds(0.7)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(0.5)
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(47,-42.5,Math.toRadians(-90)),Math.toRadians(-90))
+                .waitSeconds(0.5)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.5)
 
 
 
-                .setTangent(Math.toRadians(-35)) .splineToConstantHeading(new Vector2d(35.7,-27.2),Math.toRadians(90))
-                //get to first sample
-                .splineToConstantHeading(new Vector2d(35.7,-16),Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(46.9,-16),Math.toRadians(-90))
-
-                //push first sample
-                .splineToConstantHeading(new Vector2d(46.9,-55),Math.toRadians(-90))
-                .setTangent(Math.toRadians(90))
-
-                //get to second sample
-                .splineToConstantHeading(new Vector2d(46.9,-19),Math.toRadians(60))
-                .splineToConstantHeading(new Vector2d(57,-16),Math.toRadians(-90))
-
-                //push second sample
-                .splineToConstantHeading(new Vector2d(59,-55.5),Math.toRadians(-90))
+                //pick up second spec
+                .stopAndAdd(lift.goTo(630))
                 .waitSeconds(1)
                 .stopAndAdd(claw.closeClaw())
-                .waitSeconds(0.2)
-                .stopAndAdd(arm.armTransfer())
-                .stopAndAdd(lift.goTo(650))
-
+                .waitSeconds(0.3)
+                .stopAndAdd(horizontalExtendo.mid())
 
 
                 //deposit second spec
                 .setTangent(Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(5,-33),Math.toRadians(90))
-                .waitSeconds(0.8)
-                .stopAndAdd(arm.depositdown())
-                .waitSeconds(0.4)
+                .splineToLinearHeading(new Pose2d(6,-47,Math.toRadians(90)),Math.toRadians(180))
+                .stopAndAdd(lift.goTo(820))
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .stopAndAdd(arm.deposit())
+                .waitSeconds(0.5)
+                .setTangent(Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(6,-38),Math.toRadians(90))
+                .waitSeconds(0.5)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.2)
-                .stopAndAdd(lift.goTo(0))
+                .stopAndAdd(horizontalExtendo.mid())
+                .stopAndAdd(lift.goTo(630))
 
-
-                //park
-                .setTangent(Math.toRadians(-45)) .splineToLinearHeading(new Pose2d(26,-50,Math.toRadians(-45)),Math.toRadians(-45))
-                .stopAndAdd(horizontalExtendo.goToFront())
-/*
 
 
                 //pick up third spec
-                .setTangent(Math.toRadians(-45)).splineToConstantHeading(new Vector2d(34.6 ,-59),Math.toRadians(-45))
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(35,-50,Math.toRadians(-90)),Math.toRadians(-90))
+                .stopAndAdd(arm.intake())
+
+                .splineToConstantHeading(new Vector2d(35,-54),Math.toRadians(180))
+
+                .waitSeconds(1)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(0.3)
+                .stopAndAdd(lift.goTo(820))
+                .stopAndAdd(arm.deposit())
+
+
 
 
                 //deposit third spec
-                .setTangent(Math.toRadians(180)) .splineToLinearHeading(new Pose2d(2,-39,Math.toRadians(90)),Math.toRadians(90))
 
-                //pick up fourth spec
-                .setTangent(Math.toRadians(-45)).splineToConstantHeading(new Vector2d(34.6 ,-59),Math.toRadians(-45))
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(4,-47,Math.toRadians(90)),Math.toRadians(180))
+                .stopAndAdd(horizontalExtendo.goToFront())
+                .waitSeconds(0.5)
+                .setTangent(Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(4,-38),Math.toRadians(90))
+                .waitSeconds(0.5)
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(0.2)
+                .stopAndAdd(horizontalExtendo.mid())
+                .stopAndAdd(arm.intake())
+                .stopAndAdd(lift.goTo(630))
 
-                //deposit fourth spec
-                .setTangent(Math.toRadians(180)) .splineToLinearHeading(new Pose2d(1,-39,Math.toRadians(90)),Math.toRadians(90))
+
+                /*
+                                          //pick up fourth spec
+
+                                          .setTangent(Math.toRadians(-50))
+                                          .splineToLinearHeading(new Pose2d(35,-53,Math.toRadians(-90)),Math.toRadians(-90))
 
 
 
- */
+                                          //deposit fourth spec
+
+                                          .setTangent(Math.toRadians(180))
+                                          .splineToLinearHeading(new Pose2d(10,-40,Math.toRadians(90)),Math.toRadians(180))
+                                          .setTangent(Math.toRadians(90))
+                                          .splineToConstantHeading(new Vector2d(10,-36),Math.toRadians(90))
+                                          */
+
+
 
                 .build();
 

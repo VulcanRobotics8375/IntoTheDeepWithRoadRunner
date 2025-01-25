@@ -16,52 +16,57 @@ public class SpecimenAutoTest {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(8, -59, Math.toRadians(90)))
-                        //deposit preload
 
-                        .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(8,-33),Math.toRadians(90))
-
-                        .setTangent(Math.toRadians(-35)) .splineToConstantHeading(new Vector2d(35.7,-27.2),Math.toRadians(90))
-
-                        //get to first sample
-                        .splineToConstantHeading(new Vector2d(35.7,-16),Math.toRadians(90))
-                        .splineToConstantHeading(new Vector2d(46.9,-16),Math.toRadians(-90))
-
-                        //push first sample
-                        .splineToConstantHeading(new Vector2d(46.9,-55),Math.toRadians(-90))
-                        .setTangent(Math.toRadians(90))
-
-                        //get to second sample
-                        .splineToConstantHeading(new Vector2d(46.9,-19),Math.toRadians(60))
-                        .splineToConstantHeading(new Vector2d(57,-16),Math.toRadians(-90))
-
-                        //push second sample
-                .splineToConstantHeading(new Vector2d(59,-55.5),Math.toRadians(-90))
+                // preload depo spec
+                .setTangent(Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(8,-38),Math.toRadians(90))
 
 
-                        //deposit second spec
-                        .setTangent(Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(5,-33),Math.toRadians(90))
+                //give first sample to human
+
+                .setTangent(Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(40,-45,Math.toRadians(68)),Math.toRadians(0))
+
+                .turnTo(Math.toRadians(-60))
+                .waitSeconds(0.5)
+
+                //give second sample to human
+                .setTangent(Math.toRadians(20))
+                .splineToLinearHeading(new Pose2d(47,-42,Math.toRadians(52)),Math.toRadians(0))
+
+                .turnTo(Math.toRadians(-90))
 
 
-                        //pick up third spec
-                        .setTangent(Math.toRadians(-45)).splineToConstantHeading(new Vector2d(34.6 ,-59),Math.toRadians(-45))
 
 
-                        //deposit third spec
-                        .setTangent(Math.toRadians(180)) .splineToLinearHeading(new Pose2d(2,-39,Math.toRadians(90)),Math.toRadians(90))
-
-                        //pick up fourth spec
-                        .setTangent(Math.toRadians(-45)).splineToConstantHeading(new Vector2d(34.6 ,-59),Math.toRadians(-45))
-
-                        //deposit fourth spec
-                        .setTangent(Math.toRadians(180)) .splineToLinearHeading(new Pose2d(1,-39,Math.toRadians(90)),Math.toRadians(90))
-
-                        //park
-                        .setTangent(Math.toRadians(-45)) .splineToLinearHeading(new Pose2d(26,-50,Math.toRadians(-45)),Math.toRadians(-45))
+                //pick up second spec
 
 
-                        .build());
+                //deposit second spec
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(10,-47,Math.toRadians(90)),Math.toRadians(180))
+
+                .setTangent(Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(10,-38),Math.toRadians(90))
+                .waitSeconds(0.5)
+
+
+                //pick up third spec
+
+                .setTangent(Math.toRadians(-50))
+                .splineToLinearHeading(new Pose2d(35,-53,Math.toRadians(-90)),Math.toRadians(-90))
+
+
+
+                //deposit third spec
+
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(10,-40,Math.toRadians(90)),Math.toRadians(180))
+                .setTangent(Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(10,-36),Math.toRadians(90))
+
+
+                .build());
 
 
                 meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
