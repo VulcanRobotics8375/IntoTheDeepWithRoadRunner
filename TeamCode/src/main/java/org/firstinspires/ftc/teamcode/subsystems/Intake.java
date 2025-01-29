@@ -93,9 +93,7 @@ public void specDepo(boolean claw){
         if (claw) {
             leftSpinner.setPower(-1);
             rightSpinner.setPower(1);
-            clawOpen = !clawOpen; // Toggle the state
-            double targetPosition = clawOpen ? CLAW_OPEN_POSITION+0.04 : CLAW_CLOSED_POSITION;
-            this.claw.setPosition(targetPosition);
+            toggleClaw();
         }
     }
 }

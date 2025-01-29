@@ -74,6 +74,8 @@ public class Lift2 extends Subsystem{
             if (Math.abs(currentPosition - targetPosition) <= 10) {
                 // Keep liftHolding active for PID-based holding
                 // The PID controller adjusts motor power dynamically
+                applyPIDControl();
+
             }
         }
     }

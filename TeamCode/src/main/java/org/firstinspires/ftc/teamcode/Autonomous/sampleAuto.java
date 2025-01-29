@@ -12,8 +12,6 @@ import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
-import org.firstinspires.ftc.teamcode.subsystems.HorizontalExtendo;
-
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -37,7 +35,7 @@ public class sampleAuto extends LinearOpMode {
         private int liftPosition;
         private int lastError = 0;
         private double lastTime;
-        private double kP = .02;
+        private double kP = .013;
         private double kD = .0003;
 
         public Lift(HardwareMap hardwareMap) {
@@ -83,7 +81,7 @@ public class sampleAuto extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 liftTarget = target;
-                return liftPosition >= liftTarget + 20 && liftPosition <= liftTarget - 20;
+                return liftPosition >= liftTarget + 10 && liftPosition <= liftTarget - 10;
             }
         }
 
@@ -106,6 +104,8 @@ public class sampleAuto extends LinearOpMode {
         private final double fullRetractRight = 0.3359;
         private final double fullExtendRight = 0.9206;
 
+        private final double midPosLeft = 0.504;
+        private final double midPosRight = 0.753;
 
         public HorizontalExtendo(HardwareMap hardwareMap) {
             linkServoLeft = hardwareMap.get(Servo.class, "linkServoLeft");
@@ -113,7 +113,7 @@ public class sampleAuto extends LinearOpMode {
 
         }
 
-        public class goToFront implements Action {
+        public class GoToFront implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 linkServoLeft.setPosition(fullExtendLeft);
@@ -122,10 +122,22 @@ public class sampleAuto extends LinearOpMode {
             }
         }
         public Action goToFront() {
-            return new goToFront();
+            return new GoToFront();
         }
 
-        public class goToBack implements Action {
+        public class goToMid implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                linkServoLeft.setPosition(midPosLeft);
+                linkServoRight.setPosition(midPosRight);
+                return false;
+            }
+        }
+        public Action mid() {
+            return new goToMid();
+        }
+
+        public class GoToBack implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 linkServoLeft.setPosition(fullRetractLeft);
@@ -134,7 +146,7 @@ public class sampleAuto extends LinearOpMode {
             }
         }
         public Action goToBack() {
-            return new goToBack();
+            return new GoToBack();
         }
 
     }
@@ -148,7 +160,7 @@ public class sampleAuto extends LinearOpMode {
         private final double FRONT_INTAKE_POSITION = 0.075;
 
 
-        private final double BACK_DEPOSIT_POSITION = 0.6961;
+        private final double DEPOSIT_POSITION = 0.25;
 
 
         private final double TRANSFER_POSITION = 0.3739;
@@ -180,8 +192,8 @@ public class sampleAuto extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
 
-                armServoRight.setPosition(BACK_DEPOSIT_POSITION);
-                armServoLeft.setPosition(BACK_DEPOSIT_POSITION);
+                armServoRight.setPosition(DEPOSIT_POSITION);
+                armServoLeft.setPosition(DEPOSIT_POSITION);
                 return false;
             }
         }
@@ -228,7 +240,7 @@ public class sampleAuto extends LinearOpMode {
             }
         }
         public Action closeClaw() {
-            return new CloseClaw();
+            return new Intake.CloseClaw();
         }
 
         public class OpenClaw implements Action {
@@ -250,7 +262,7 @@ public class sampleAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
         //set starting position
-        Pose2d initialPose =new Pose2d(-41, -63, Math.toRadians(90));
+        Pose2d initialPose =new Pose2d(-41, -63, Math.toRadians(180));
 
         //initialize subsystems
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
@@ -263,116 +275,32 @@ public class sampleAuto extends LinearOpMode {
         Action action1 = drive.actionBuilder(initialPose)
 
 
-                //preload sample deposit
-                .stopAndAdd(lift.goTo(2100))
-                .stopAndAdd(arm.armBackDeposit())
-                .setTangent(Math.toRadians(135))
-                .splineToLinearHeading(new Pose2d(-58,-56.5,Math.toRadians(45)),Math.toRadians(225))
-                .waitSeconds(1)
-                .stopAndAdd(claw.openClaw())
-                .waitSeconds(0.5)
-                .stopAndAdd(claw.closeClaw())
-                .waitSeconds(0.5)
-                .stopAndAdd(arm.armTransfer())
-                .stopAndAdd(lift.goTo(0))
-                .waitSeconds(0.5)
-
-
-                //intake sample 2
+                //deposit preload
+                .stopAndAdd(lift.goTo(1200))
+                .stopAndAdd(arm.armIntake())
+                .stopAndAdd(horizontalExtendo.mid())
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-53,-53,Math.toRadians(90)),Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-55,-42.7,Math.toRadians(245)),Math.toRadians(135))
+                .waitSeconds(0.25)
+                .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.2)
-                .stopAndAdd(arm.armIntake())
-                .stopAndAdd(horizontalExtendo.goToFront())
-                .stopAndAdd(claw.openClaw())
+                .stopAndAdd(lift.goTo(0))
+
+                // pick up sample 2
+                .turnTo(Math.toRadians(130))
                 .waitSeconds(1)
                 .stopAndAdd(claw.closeClaw())
-                .waitSeconds(0.5)
-                .stopAndAdd(horizontalExtendo.goToBack())
-
-/*
-                //deposit sample 2
-                .stopAndAdd(lift.goTo(2100))
-                .stopAndAdd(arm.armBackDeposit())
-
-                .setTangent(Math.toRadians(225))
-                .splineToLinearHeading(new Pose2d(-58,-56.5,Math.toRadians(45)),Math.toRadians(90))
-                .waitSeconds(0.5)
-
-                .waitSeconds(1)
-                .stopAndAdd(claw.openClaw())
-                .waitSeconds(0.5)
-                .stopAndAdd(lift.goTo(0))
-                .stopAndAdd(arm.armIntake())
                 .waitSeconds(1)
 
-                //intake sample 3
-                .setTangent(Math.toRadians(90)).splineToLinearHeading(new Pose2d(-62.5,-53,Math.toRadians(90)),Math.toRadians(90))
-                .waitSeconds(0.5)
-                .stopAndAdd(horizontalExtendo.goToFront())
-                .waitSeconds(1)
-                .stopAndAdd(arm.armIntake())
-                .waitSeconds(0.3)
-                .stopAndAdd(claw.closeClaw())
-                .waitSeconds(0.5)
-                .stopAndAdd(horizontalExtendo.goToBack())
-
-                //deposit sample 3
-                .stopAndAdd(lift.goTo(2100))
-                .stopAndAdd(arm.armBackDeposit())
-                .setTangent(Math.toRadians(260))
-                .splineToLinearHeading(new Pose2d(-58,-56.5,Math.toRadians(45)),Math.toRadians(90))
-                .waitSeconds(0.5)
-                .waitSeconds(0.3)
-                .stopAndAdd(claw.openClaw())
-                .waitSeconds(0.5)
-                .stopAndAdd(lift.goTo(0))
-                .stopAndAdd(arm.armIntakeHover())
-                .waitSeconds(1)
+                .turnTo(Math.toRadians(245))
+                .turnTo(Math.toRadians(100))
+                .turnTo(Math.toRadians(245))
+                .turnTo(Math.toRadians(70))
+                .turnTo(Math.toRadians(245))
+                .setTangent(Math.toRadians(45))
+                .splineToLinearHeading(new Pose2d(-22,-8,Math.toRadians(0)),Math.toRadians(0))
 
 
-
-                //intake sample 4
-
-
-                .setTangent(Math.toRadians(120))
-                .splineToLinearHeading(new Pose2d(-64.4, -51.5,Math.toRadians(110)),Math.toRadians(90))
-                .waitSeconds(1)
-                .stopAndAdd(horizontalExtendo.goToFront())
-                .waitSeconds(1)
-                .stopAndAdd(arm.armIntake())
-                .waitSeconds(0.2)
-                .stopAndAdd(claw.closeClaw())
-                .waitSeconds(0.5)
-                .stopAndAdd(horizontalExtendo.goToBack())
-
-                .waitSeconds(0.5)
-
-
-                //deposit sample 4
-
-                .stopAndAdd(lift.goTo(2100))
-                .stopAndAdd(arm.armBackDeposit())
-                .setTangent(Math.toRadians(300))
-                .splineToLinearHeading(new Pose2d(-58,-56.5,Math.toRadians(45)),Math.toRadians(90))
-
-                .waitSeconds(0.5).waitSeconds(0.3)
-                .stopAndAdd(claw.openClaw())
-                .waitSeconds(0.5)
-                .waitSeconds(1)
-                .stopAndAdd(lift.goTo(0))
-                .stopAndAdd(arm.armTransfer())
-                .waitSeconds(1)
-
-
-
-
-
-                //park or go pick up sample
-                .splineToLinearHeading(new Pose2d(-29,-8.7,Math.toRadians(0)),Math.toRadians(0))
-
-
- */
                 .build();
 
 
