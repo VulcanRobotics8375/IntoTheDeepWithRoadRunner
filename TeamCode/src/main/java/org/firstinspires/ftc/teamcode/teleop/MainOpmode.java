@@ -172,7 +172,7 @@ public class MainOpmode extends OpModePipeline {
             case SAMPLEDEPOSIT:
 
                 if(gp2LB || holdingLow){
-                    subsystems.depositFront(0, claw);
+                    subsystems.depositFront(2210, claw);
                     holdingLow = true;
                     holdingHigh = false;
                 }
