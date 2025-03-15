@@ -177,7 +177,7 @@ public class MainOpmode extends OpModePipeline {
                     holdingHigh = false;
                 }
                 if(gp2RB || holdingHigh){
-                    subsystems.depositFront(1200, claw);
+                    subsystems.depositFront(2210, claw);
                     holdingLow = false;
                     holdingHigh = true;
                 }
